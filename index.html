@@ -134,6 +134,12 @@
         .performer-view .log-entry { border-bottom: 1px solid #334155; }
         .performer-view .alarm { animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        .faq-item details > summary {
+            list-style: none;
+        }
+        .faq-item details > summary::-webkit-details-marker {
+            display: none;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -176,6 +182,14 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
                         <span>Whitepaper</span>
                     </a>
+                     <a id="faq-nav-link" title="Frequently Asked Questions" class="nav-link flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                        <span>FAQ</span>
+                    </a>
+                    <a id="questionnaire-nav-link" title="Contact Us" class="nav-link flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 22a10 10 0 0 0 10-10H2a10 10 0 0 0 10 10z"/><path d="M2 12V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5"/><path d="M12 12v10"/><path d="M18.36 7.64A9 9 0 0 0 5.64 7.64"/></svg>
+                        <span>Questionnaire</span>
+                    </a>
                 </div>
                 <div id="header-details" class="flex items-center space-x-4">
                     <a href="https://translate.google.com/" target="_blank" title="Translate Website" class="text-indigo-200 hover:text-white transition">
@@ -214,6 +228,16 @@
         
         <div id="planner-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
              <div class="text-center mb-12"><h2 class="text-4xl section-title">Well Intervention Planner</h2></div>
+            <div class="mb-12 light-card p-6 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">A Quick Guide to the Demo</h3>
+                <ol class="list-decimal list-inside text-indigo-200 space-y-1">
+                    <li><strong>Home:</strong> This gives a brief overview of the value proposition.</li>
+                    <li><strong>Planner:</strong> This is the core of the simulation. You can walk through the 3-step process of planning a well intervention. In Step 2, you can toggle the "AI Advisor" on to see how the system can provide intelligent recommendations.</li>
+                    <li><strong>Performer (Picture-in-Picture):</strong> After generating a plan in the Planner, clicking "Begin Live Operation" will open the live dashboard in a modal window. This was designed to show how a team can monitor live operations without losing the context of the main application.</li>
+                    <li><strong>HSE & POB:</strong> These modules are now populated with sample data to demonstrate how they would function.</li>
+                    <li><strong>Whitepaper:</strong> This section contains the full executive summary and a simplified explanation of the underlying technology (Blockchain, Smart Contracts, etc.). The full PDF is also available for download here.</li>
+                </ol>
+            </div>
             <div class="mb-12 flex items-center justify-center space-x-4"><div id="step-1-indicator" class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div><div class="flex-1 h-1 bg-gray-700 rounded-full"></div><div id="step-2-indicator" class="step-indicator bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div><div class="flex-1 h-1 bg-gray-700 rounded-full"></div><div id="step-3-indicator" class="step-indicator bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div></div>
             <section id="step-1"><div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Step 1: Select a Well</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Choose a candidate well for the intervention plan.</p></div><div id="well-selection-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div></section>
             <section id="step-2" class="hidden"><div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Step 2: Define Intervention Plan</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Choose a planning method to define the primary goal for this intervention.</p></div><div class="mt-8 max-w-4xl mx-auto"><div class="flex items-center justify-center mb-6"><span class="text-sm font-medium mr-3">Manual Planning</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="ai-toggle" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div></label><span class="text-sm font-medium ml-3">✨ AI Advisor</span></div><div id="manual-planning-view"><fieldset id="objectives-fieldset" class="space-y-4"></fieldset><div class="mt-8 flex justify-center"><button id="generate-plan-btn-manual" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan</button></div></div><div id="ai-advisor-view" class="hidden"><div id="problem-selection"><h3 class="text-lg font-semibold text-center mb-4">What is the primary problem with this well?</h3><fieldset id="problems-fieldset" class="space-y-4"></fieldset></div><div id="ai-recommendations" class="hidden mt-8"></div><div class="mt-8 flex justify-center"><button id="generate-plan-btn-ai" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan from Recommendation</button></div></div></div></section>
@@ -277,13 +301,29 @@
                 </div>
             </div>
         </div>
+        
+        <div id="faq-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12"><h2 class="text-4xl section-title">Frequently Asked Questions</h2></div>
+            <div id="faq-container" class="space-y-4"></div>
+        </div>
+
+        <div id="questionnaire-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12"><h2 class="text-4xl section-title">Contact & Questionnaire</h2><p class="mt-2 text-lg text-indigo-200">Interested in learning more? Fill out the form below to start the conversation.</p></div>
+            <form id="questionnaire-form" class="light-card p-8 rounded-lg space-y-6">
+                <div><label for="companyName" class="block text-sm font-medium text-indigo-100">Company Name</label><input type="text" id="companyName" class="mt-1 block w-full rounded-md bg-slate-800 border-slate-600 text-white p-2"></div>
+                <div><label for="role" class="block text-sm font-medium text-indigo-100">Your Role</label><input type="text" id="role" class="mt-1 block w-full rounded-md bg-slate-800 border-slate-600 text-white p-2"></div>
+                <div><label for="challenges" class="block text-sm font-medium text-indigo-100">What are your biggest challenges with operational data?</label><textarea id="challenges" rows="4" class="mt-1 block w-full rounded-md bg-slate-800 border-slate-600 text-white p-2"></textarea></div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-blue-700 transition">Submit Inquiry</button>
+            </form>
+            <p id="form-submission-message" class="text-center mt-4 text-green-400 hidden">Thank you for your interest! We will be in touch shortly.</p>
+        </div>
     </main>
     
     <div id="performer-modal" class="performer-modal-view hidden">
         <div class="performer-modal-content">
             <div class="p-4 border-b border-slate-700 flex justify-between items-center">
                  <h2 class="text-2xl font-bold text-white">Live Operations Dashboard</h2>
-                 <button id="close-performer-btn" class="text-gray-400 hover:text-white">&times;</button>
+                 <button id="close-performer-btn" class="text-gray-400 hover:text-white text-3xl font-bold">&times;</button>
             </div>
             <div id="performer-view" class="performer-view flex-1">
                 <div class="dashboard-grid">
@@ -599,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function() {
         musterStations.forEach(ms => { ms.current = appState.pob.personnel.filter(p => p.muster === ms.id && p.musterStatus === 'Mustered').length; });
         const summaryHtml = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"><div class="light-card p-6 text-center rounded-lg"><p class="text-sm font-medium">Total POB</p><p class="text-4xl font-bold">${totalPOB}</p></div><div class="light-card p-6 text-center rounded-lg"><p class="text-sm font-medium">Accounted For</p><p class="text-4xl font-bold text-green-600">${musteredCount}</p></div><div class="light-card p-6 text-center rounded-lg"><p class="text-sm font-medium">Unaccounted For</p><p class="text-4xl font-bold text-red-600">${totalPOB - musteredCount}</p></div></div>`;
         const musterStationHtml = musterStations.map(ms => `<div class="light-card p-4 rounded-lg"><h4 class="font-semibold">${ms.name}</h4><p class="text-sm">Capacity: ${ms.capacity}</p><p class="text-2xl font-bold">${ms.current}</p></div>`).join('');
-        const pobTableHtml = `<div class="light-card p-6 rounded-lg"><h3 class="text-xl font-semibold mb-4">Live POB Manifest</h3><div class="h-96 overflow-y-auto"><table class="w-full text-sm text-left"><thead class="table-header sticky top-0"><tr><th class="p-2">Name</th><th>Company</th><th>Role</th><th>Muster Station</th><th>Status</th></tr></thead><tbody>${appState.pob.personnel.map(p => `<tr class="table-row-alt border-b dark:border-gray-700"><td class="p-2">${p.name}</td><td class="p-2">${p.company}</td><td class="p-2">${p.role}</td><td class="p-2">${p.muster}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${p.musterStatus.toLowerCase().replace(' ', '')}">${p.musterStatus}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+        const pobTableHtml = `<div class="light-card p-6 rounded-lg"><h3 class="text-xl font-semibold mb-4">Live POB Manifest</h3><div class="h-96 overflow-y-auto"><table class="w-full text-sm text-left"><thead class="table-header sticky top-0"><tr><th class="p-2">Name</th><th>Company</th><th>Role</th><th>Muster Station</th><th>Status</th></tr></thead><tbody>${appState.pob.personnel.map(p => `<tr class="border-b table-row-alt dark:border-gray-700"><td class="p-2">${p.name}</td><td class="p-2">${p.company}</td><td class="p-2">${p.role}</td><td class="p-2">${p.muster}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${p.musterStatus.toLowerCase().replace(' ', '')}">${p.musterStatus}</span></td></tr>`).join('')}</tbody></table></div></div>`;
         pobContent.innerHTML = `${summaryHtml}<div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="md:col-span-2">${pobTableHtml}</div><div><div class="light-card p-6 rounded-lg"><h3 class="text-xl font-semibold mb-4">Muster Stations</h3><div class="grid grid-cols-2 gap-4">${musterStationHtml}</div></div><div class="mt-8"><button id="muster-drill-btn" class="w-full rounded-md ${appState.pob.musterActive ? 'bg-red-600 hover:bg-red-500' : 'bg-yellow-500 hover:bg-yellow-400'} px-6 py-3 text-base font-semibold text-white shadow-sm">${appState.pob.musterActive ? 'End Muster Drill' : 'Simulate Emergency Muster'}</button></div></div></div>`;
         document.getElementById('muster-drill-btn').addEventListener('click', toggleMusterDrill);
     };
@@ -696,10 +736,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxDepth = 20000; // Use a fixed max depth for consistent scaling
         let svgContent = `<svg viewBox="0 0 150 600" class="w-full h-auto"><g class="schematic-depth-marker" text-anchor="end" fill="${isDark ? '#94a3b8' : '#1d4ed8'}"><text x="25" y="53">0k</text><line x1="28" y1="50" x2="35" y2="50" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="203">5k</text><line x1="28" y1="200" x2="35" y2="200" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="353">10k</text><line x1="28" y1="350" x2="35" y2="350" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="503">15k</text><line x1="28" y1="500" x2="35" y2="500" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/></g><rect x="40" y="0" width="100" height="600" fill="${isDark ? '#281e14' : '#eaddc7'}" /><rect x="50" y="0" width="80" height="600" fill="${isDark ? '#3a2d21' : '#d2b48c'}" /><rect x="50" y="20" width="80" height="10" fill="${isDark ? '#4b5563' : '#9ca3af'}"/><rect x="75" y="10" width="30" height="10" fill="${isDark ? '#6b7280' : '#6b7280'}"/>`;
         well.completion.casing?.forEach(c => { const topY = (c.top / maxDepth) * 600; const height = ((c.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="60" y="${topY}" width="60" height="${height}" fill="none" stroke="${c.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="2"/>`; });
-        well.completion.tubing?.forEach(t => { const topY = (t.top / maxDepth) * 600; const height = ((t.bottom - t.top) / maxDepth) * 600; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${isDark ? '#6b7280' : '#d1d5db'}" stroke="${isDark ? '#4b5563' : '#9ca3af'}" stroke-width="0.5"/>`; });
+        well.completion.tubing?.forEach(t => { const topY = (t.top / maxDepth) * 600; const height = ((t.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${isDark ? '#6b7280' : '#d1d5db'}" stroke="${isDark ? '#4b5563' : '#9ca3af'}" stroke-width="0.5"/>`; });
         well.completion.equipment?.forEach(e => { const y = (e.top / maxDepth) * 600; if(e.item.includes('Packer')) { svgContent += `<polygon points="75,${y-10} 105,${y-10} 110,${y} 70,${y}" fill="${isDark ? '#9ca3af' : '#4b5563'}"/>`; } else if (e.item.includes('SSSV')) { svgContent += `<rect x="82" y="${y}" width="16" height="20" class="${e.isProblem ? 'stroke-red-500 fill-red-200/50' : 'fill-gray-400'}" stroke-width="1"/><path d="M 85 ${y+3} l 10 14 M 85 ${y+17} l 10 -14" stroke="${e.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="1.5"/>`; } else if (e.item.includes('Scale')) { svgContent += `<path d="M 85 ${y-10} C 80 ${y}, 80 ${y+10}, 85 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 95 ${y-10} C 100 ${y}, 100 ${y+10}, 95 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/>`; } else if (e.item.includes('Shale')) { svgContent += `<rect x="40" y="${y}" width="100" height="100" fill="rgba(239, 68, 68, 0.1)" /><text x="75" y="${y+50}" class="schematic-label" text-anchor="middle" fill="#ef4444">${e.item}</text>`; } });
         well.completion.perforations?.forEach(p => { const topY = (p.top / maxDepth) * 600; const bottomY = (p.bottom / maxDepth) * 600; for(let y = topY; y <= bottomY; y += 10) { svgContent += `<path d="M 60 ${y} L 40 ${y}" stroke="${p.isProblem ? '#ef4444' : '#1d4ed8'}" stroke-width="1.5" />`; if(p.isProblem) svgContent += `<path d="M 40 ${y} l 4 4 m -4 0 l 4 -4" stroke="#ef4444" stroke-width="1.5"/>`; } });
-        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - p.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
+        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
         svgContent += `</svg>`; return svgContent;
     };
 
