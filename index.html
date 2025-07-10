@@ -99,6 +99,41 @@
             width: 90%;
             max-width: 400px;
         }
+        .performer-modal-view {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .performer-modal-content {
+            background-color: #0B1120;
+            border: 1px solid #1E293B;
+            width: 95%;
+            height: 95%;
+            max-width: 1600px;
+            border-radius: 0.75rem;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            display: flex;
+            flex-direction: column;
+        }
+        .performer-view .dashboard-grid { 
+            display: grid; 
+            grid-template-columns: 2fr 5fr 3fr; 
+            gap: 1.5rem; 
+            height: 100%; 
+            padding: 1.5rem;
+        }
+        .performer-view .kpi-card { background-color: #171F33; border-radius: 0.5rem; border: 1px solid #334155; color: #f8fafc; }
+        .performer-view .procedure-step { border-left: 4px solid #475569; transition: all 0.3s; cursor: pointer; }
+        .performer-view .procedure-step.active { background-color: rgba(96, 165, 250, 0.1); border-left-color: #60a5fa; }
+        .performer-view .procedure-step.completed { border-left-color: #64748b; opacity: 0.6; }
+        .performer-view .log-entry { border-bottom: 1px solid #334155; }
+        .performer-view .alarm { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
     </style>
 </head>
 <body class="antialiased">
@@ -242,44 +277,45 @@
                 </div>
             </div>
         </div>
-
-        <div id="performer-view" class="view-container hidden performer-view p-4 lg:p-6 h-full">
-            <div class="h-full dashboard-grid">
-                <div id="procedure-panel" class="bg-slate-800/50 rounded-lg p-4 flex flex-col">
-                    <h2 class="text-lg font-semibold mb-2 border-b border-slate-700 pb-2">Operational Procedure</h2>
-                    <p class="text-xs text-slate-400 mb-3">Click a future step to advance the simulation.</p>
-                    <div id="procedure-steps" class="flex-1 space-y-3 overflow-y-auto pr-2"></div>
-                    <div id="performer-controls" class="hidden mt-4">
-                        <button id="view-analysis-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md transition">View Post-Job Analysis</button>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-4 lg:gap-6">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-                        <div class="kpi-card p-4"><p class="text-sm">Hookload (klbf)</p><p id="kpi-hookload" class="text-3xl font-bold">0.0</p></div>
-                        <div class="kpi-card p-4"><p class="text-sm">Pump Pressure (psi)</p><p id="kpi-pressure" class="text-3xl font-bold">0</p></div>
-                        <div class="kpi-card p-4"><p class="text-sm">CT Speed (ft/min)</p><p id="kpi-speed" class="text-3xl font-bold">0</p></div>
-                        <div class="kpi-card p-4"><p class="text-sm">Depth (ft)</p><p id="kpi-depth" class="text-3xl font-bold">0</p></div>
-                    </div>
-                    <div id="chart-card" class="flex-1 bg-slate-800/50 rounded-lg p-4 flex flex-col"><h3 class="text-lg font-semibold mb-2">Tubing Force Analysis: Plan vs. Actual</h3><div class="flex-1 relative"><canvas id="tfaChart"></canvas></div></div>
-                    <div id="manual-controls" class="bg-slate-800/50 rounded-lg p-4 flex items-center justify-center space-x-4">
-                        <button id="step-backward-btn" class="rounded-md bg-slate-600 px-6 py-2 text-base font-semibold text-white shadow-sm hover:bg-slate-500 disabled:opacity-50" disabled>Step Back</button>
-                        <button id="step-forward-btn" class="rounded-md bg-teal-600 px-6 py-2 text-base font-semibold text-white shadow-sm hover:bg-teal-500">Step Forward</button>
-                    </div>
-                </div>
-                <div class="bg-slate-800/50 rounded-lg p-4 flex flex-col"><h2 class="text-lg font-semibold mb-4 border-b border-slate-700 pb-2">Operations Log</h2><div id="log-entries" class="flex-1 space-y-3 overflow-y-auto mb-4"></div><div class="mt-auto"><textarea id="log-input" class="w-full bg-slate-900 border border-slate-600 rounded-md p-2 text-sm" rows="3" placeholder="Add log entry..."></textarea><button id="add-log-btn" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-md transition">Add Entry</button></div></div>
-            </div>
-        </div>
-
-        <div id="analyzer-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Post-Job Analysis</h2><p id="analyzer-subtitle" class="mt-2 max-w-2xl mx-auto text-lg"></p></div>
-            <div class="mt-10 grid gap-8 lg:grid-cols-2"><div class="light-card p-6 md:p-8 rounded-lg"><h3 class="text-xl font-semibold mb-4">Performance Summary</h3><div id="summary-kpis" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div></div><div class="light-card p-6 md:p-8 rounded-lg"><h3 class="text-xl font-semibold mb-4">Non-Productive Time (NPT) Breakdown</h3><div class="h-64 md:h-80"><canvas id="nptChart"></canvas></div></div></div>
-            <div class="mt-8 light-card p-6 md:p-8 rounded-lg"><h3 class="text-xl font-semibold mb-4">✨ AI-Generated Lessons Learned</h3><div id="lessons-learned-list" class="space-y-4 mb-6"></div><button id="generate-lessons-btn" class="rounded-md bg-blue-600 px-4 py-2 text-base font-semibold text-white shadow-sm hover:bg-blue-500">Generate Summary</button></div>
-        </div>
-        
     </main>
     
+    <div id="performer-modal" class="performer-modal-view hidden">
+        <div class="performer-modal-content">
+            <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+                 <h2 class="text-2xl font-bold text-white">Live Operations Dashboard</h2>
+                 <button id="close-performer-btn" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div id="performer-view" class="performer-view flex-1">
+                <div class="dashboard-grid">
+                    <div id="procedure-panel" class="light-card p-4 flex flex-col">
+                        <h3 class="text-lg font-semibold mb-2 border-b border-slate-700 pb-2">Operational Procedure</h3>
+                        <p class="text-xs text-slate-400 mb-3">Click a future step to advance the simulation.</p>
+                        <div id="procedure-steps" class="flex-1 space-y-3 overflow-y-auto pr-2"></div>
+                        <div id="performer-controls" class="hidden mt-4">
+                            <button id="view-analysis-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md transition">View Post-Job Analysis</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4 lg:gap-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+                            <div class="kpi-card p-4"><p class="text-sm">Hookload (klbf)</p><p id="kpi-hookload" class="text-3xl font-bold">0.0</p></div>
+                            <div class="kpi-card p-4"><p class="text-sm">Pump Pressure (psi)</p><p id="kpi-pressure" class="text-3xl font-bold">0</p></div>
+                            <div class="kpi-card p-4"><p class="text-sm">CT Speed (ft/min)</p><p id="kpi-speed" class="text-3xl font-bold">0</p></div>
+                            <div class="kpi-card p-4"><p class="text-sm">Depth (ft)</p><p id="kpi-depth" class="text-3xl font-bold">0</p></div>
+                        </div>
+                        <div id="chart-card" class="flex-1 light-card p-4 flex flex-col"><h3 class="text-lg font-semibold mb-2">Tubing Force Analysis: Plan vs. Actual</h3><div class="flex-1 relative"><canvas id="tfaChart"></canvas></div></div>
+                        <div id="manual-controls" class="light-card p-4 flex items-center justify-center space-x-4">
+                            <button id="step-backward-btn" class="rounded-md bg-slate-600 px-6 py-2 text-base font-semibold text-white shadow-sm hover:bg-slate-500 disabled:opacity-50" disabled>Step Back</button>
+                            <button id="step-forward-btn" class="rounded-md bg-teal-600 px-6 py-2 text-base font-semibold text-white shadow-sm hover:bg-teal-500">Step Forward</button>
+                        </div>
+                    </div>
+                    <div class="light-card p-4 flex flex-col"><h3 class="text-lg font-semibold mb-4 border-b border-slate-700 pb-2">Operations Log</h3><div id="log-entries" class="flex-1 space-y-3 overflow-y-auto mb-4"></div><div class="mt-auto"><textarea id="log-input" class="w-full bg-slate-900 border border-slate-600 rounded-md p-2 text-sm" rows="3" placeholder="Add log entry..."></textarea><button id="add-log-btn" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-md transition">Add Entry</button></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div id="well-history-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 modal-overlay">
-        <div class="relative top-10 mx-auto p-5 border w-full max-w-5xl shadow-lg rounded-md modal-container">
+        <div class="relative top-10 mx-auto p-5 border w-full max-w-5xl shadow-lg rounded-md modal-content">
             <div class="flex justify-between items-center border-b pb-3 dark:border-gray-700">
                 <h3 id="modal-title" class="text-2xl font-bold"></h3>
                 <button id="close-modal-btn" class="text-3xl font-bold hover:text-red-500">&times;</button>
@@ -356,82 +392,44 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // --- DOM ELEMENTS ---
-    const body = document.body;
-    const views = document.querySelectorAll('.view-container');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const headerTitle = document.getElementById('header-title');
-    const headerDetails = document.getElementById('header-details');
-    const headerNav = document.getElementById('header-nav');
-    
-    // Planner
-    const stepIndicators = { 1: document.getElementById('step-1-indicator'), 2: document.getElementById('step-2-indicator'), 3: document.getElementById('step-3-indicator') };
-    const stepSections = { 1: document.getElementById('step-1'), 2: document.getElementById('step-2'), 3: document.getElementById('step-3') };
-    const wellSelectionGrid = document.getElementById('well-selection-grid');
-    const objectivesFieldset = document.getElementById('objectives-fieldset');
-    const problemsFieldset = document.getElementById('problems-fieldset');
-    const generatePlanBtnManual = document.getElementById('generate-plan-btn-manual');
-    const generatePlanBtnAi = document.getElementById('generate-plan-btn-ai');
-    const planOutput = document.getElementById('plan-output');
-    const startOverBtn = document.getElementById('start-over-btn');
-    const beginOpBtn = document.getElementById('begin-op-btn');
-    const aiToggle = document.getElementById('ai-toggle');
-    const manualPlanningView = document.getElementById('manual-planning-view');
-    const aiAdvisorView = document.getElementById('ai-advisor-view');
-    const aiRecommendationsContainer = document.getElementById('ai-recommendations');
-
-    // Performer
-    const kpiHookload = document.getElementById('kpi-hookload'), kpiPressure = document.getElementById('kpi-pressure'), kpiSpeed = document.getElementById('kpi-speed'), kpiDepth = document.getElementById('kpi-depth');
-    const procedureStepsContainer = document.getElementById('procedure-steps');
-    const logEntriesContainer = document.getElementById('log-entries'), logInput = document.getElementById('log-input'), addLogBtn = document.getElementById('add-log-btn');
-    const chartCard = document.getElementById('chart-card');
-    const performerControls = document.getElementById('performer-controls');
-    const viewAnalysisBtn = document.getElementById('view-analysis-btn');
-    const stepForwardBtn = document.getElementById('step-forward-btn'), stepBackwardBtn = document.getElementById('step-backward-btn');
-
-    // Analyzer
-    const analyzerSubtitle = document.getElementById('analyzer-subtitle'), summaryKpis = document.getElementById('summary-kpis'), lessonsLearnedList = document.getElementById('lessons-learned-list'), lessonInput = document.getElementById('lesson-input'), addLessonBtn = document.getElementById('add-lesson-btn'), planNewJobBtn = document.getElementById('plan-new-job-btn');
-
-    // Logistics
-    const equipmentTableBody = document.getElementById('equipment-table-body'), personnelTableBody = document.getElementById('personnel-table-body');
-    const equipmentSearch = document.getElementById('equipment-search'), personnelSearch = document.getElementById('personnel-search');
-
-    // Commercial
-    const commercialContent = document.getElementById('commercial-content'), commercialSubtitle = document.getElementById('commercial-subtitle');
-
-    // HSE & POB
-    const hseContent = document.getElementById('hse-content'), hseSubtitle = document.getElementById('hse-subtitle');
-    const pobContent = document.getElementById('pob-content');
-
-    // Modal
-    const modal = document.getElementById('well-history-modal'), modalTitle = document.getElementById('modal-title'), modalContent = document.getElementById('modal-content'), closeModalBtn = document.getElementById('close-modal-btn');
-    
-    // Theme
-    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    let body, views, navLinks, headerTitle, headerDetails, headerNav;
+    let stepIndicators, stepSections, wellSelectionGrid, objectivesFieldset, problemsFieldset;
+    let generatePlanBtnManual, generatePlanBtnAi, planOutput, startOverBtn, beginOpBtn;
+    let aiToggle, manualPlanningView, aiAdvisorView, aiRecommendationsContainer;
+    let performerModal, closePerformerBtn, kpiHookload, kpiPressure, kpiSpeed, kpiDepth;
+    let procedureStepsContainer, logEntriesContainer, logInput, addLogBtn;
+    let chartCard, performerControls, viewAnalysisBtn, stepForwardBtn, stepBackwardBtn;
+    let analyzerSubtitle, summaryKpis, lessonsLearnedList, lessonInput, addLessonBtn, planNewJobBtn;
+    let equipmentTableBody, personnelTableBody, equipmentSearch, personnelSearch;
+    let commercialContent, commercialSubtitle;
+    let hseContent, hseSubtitle;
+    let pobContent;
+    let modal, modalTitle, modalContent, closeModalBtn;
+    let engineerCountSlider, nptReductionSlider, timeSavingsSlider;
+    let engineerCountValue, nptReductionValue, timeSavingsValue, totalSavingsValue;
     
     // --- VIEW & STATE MANAGEMENT ---
     const switchView = (viewName) => {
         appState.currentView = viewName;
-        body.classList.toggle('theme-dark', viewName === 'performer');
-        body.classList.toggle('theme-light', viewName !== 'performer');
-
-        views.forEach(v => v.classList.add('hidden'));
+        
+        views.forEach(v => {
+            if (v.id !== 'performer-modal') {
+                v.classList.add('hidden');
+            }
+        });
         document.getElementById(`${viewName}-view`).classList.remove('hidden');
 
         navLinks.forEach(l => l.classList.remove('active'));
         document.getElementById(`${viewName}-nav-link`)?.classList.add('active');
         
-        headerDetails.innerHTML = ''; // Clear details by default
-        const theme = viewName === 'performer' ? 'dark' : localStorage.getItem('theme') || 'light';
-        setTheme(theme); // Apply correct theme for the view
-
+        headerDetails.innerHTML = '';
+        
         let viewTitle = viewName.charAt(0).toUpperCase() + viewName.slice(1);
         if(viewName === 'pob') viewTitle = 'POB & ER';
         if(viewName === 'hse') viewTitle = 'HSE & Risk';
         headerTitle.textContent = `Well-Tegra: ${viewTitle}`;
 
-        if (viewName === 'performer' && appState.selectedWell && appState.generatedPlan) {
-            headerDetails.innerHTML = `<span id="job-status" class="text-lg font-semibold text-emerald-400">● LIVE</span><div class="text-right"><p class="text-sm text-gray-300">Well: ${appState.selectedWell.name}</p><p class="text-sm text-gray-400">Job: ${appState.generatedPlan.name}</p></div>`;
-        } else if (['analyzer', 'commercial', 'hse', 'pob'].includes(viewName)) {
+        if (['analyzer', 'commercial', 'hse', 'pob'].includes(viewName)) {
             if(appState.selectedWell && appState.generatedPlan) {
                 headerDetails.innerHTML = `<div class="text-right"><p class="text-sm">Well: ${appState.selectedWell.name}</p><p class="text-sm">Job: ${appState.generatedPlan.name}</p></div>`;
             }
@@ -446,12 +444,19 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const resetApp = (switchToHome = false) => {
-        appState.selectedWell = null; appState.selectedObjective = null; appState.generatedPlan = null; appState.lessonsLearned = [];
+        appState.selectedWell = null;
+        appState.selectedObjective = null;
+        appState.generatedPlan = null;
+        appState.lessonsLearned = [];
         appState.commercial = { afe: 0, actualCost: 0, serviceTickets: [] };
         appState.ai = { selectedProblemId: null, selectedRecommendation: null };
         document.querySelectorAll('.planner-card').forEach(c => c.classList.remove('selected'));
-        if(document.querySelector('input[name="objective"]:checked')) { document.querySelector('input[name="objective"]:checked').checked = false; }
-        if(document.querySelector('input[name="problem"]:checked')) { document.querySelector('input[name="problem"]:checked').checked = false; }
+        if(document.querySelector('input[name="objective"]:checked')) {
+            document.querySelector('input[name="objective"]:checked').checked = false;
+        }
+        if(document.querySelector('input[name="problem"]:checked')) {
+            document.querySelector('input[name="problem"]:checked').checked = false;
+        }
         generatePlanBtnManual.disabled = true;
         generatePlanBtnAi.disabled = true;
         aiRecommendationsContainer.classList.add('hidden');
@@ -573,10 +578,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // --- ASSET & POB LOGIC ---
     const renderAssetManagementViews = (eqFilter = '', persFilter = '') => {
-        const eqF = eqFilter.toLowerCase();
-        equipmentTableBody.innerHTML = equipmentData.filter(e => e.id.toLowerCase().includes(eqF) || e.type.toLowerCase().includes(eqF)).map(e => `<tr><td class="p-2">${e.id}</td><td class="p-2">${e.type}</td><td class="p-2">${e.location}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${e.testStatus.toLowerCase()}">${e.testStatus}</span></td><td class="p-2"><button class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200 disabled:opacity-50" ${e.location === 'Onboard - Pump Room' && e.testStatus === 'Pending' ? '' : 'disabled'}>Test</button></td></tr>`).join('');
-        const persF = persFilter.toLowerCase();
-        personnelTableBody.innerHTML = personnelData.filter(p => p.name.toLowerCase().includes(persF) || p.role.toLowerCase().includes(persF)).map(p => `<tr><td class="p-2">${p.name}</td><td class="p-2">${p.role}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${p.status.toLowerCase().replace(/\s/g, '')}">${p.status}</span></td><td class="p-2">${p.certsValid ? '✅ Valid' : '❌ Expired'}</td></tr>`).join('');
+        equipmentTableBody.innerHTML = equipmentData.filter(e => e.id.toLowerCase().includes(eqFilter.toLowerCase()) || e.type.toLowerCase().includes(eqFilter.toLowerCase())).map(e => `<tr><td class="p-2">${e.id}</td><td class="p-2">${e.type}</td><td class="p-2">${e.location}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${e.testStatus.toLowerCase()}">${e.testStatus}</span></td><td class="p-2"><button class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200 disabled:opacity-50" ${e.location === 'Onboard - Pump Room' && e.testStatus === 'Pending' ? '' : 'disabled'}>Test</button></td></tr>`).join('');
+        personnelTableBody.innerHTML = personnelData.filter(p => p.name.toLowerCase().includes(persFilter.toLowerCase()) || p.role.toLowerCase().includes(persFilter.toLowerCase())).map(p => `<tr><td class="p-2">${p.name}</td><td class="p-2">${p.role}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${p.status.toLowerCase().replace(/\s/g, '')}">${p.status}</span></td><td class="p-2">${p.certsValid ? '✅ Valid' : '❌ Expired'}</td></tr>`).join('');
     };
     const checkLogistics = () => {
         const conflicts = [];
@@ -693,10 +696,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxDepth = 20000; // Use a fixed max depth for consistent scaling
         let svgContent = `<svg viewBox="0 0 150 600" class="w-full h-auto"><g class="schematic-depth-marker" text-anchor="end" fill="${isDark ? '#94a3b8' : '#1d4ed8'}"><text x="25" y="53">0k</text><line x1="28" y1="50" x2="35" y2="50" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="203">5k</text><line x1="28" y1="200" x2="35" y2="200" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="353">10k</text><line x1="28" y1="350" x2="35" y2="350" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="503">15k</text><line x1="28" y1="500" x2="35" y2="500" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/></g><rect x="40" y="0" width="100" height="600" fill="${isDark ? '#281e14' : '#eaddc7'}" /><rect x="50" y="0" width="80" height="600" fill="${isDark ? '#3a2d21' : '#d2b48c'}" /><rect x="50" y="20" width="80" height="10" fill="${isDark ? '#4b5563' : '#9ca3af'}"/><rect x="75" y="10" width="30" height="10" fill="${isDark ? '#6b7280' : '#6b7280'}"/>`;
         well.completion.casing?.forEach(c => { const topY = (c.top / maxDepth) * 600; const height = ((c.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="60" y="${topY}" width="60" height="${height}" fill="none" stroke="${c.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="2"/>`; });
-        well.completion.tubing?.forEach(t => { const topY = (t.top / maxDepth) * 600; const height = ((t.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${isDark ? '#6b7280' : '#d1d5db'}" stroke="${isDark ? '#4b5563' : '#9ca3af'}" stroke-width="0.5"/>`; });
+        well.completion.tubing?.forEach(t => { const topY = (t.top / maxDepth) * 600; const height = ((t.bottom - t.top) / maxDepth) * 600; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${isDark ? '#6b7280' : '#d1d5db'}" stroke="${isDark ? '#4b5563' : '#9ca3af'}" stroke-width="0.5"/>`; });
         well.completion.equipment?.forEach(e => { const y = (e.top / maxDepth) * 600; if(e.item.includes('Packer')) { svgContent += `<polygon points="75,${y-10} 105,${y-10} 110,${y} 70,${y}" fill="${isDark ? '#9ca3af' : '#4b5563'}"/>`; } else if (e.item.includes('SSSV')) { svgContent += `<rect x="82" y="${y}" width="16" height="20" class="${e.isProblem ? 'stroke-red-500 fill-red-200/50' : 'fill-gray-400'}" stroke-width="1"/><path d="M 85 ${y+3} l 10 14 M 85 ${y+17} l 10 -14" stroke="${e.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="1.5"/>`; } else if (e.item.includes('Scale')) { svgContent += `<path d="M 85 ${y-10} C 80 ${y}, 80 ${y+10}, 85 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 95 ${y-10} C 100 ${y}, 100 ${y+10}, 95 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/>`; } else if (e.item.includes('Shale')) { svgContent += `<rect x="40" y="${y}" width="100" height="100" fill="rgba(239, 68, 68, 0.1)" /><text x="75" y="${y+50}" class="schematic-label" text-anchor="middle" fill="#ef4444">${e.item}</text>`; } });
         well.completion.perforations?.forEach(p => { const topY = (p.top / maxDepth) * 600; const bottomY = (p.bottom / maxDepth) * 600; for(let y = topY; y <= bottomY; y += 10) { svgContent += `<path d="M 60 ${y} L 40 ${y}" stroke="${p.isProblem ? '#ef4444' : '#1d4ed8'}" stroke-width="1.5" />`; if(p.isProblem) svgContent += `<path d="M 40 ${y} l 4 4 m -4 0 l 4 -4" stroke="#ef4444" stroke-width="1.5"/>`; } });
-        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
+        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - p.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
         svgContent += `</svg>`; return svgContent;
     };
 
@@ -730,14 +733,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // --- ROI CALCULATOR LOGIC (Home Page) ---
-    const engineerCountSlider = document.getElementById('engineerCount');
-    const nptReductionSlider = document.getElementById('nptReduction');
-    const timeSavingsSlider = document.getElementById('timeSavings');
-    const engineerCountValue = document.getElementById('engineerCountValue');
-    const nptReductionValue = document.getElementById('nptReductionValue');
-    const timeSavingsValue = document.getElementById('timeSavingsValue');
-    const totalSavingsValue = document.getElementById('totalSavings');
-    
     const calculateROI = () => {
         const engineers = parseInt(engineerCountSlider.value);
         const nptReduction = parseInt(nptReductionSlider.value) / 100;
@@ -804,85 +799,145 @@ document.addEventListener('DOMContentLoaded', function() {
             calculateROI();
         }
     };
-
-    // --- EVENT LISTENERS ---
-    if(themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-        });
-    }
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView(e.currentTarget.id.replace('-nav-link', ''));
-        });
-    });
-    if(wellSelectionGrid) {
-        wellSelectionGrid.addEventListener('click', (e) => {
-            if (e.target.closest('.view-details-btn')) { e.stopPropagation(); openModal(e.target.closest('.view-details-btn').dataset.wellId); return; }
-            const card = e.target.closest('.planner-card'); if (!card) return;
-            appState.selectedWell = wellData.find(w => w.id === card.dataset.wellId);
-            document.querySelectorAll('.planner-card').forEach(c => c.classList.remove('selected', 'border-red-500'));
-            card.classList.add('selected');
-            if (card.dataset.wellId === 'W666') {
-                card.classList.add('border-red-500'); // Special border for the special well
-            } else {
-                 card.classList.add('border-teal-500');
-            }
-            updatePlannerStepUI(2);
-        });
-    }
-    if(objectivesFieldset) objectivesFieldset.addEventListener('change', (e) => { appState.selectedObjective = objectivesData.find(o => o.id === e.target.value); generatePlanBtnManual.disabled = !appState.selectedObjective; });
-    if(problemsFieldset) problemsFieldset.addEventListener('change', (e) => {
-        appState.ai.selectedProblemId = e.target.value;
-        const recommendations = aiRecommendations[appState.ai.selectedProblemId] || [];
-        aiRecommendationsContainer.innerHTML = `<h3 class="text-lg font-semibold text-center mb-4 mt-6">AI Recommendations</h3><div class="space-y-4">${recommendations.map((rec, i) => { const objective = objectivesData.find(o => o.id === rec.objectiveId); return `<div class="ai-recommendation-card p-4 rounded-lg" data-rec-index="${i}"><div class="flex justify-between items-start"><h4 class="font-bold text-lg text-teal-700 dark:text-teal-400">${objective.name}</h4><span class="text-sm font-medium">${rec.confidence}% Confidence</span></div><p class="text-sm mt-1"><strong>Projected Outcome:</strong> ${rec.outcome}</p><p class="text-xs mt-2"><strong>Reasoning:</strong> ${rec.reason}</p></div>`; }).join('')}</div>`;
-        aiRecommendationsContainer.classList.remove('hidden');
-        document.querySelectorAll('.ai-recommendation-card').forEach(card => card.addEventListener('click', (ev) => {
-            const selectedCard = ev.target.closest('.ai-recommendation-card');
-            const recIndex = parseInt(selectedCard.dataset.recIndex);
-            appState.ai.selectedRecommendation = aiRecommendations[appState.ai.selectedProblemId][recIndex];
-            document.querySelectorAll('.ai-recommendation-card').forEach(c => c.classList.remove('selected'));
-            selectedCard.classList.add('selected');
-            generatePlanBtnAi.disabled = false;
-        }));
-    });
-    if(aiToggle) aiToggle.addEventListener('change', (e) => { manualPlanningView.classList.toggle('hidden', e.target.checked); aiAdvisorView.classList.toggle('hidden', !e.target.checked); });
-    if(generatePlanBtnManual) generatePlanBtnManual.addEventListener('click', () => { if (!appState.selectedWell || !appState.selectedObjective) return; appState.generatedPlan = proceduresData[appState.selectedObjective.id]; renderPlan(); updatePlannerStepUI(3); });
-    if(generatePlanBtnAi) generatePlanBtnAi.addEventListener('click', () => { if (!appState.selectedWell || !appState.ai.selectedRecommendation) return; appState.selectedObjective = objectivesData.find(o => o.id === appState.ai.selectedRecommendation.objectiveId); appState.generatedPlan = proceduresData[appState.selectedObjective.id]; renderPlan(); updatePlannerStepUI(3); });
-    if(startOverBtn) startOverBtn.addEventListener('click', () => resetApp(false));
-    if(beginOpBtn) beginOpBtn.addEventListener('click', () => { if (!appState.generatedPlan) return; switchView('performer'); initializePerformer(); });
-    if(addLogBtn) addLogBtn.addEventListener('click', () => { addLogEntry('Operator', logInput.value); logInput.value = ''; });
-    if(procedureStepsContainer) procedureStepsContainer.addEventListener('click', (e) => {
-        const stepDiv = e.target.closest('.procedure-step');
-        if (!stepDiv || !appState.liveData.jobRunning) return;
-
-        const targetStepId = parseInt(stepDiv.dataset.stepId);
-        const currentStepId = appState.liveData.currentStep;
-        
-        if (targetStepId > currentStepId) {
-            jumpToStep(targetStepId);
-        }
-    });
-    if(viewAnalysisBtn) viewAnalysisBtn.addEventListener('click', () => { switchView('analyzer'); initializeAnalyzer(); });
-    if(addLessonBtn) addLessonBtn.addEventListener('click', () => { if(lessonInput.value.trim()){ appState.lessonsLearned.push(lessonInput.value.trim()); lessonInput.value = ''; renderLessons(); } });
-    if(planNewJobBtn) planNewJobBtn.addEventListener('click', () => resetApp(true));
-    if(stepForwardBtn) stepForwardBtn.addEventListener('click', () => { const stepText = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep).text.toLowerCase(); if (stepText.includes('rih') || stepText.includes('pooh')) { const newDepth = Math.min(9500, appState.liveData.depth + 250); updatePerformerState(newDepth); stepBackwardBtn.disabled = false; } else { advancePerformerStep(); } });
-    if(stepBackwardBtn) stepBackwardBtn.addEventListener('click', () => { const stepText = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep).text.toLowerCase(); if (stepText.includes('rih') || stepText.includes('pooh')) { const newDepth = Math.max(0, appState.liveData.depth - 250); updatePerformerState(newDepth); if(newDepth === 0) stepBackwardBtn.disabled = true; } });
-    if(equipmentSearch) equipmentSearch.addEventListener('input', (e) => renderAssetManagementViews(e.target.value, personnelSearch.value));
-    if(personnelSearch) personnelSearch.addEventListener('input', (e) => renderAssetManagementViews( equipmentSearch.value, e.target.value));
-    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-    if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     
     // --- INITIALIZATION ---
     const init = () => {
+        // Assign all DOM elements
+        body = document.body;
+        views = document.querySelectorAll('.view-container');
+        navLinks = document.querySelectorAll('.nav-link');
+        headerTitle = document.getElementById('header-title');
+        headerDetails = document.getElementById('header-details');
+        headerNav = document.getElementById('header-nav');
+        stepIndicators = { 1: document.getElementById('step-1-indicator'), 2: document.getElementById('step-2-indicator'), 3: document.getElementById('step-3-indicator') };
+        stepSections = { 1: document.getElementById('step-1'), 2: document.getElementById('step-2'), 3: document.getElementById('step-3') };
+        wellSelectionGrid = document.getElementById('well-selection-grid');
+        objectivesFieldset = document.getElementById('objectives-fieldset');
+        problemsFieldset = document.getElementById('problems-fieldset');
+        generatePlanBtnManual = document.getElementById('generate-plan-btn-manual');
+        generatePlanBtnAi = document.getElementById('generate-plan-btn-ai');
+        planOutput = document.getElementById('plan-output');
+        startOverBtn = document.getElementById('start-over-btn');
+        beginOpBtn = document.getElementById('begin-op-btn');
+        aiToggle = document.getElementById('ai-toggle');
+        manualPlanningView = document.getElementById('manual-planning-view');
+        aiAdvisorView = document.getElementById('ai-advisor-view');
+        aiRecommendationsContainer = document.getElementById('ai-recommendations');
+        performerModal = document.getElementById('performer-modal');
+        closePerformerBtn = document.getElementById('close-performer-btn');
+        kpiHookload = document.getElementById('kpi-hookload');
+        kpiPressure = document.getElementById('kpi-pressure');
+        kpiSpeed = document.getElementById('kpi-speed');
+        kpiDepth = document.getElementById('kpi-depth');
+        procedureStepsContainer = document.getElementById('procedure-steps');
+        logEntriesContainer = document.getElementById('log-entries');
+        logInput = document.getElementById('log-input');
+        addLogBtn = document.getElementById('add-log-btn');
+        chartCard = document.getElementById('chart-card');
+        performerControls = document.getElementById('performer-controls');
+        viewAnalysisBtn = document.getElementById('view-analysis-btn');
+        stepForwardBtn = document.getElementById('step-forward-btn');
+        stepBackwardBtn = document.getElementById('step-backward-btn');
+        analyzerSubtitle = document.getElementById('analyzer-subtitle');
+        summaryKpis = document.getElementById('summary-kpis');
+        lessonsLearnedList = document.getElementById('lessons-learned-list');
+        lessonInput = document.getElementById('lesson-input');
+        addLessonBtn = document.getElementById('add-lesson-btn');
+        planNewJobBtn = document.getElementById('plan-new-job-btn');
+        equipmentTableBody = document.getElementById('equipment-table-body');
+        personnelTableBody = document.getElementById('personnel-table-body');
+        equipmentSearch = document.getElementById('equipment-search');
+        personnelSearch = document.getElementById('personnel-search');
+        commercialContent = document.getElementById('commercial-content');
+        commercialSubtitle = document.getElementById('commercial-subtitle');
+        hseContent = document.getElementById('hse-content');
+        hseSubtitle = document.getElementById('hse-subtitle');
+        pobContent = document.getElementById('pob-content');
+        modal = document.getElementById('well-history-modal');
+        modalTitle = document.getElementById('modal-title');
+        modalContent = document.getElementById('modal-content');
+        closeModalBtn = document.getElementById('close-modal-btn');
+        engineerCountSlider = document.getElementById('engineerCount');
+        nptReductionSlider = document.getElementById('nptReduction');
+        timeSavingsSlider = document.getElementById('timeSavings');
+        engineerCountValue = document.getElementById('engineerCountValue');
+        nptReductionValue = document.getElementById('nptReductionValue');
+        timeSavingsValue = document.getElementById('timeSavingsValue');
+        totalSavingsValue = document.getElementById('totalSavings');
+
+        // Attach all event listeners
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchView(e.currentTarget.id.replace('-nav-link', ''));
+            });
+        });
+        if(wellSelectionGrid) {
+            wellSelectionGrid.addEventListener('click', (e) => {
+                if (e.target.closest('.view-details-btn')) { e.stopPropagation(); openModal(e.target.closest('.view-details-btn').dataset.wellId); return; }
+                const card = e.target.closest('.planner-card'); if (!card) return;
+                appState.selectedWell = wellData.find(w => w.id === card.dataset.wellId);
+                document.querySelectorAll('.planner-card').forEach(c => c.classList.remove('selected', 'border-red-500'));
+                card.classList.add('selected');
+                if (card.dataset.wellId === 'W666') {
+                    card.classList.add('border-red-500'); // Special border for the special well
+                } else {
+                     card.classList.add('border-teal-500');
+                }
+                updatePlannerStepUI(2);
+            });
+        }
+        if(objectivesFieldset) objectivesFieldset.addEventListener('change', (e) => { appState.selectedObjective = objectivesData.find(o => o.id === e.target.value); generatePlanBtnManual.disabled = !appState.selectedObjective; });
+        if(problemsFieldset) problemsFieldset.addEventListener('change', (e) => {
+            appState.ai.selectedProblemId = e.target.value;
+            const recommendations = aiRecommendations[appState.ai.selectedProblemId] || [];
+            aiRecommendationsContainer.innerHTML = `<h3 class="text-lg font-semibold text-center mb-4 mt-6">AI Recommendations</h3><div class="space-y-4">${recommendations.map((rec, i) => { const objective = objectivesData.find(o => o.id === rec.objectiveId); return `<div class="ai-recommendation-card p-4 rounded-lg" data-rec-index="${i}"><div class="flex justify-between items-start"><h4 class="font-bold text-lg text-teal-700 dark:text-teal-400">${objective.name}</h4><span class="text-sm font-medium">${rec.confidence}% Confidence</span></div><p class="text-sm mt-1"><strong>Projected Outcome:</strong> ${rec.outcome}</p><p class="text-xs mt-2"><strong>Reasoning:</strong> ${rec.reason}</p></div>`; }).join('')}</div>`;
+            aiRecommendationsContainer.classList.remove('hidden');
+            document.querySelectorAll('.ai-recommendation-card').forEach(card => card.addEventListener('click', (ev) => {
+                const selectedCard = ev.target.closest('.ai-recommendation-card');
+                const recIndex = parseInt(selectedCard.dataset.recIndex);
+                appState.ai.selectedRecommendation = aiRecommendations[appState.ai.selectedProblemId][recIndex];
+                document.querySelectorAll('.ai-recommendation-card').forEach(c => c.classList.remove('selected'));
+                selectedCard.classList.add('selected');
+                generatePlanBtnAi.disabled = false;
+            }));
+        });
+        if(aiToggle) aiToggle.addEventListener('change', (e) => { manualPlanningView.classList.toggle('hidden', e.target.checked); aiAdvisorView.classList.toggle('hidden', !e.target.checked); });
+        if(generatePlanBtnManual) generatePlanBtnManual.addEventListener('click', () => { if (!appState.selectedWell || !appState.selectedObjective) return; appState.generatedPlan = proceduresData[appState.selectedObjective.id]; renderPlan(); updatePlannerStepUI(3); });
+        if(generatePlanBtnAi) generatePlanBtnAi.addEventListener('click', () => { if (!appState.selectedWell || !appState.ai.selectedRecommendation) return; appState.selectedObjective = objectivesData.find(o => o.id === appState.ai.selectedRecommendation.objectiveId); appState.generatedPlan = proceduresData[appState.selectedObjective.id]; renderPlan(); updatePlannerStepUI(3); });
+        if(startOverBtn) startOverBtn.addEventListener('click', () => resetApp(false));
+        if(beginOpBtn) beginOpBtn.addEventListener('click', () => { if (!appState.generatedPlan) return; performerModal.classList.remove('hidden'); initializePerformer(); });
+        if(closePerformerBtn) closePerformerBtn.addEventListener('click', () => performerModal.classList.add('hidden'));
+        if(addLogBtn) addLogBtn.addEventListener('click', () => { addLogEntry('Operator', logInput.value); logInput.value = ''; });
+        if(procedureStepsContainer) procedureStepsContainer.addEventListener('click', (e) => {
+            const stepDiv = e.target.closest('.procedure-step');
+            if (!stepDiv || !appState.liveData.jobRunning) return;
+
+            const targetStepId = parseInt(stepDiv.dataset.stepId);
+            const currentStepId = appState.liveData.currentStep;
+            
+            if (targetStepId > currentStepId) {
+                jumpToStep(targetStepId);
+            }
+        });
+        if(viewAnalysisBtn) viewAnalysisBtn.addEventListener('click', () => { switchView('analyzer'); initializeAnalyzer(); });
+        if(addLessonBtn) addLessonBtn.addEventListener('click', () => { if(lessonInput.value.trim()){ appState.lessonsLearned.push(lessonInput.value.trim()); lessonInput.value = ''; renderLessons(); } });
+        if(planNewJobBtn) planNewJobBtn.addEventListener('click', () => resetApp(true));
+        if(stepForwardBtn) stepForwardBtn.addEventListener('click', () => { const stepText = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep).text.toLowerCase(); if (stepText.includes('rih') || stepText.includes('pooh')) { const newDepth = Math.min(9500, appState.liveData.depth + 250); updatePerformerState(newDepth); stepBackwardBtn.disabled = false; } else { advancePerformerStep(); } });
+        if(stepBackwardBtn) stepBackwardBtn.addEventListener('click', () => { const stepText = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep).text.toLowerCase(); if (stepText.includes('rih') || stepText.includes('pooh')) { const newDepth = Math.max(0, appState.liveData.depth - 250); updatePerformerState(newDepth); if(newDepth === 0) stepBackwardBtn.disabled = true; } });
+        if(equipmentSearch) equipmentSearch.addEventListener('input', (e) => renderAssetManagementViews(e.target.value, personnelSearch.value));
+        if(personnelSearch) personnelSearch.addEventListener('input', (e) => renderAssetManagementViews( equipmentSearch.value, e.target.value));
+        if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+        if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        if(engineerCountSlider) engineerCountSlider.addEventListener('input', calculateROI);
+        if(nptReductionSlider) nptReductionSlider.addEventListener('input', calculateROI);
+        if(timeSavingsSlider) timeSavingsSlider.addEventListener('input', calculateROI);
+
+        // The rest of the init logic
         renderWellCards();
         renderObjectives();
         renderProblems();
         switchView('home');
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(savedTheme);
     };
 
     init();
