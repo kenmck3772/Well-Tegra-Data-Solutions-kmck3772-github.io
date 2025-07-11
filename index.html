@@ -815,8 +815,13 @@ document.addEventListener('DOMContentLoaded', function() {
         nptReductionValue = document.getElementById('nptReductionValue');
         timeSavingsValue = document.getElementById('timeSavingsValue');
         totalSavingsValue = document.getElementById('totalSavings');
-
+        themeToggleBtn = document.getElementById('theme-toggle-btn');
+        
         // Attach all event listeners
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = body.classList.contains('theme-dark') ? 'dark' : 'light';
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
