@@ -10,9 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; background-color: #0B1120; color: #E0E7FF; }
+        body { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; }
         h1, h2, h3, h4, h5, h6 { font-weight: 800; }
         
+        .theme-light { background-color: #f8fafc; color: #1e293b; }
+        .theme-dark { background-color: #0B1120; color: #E0E7FF; }
+
         .section-title {
             font-weight: 800;
             letter-spacing: -0.025em;
@@ -20,129 +23,53 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .stat-card, .light-card {
-            background-color: rgba(23, 31, 51, 0.7);
-            border: 1px solid #1E293B;
-            backdrop-filter: blur(10px);
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            max-width: 500px;
-            max-height: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .header {
-            background-color: rgba(11, 17, 32, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #1E293B;
-        }
-        .nav-link {
-            color: #94a3b8;
-            font-size: 1rem;
-            padding: 0.75rem 0.5rem;
-            transition: color 0.3s, border-bottom-color 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-link.active {
-            color: #60a5fa;
-            border-bottom-color: #60a5fa;
-            font-weight: 700;
-        }
-        .hero-section {
-             background-color: #0B1120;
-        }
-        .hero-section h1 {
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-        }
-        .hero-section p {
-            color: #E0E7FF;
-             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-        }
-        .accent-text { color: #2563eb; }
-        .dark .accent-text { color: #60a5fa; }
 
-        .mobilisation-card {
-            border: 1px solid #334155;
-            transition: all 0.3s ease;
-        }
-        .mobilisation-card.approved {
-            border-color: #22c55e;
-            background-color: rgba(34, 197, 94, 0.1);
-        }
+        .light-card { background-color: white; }
+        .dark .light-card { background-color: rgba(23, 31, 51, 0.7); border: 1px solid #1E293B; backdrop-filter: blur(10px); }
         
-        /* Modal Styles */
-        .modal-backdrop {
-            position: fixed;
+        .header { background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
+        .dark .header { background-color: rgba(11, 17, 32, 0.8); border-bottom: 1px solid #1E293B; }
+        
+        .nav-link { color: #475569; font-size: 1rem; padding: 0.75rem 0.5rem; transition: color 0.3s, border-bottom-color 0.3s; border-bottom: 2px solid transparent; }
+        .dark .nav-link { color: #94a3b8; }
+        .nav-link.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 700; }
+        .dark .nav-link.active { color: #60a5fa; border-bottom-color: #60a5fa; }
+
+        .hero-section { position: relative; overflow: hidden; }
+        #hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            transform: translateX(-50%) translateY(-50%);
+            background-size: cover;
+        }
+        .hero-overlay {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            z-index: -50;
         }
-        .modal-content {
-            background-color: #1e293b;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            width: 90%;
-            max-width: 400px;
-        }
-        .performer-modal-view {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .performer-modal-content {
-            background-color: #0B1120;
-            border: 1px solid #1E293B;
-            width: 95%;
-            height: 95%;
-            max-width: 1600px;
-            border-radius: 0.75rem;
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-            display: flex;
-            flex-direction: column;
-        }
-        .performer-view .dashboard-grid { 
-            display: grid; 
-            grid-template-columns: 2fr 5fr 3fr; 
-            gap: 1.5rem; 
-            height: 100%; 
-            padding: 1.5rem;
-        }
-        .performer-view .kpi-card { background-color: #171F33; border-radius: 0.5rem; border: 1px solid #334155; color: #f8fafc; }
-        .performer-view .procedure-step { border-left: 4px solid #475569; transition: all 0.3s; cursor: pointer; }
-        .performer-view .procedure-step.active { background-color: rgba(96, 165, 250, 0.1); border-left-color: #60a5fa; }
-        .performer-view .procedure-step.completed { border-left-color: #64748b; opacity: 0.6; }
-        .performer-view .log-entry { border-bottom: 1px solid #334155; }
-        .performer-view .alarm { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-        .faq-item details > summary {
-            list-style: none;
-        }
-        .faq-item details > summary::-webkit-details-marker {
-            display: none;
+        .hero-section h1 { color: white; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); }
+        .hero-section p { color: #e0e7ff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); }
+        
+        .faq-item details > summary { list-style: none; cursor: pointer; }
+        .faq-item details > summary::-webkit-details-marker { display: none; }
+        .faq-item details[open] summary ~ * { animation: sweep .5s ease-in-out; }
+        @keyframes sweep {
+            0%    {opacity: 0; margin-top: -10px}
+            100%  {opacity: 1; margin-top: 0px}
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="theme-dark">
 
 <div id="app-container" class="min-h-screen flex flex-col">
     <!-- Header -->
@@ -153,48 +80,22 @@
                     <img src="assets/logo.png" alt="Well-Tegra Data Solutions Logo" class="h-14 w-auto mr-4">
                     <h1 id="header-title" class="text-2xl font-bold text-white hidden md:block">Well-Tegra Data Solutions</h1>
                 </div>
-                <div id="header-nav" class="flex-1 flex items-center justify-center space-x-2 md:space-x-6">
-                    <a id="home-nav-link" title="Return to the Home Page" class="nav-link active flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                        <span>Home</span>
-                    </a>
-                    <a id="planner-nav-link" title="Go to the Well Intervention Planner" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
-                        <span>Planner</span>
-                    </a>
-                    <a id="logistics-nav-link" title="Manage Equipment and Personnel" class="nav-link flex items-center space-x-2">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"/><path d="M14 9h4l4 4v4h-8v-4h-4V9Z"/><path d="M18 18h-1.3c-.5 0-.9-.3-1.1-.7l-2.6-5"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
-                        <span>Logistics</span>
-                    </a>
-                    <a id="commercial-nav-link" title="View Financial Dashboards" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        <span>Commercial</span>
-                    </a>
-                    <a id="hse-nav-link" title="View Health, Safety, and Environment Data" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        <span>HSE & Risk</span>
-                    </a>
-                    <a id="pob-nav-link" title="View Personnel on Board and Emergency Response" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        <span>POB & ER</span>
-                    </a>
-                    <a id="whitepaper-nav-link" title="Read Our Technical Whitepaper" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
-                        <span>Whitepaper</span>
-                    </a>
-                     <a id="faq-nav-link" title="Frequently Asked Questions" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-                        <span>FAQ</span>
-                    </a>
-                    <a id="questionnaire-nav-link" title="Contact Us" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 22a10 10 0 0 0 10-10H2a10 10 0 0 0 10 10z"/><path d="M2 12V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5"/><path d="M12 12v10"/><path d="M18.36 7.64A9 9 0 0 0 5.64 7.64"/></svg>
-                        <span>Questionnaire</span>
-                    </a>
+                <div id="header-nav" class="flex-1 flex items-center justify-center space-x-1 md:space-x-4">
+                    <a id="home-nav-link" title="Return to the Home Page" class="nav-link active flex items-center space-x-2"><span>Home</span></a>
+                    <a id="planner-nav-link" title="Go to the Well Intervention Planner" class="nav-link flex items-center space-x-2"><span>Planner</span></a>
+                    <a id="about-nav-link" title="About the Founder" class="nav-link flex items-center space-x-2"><span>About</span></a>
+                    <a id="whitepaper-nav-link" title="Read Our Technical Whitepaper" class="nav-link flex items-center space-x-2"><span>Whitepaper</span></a>
+                    <a id="faq-nav-link" title="Frequently Asked Questions" class="nav-link flex items-center space-x-2"><span>FAQ</span></a>
+                    <a id="questionnaire-nav-link" title="Contact Us" class="nav-link flex items-center space-x-2"><span>Questionnaire</span></a>
                 </div>
                 <div id="header-details" class="flex items-center space-x-4">
                     <a href="https://translate.google.com/" target="_blank" title="Translate Website" class="text-indigo-200 hover:text-white transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
                     </a>
+                    <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-slate-700 text-indigo-200 hover:text-white">
+                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -205,6 +106,10 @@
         <!-- Home View -->
         <div id="home-view" class="view-container">
             <section class="hero-section py-20 px-4 relative">
+                <video autoplay muted loop id="hero-video">
+                  <source src="assets/Well-Tegra 30-Second Promo.mp4" type="video/mp4">
+                </video>
+                <div class="hero-overlay"></div>
                 <div class="max-w-4xl mx-auto text-center relative z-10">
                     <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Stop Burning Time. Start Optimizing Wells.</h1>
                     <p class="mt-6 text-lg md:text-xl">The oil and gas industry loses over $38 million per asset annually to unplanned downtime. Your engineers spend more than 50% of their time wrangling data. The cause? A disconnected digital ecosystem.</p>
@@ -228,15 +133,15 @@
         
         <div id="planner-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
              <div class="text-center mb-12"><h2 class="text-4xl section-title">Well Intervention Planner</h2></div>
-            <div class="mb-12 light-card p-6 rounded-lg">
-                <h3 class="text-xl font-bold text-white mb-2">A Quick Guide to the Demo</h3>
-                <ol class="list-decimal list-inside text-indigo-200 space-y-1">
-                    <li><strong>Home:</strong> This gives a brief overview of the value proposition.</li>
-                    <li><strong>Planner:</strong> This is the core of the simulation. You can walk through the 3-step process of planning a well intervention. In Step 2, you can toggle the "AI Advisor" on to see how the system can provide intelligent recommendations.</li>
-                    <li><strong>Performer (Picture-in-Picture):</strong> After generating a plan in the Planner, clicking "Begin Live Operation" will open the live dashboard in a modal window. This was designed to show how a team can monitor live operations without losing the context of the main application.</li>
-                    <li><strong>HSE & POB:</strong> These modules are now populated with sample data to demonstrate how they would function.</li>
-                    <li><strong>Whitepaper:</strong> This section contains the full executive summary and a simplified explanation of the underlying technology (Blockchain, Smart Contracts, etc.). The full PDF is also available for download here.</li>
-                </ol>
+            <div class="light-card p-6 rounded-lg mb-12">
+                <details>
+                    <summary class="font-bold text-xl text-white cursor-pointer">A Quick Guide to the Demo</summary>
+                    <ol class="list-decimal list-inside text-indigo-200 space-y-1 mt-4">
+                        <li><strong>Planner:</strong> This is the core of the simulation. You can walk through the 3-step process of planning a well intervention. In Step 2, you can toggle the "AI Advisor" on to see how the system can provide intelligent recommendations.</li>
+                        <li><strong>Performer (Picture-in-Picture):</strong> After generating a plan in the Planner, clicking "Begin Live Operation" will open the live dashboard in a modal window. This was designed to show how a team can monitor live operations without losing the context of the main application.</li>
+                        <li><strong>Whitepaper:</strong> This section contains the full executive summary and a simplified explanation of the underlying technology. The full PDF is also available for download here.</li>
+                    </ol>
+                </details>
             </div>
             <div class="mb-12 flex items-center justify-center space-x-4"><div id="step-1-indicator" class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div><div class="flex-1 h-1 bg-gray-700 rounded-full"></div><div id="step-2-indicator" class="step-indicator bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div><div class="flex-1 h-1 bg-gray-700 rounded-full"></div><div id="step-3-indicator" class="step-indicator bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div></div>
             <section id="step-1"><div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Step 1: Select a Well</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Choose a candidate well for the intervention plan.</p></div><div id="well-selection-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div></section>
