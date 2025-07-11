@@ -62,11 +62,12 @@
         .theme-dark .nav-link { color: #94a3b8; }
         .theme-light .nav-link.active { color: #2563eb; border-bottom-color: #2563eb; }
         .theme-dark .nav-link.active { color: #60a5fa; border-bottom-color: #60a5fa; }
-        .theme-light h1, .theme-light h2, .theme-light h3, .theme-light h4 { color: #1e293b; }
+        
+        .theme-light h1, .theme-light h2, .theme-light h3, .theme-light h4 { color: #111827; } 
         .theme-dark h1, .theme-dark h2, .theme-dark h3, .theme-dark h4 { color: #f8fafc; }
         
-        /* Improved text readability */
-        .theme-light p, .theme-light span, .theme-light label, .theme-light td, .theme-light li { color: #334155; line-height: 1.65; }
+        /* Set base paragraph color to black for light theme for max contrast */
+        .theme-light p, .theme-light span, .theme-light label, .theme-light td, .theme-light li { color: #1f2937; line-height: 1.65; }
         .theme-dark p, .theme-dark span, .theme-dark label, .theme-dark td, .theme-dark li { color: #e2e8f0; line-height: 1.65; }
 
         .theme-light .table-header { background-color: #f1f5f9; }
@@ -231,6 +232,10 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         <span>POB & ER</span>
                     </a>
+                    <a id="whitepaper-nav-link" title="Download the White Paper" class="nav-link flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <span>White Paper</span>
+                    </a>
                      <a id="faq-nav-link" title="Frequently Asked Questions" class="nav-link flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
                         <span>FAQ</span>
@@ -260,27 +265,28 @@
                 </video>
                 <div class="hero-overlay"></div>
                 <div class="max-w-4xl mx-auto text-center relative z-10">
-                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white">Stop Burning Time. Start Optimizing Wells.</h1>
-                    <p class="mt-6 text-lg md:text-xl text-slate-200">The oil and gas industry loses over $38 million per asset annually to unplanned downtime. Your engineers spend more than 50% of their time wrangling data. The cause? A disconnected digital ecosystem.</p>
-                    <p class="mt-4 text-lg md:text-xl font-semibold text-white">Well-Tegra Data Solutions transforms your operational data from a liability into your most valuable asset.</p>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white">From Data Chaos to Predictive Clarity.</h1>
+                    <p class="mt-6 text-lg md:text-xl text-slate-100">The oil and gas industry loses over $38 million per asset annually to unplanned downtime. Your engineers spend more than 50% of their time wrangling data. The cause? A disconnected digital ecosystem.</p>
+                    <p class="mt-4 text-lg md:text-xl font-semibold text-white">Well-Tegra: Engineering Insight, Amplified by Data.</p>
                 </div>
             </section>
             <section class="py-20 px-4 bg-white dark:bg-transparent">
-                <div class="max-w-5xl mx-auto relative z-10">
+                <div class="max-w-7xl mx-auto relative z-10">
                     <div class="text-center">
                         <h2 class="section-title">Are You Paying the Hidden Taxes of Inefficiency?</h2>
                         <p class="mt-4 text-lg">Your operations are being taxed by disconnected workflows you can't see on a balance sheet.</p>
                     </div>
-                    <div class="mt-12 grid md:grid-cols-3 gap-8">
-                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Data Wrangling Tax</h3><p class="mt-2">Your most valuable assets—your engineers—are forced to act as data clerks, wasting countless hours hunting for information in emails, correcting spreadsheet errors, and re-entering data from PDFs.</p></div>
+                    <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Data Wrangling Tax</h3><p class="mt-2">Unlock Your Data. Your most valuable assets—your engineers—are forced to act as data clerks, wasting countless hours hunting for information in emails, correcting spreadsheet errors, and re-entering data from PDFs.</p></div>
                         <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The NPT Tax</h3><p class="mt-2">Every moment of Non-Productive Time is a direct hit to your bottom line. Plans based on poor data lead to equipment failures, procedural errors, and costly downtime.</p></div>
                         <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Collaboration Tax</h3><p class="mt-2">The critical gap between your team and service partners is where value is lost. Static PDF handoffs create slow, error-prone workflows that prevent true, real-time collaboration.</p></div>
+                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Energy & Emissions Tax</h3><p class="mt-2">Inefficient operations don't just waste money—they waste energy. Extended run times and unnecessary flaring contribute to higher operational costs and a larger carbon footprint.</p></div>
                     </div>
                 </div>
             </section>
             <section class="py-20 px-4 roi-calculator dark:bg-slate-900/50">
                 <div class="max-w-6xl mx-auto relative z-10">
-                    <div class="text-center"><h2 class="section-title">The Platform That Pays for Itself</h2><p class="mt-4 text-lg">Use our interactive calculator to estimate your potential annual savings with Well-Tegra.</p></div>
+                    <div class="text-center"><h2 class="section-title">The Platform That Pays for Itself</h2><p class="mt-4 text-lg">Unlock Your Reservoir's True Potential. Use our interactive calculator to estimate your potential annual savings with Well-Tegra.</p></div>
                     <div class="mt-12 grid lg:grid-cols-2 gap-12 items-center">
                         <div class="light-card p-8 rounded-lg shadow-lg">
                             <div class="space-y-6">
@@ -297,19 +303,21 @@
         </div>
         
         <div id="planner-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold tracking-tight">Well Intervention Planner</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-lg">The Single Source of Truth for Your Entire Well Portfolio.</p>
+            </div>
             <div class="mb-12 flex items-center justify-center space-x-4"><div id="step-1-indicator" class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div><div class="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full"></div><div id="step-2-indicator" class="step-indicator bg-gray-200 dark:bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div><div class="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full"></div><div id="step-3-indicator" class="step-indicator bg-gray-200 dark:bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div></div>
             <section id="step-1">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight">Step 1: Select a Well</h2>
-                    <p class="mt-2 max-w-2xl mx-auto text-lg">Choose a candidate well for the intervention plan.</p>
+                    <h3 class="text-2xl font-bold tracking-tight">Step 1: Select a Well</h3>
                     <p class="mt-4 max-w-3xl mx-auto text-sm">Welcome to the Well Intervention Planner. This process begins by selecting a candidate well from the available assets. Each card represents a well with key status indicators and known issues. Click 'View Details' to explore a well's full history, including past operations, schematics, and legacy reports. Once you've identified a suitable candidate, click on the card to select it and proceed to the next step.</p>
                 </div>
                 <div id="well-selection-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div>
             </section>
             <section id="step-2" class="hidden">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight">Step 2: Define Intervention Plan</h2>
-                    <p class="mt-2 max-w-2xl mx-auto text-lg">Choose a planning method to define the primary goal for this intervention.</p>
+                    <h3 class="text-2xl font-bold tracking-tight">Step 2: Define Intervention Plan</h3>
                     <p class="mt-4 max-w-3xl mx-auto text-sm">Now that you've selected a well, it's time to define the objective of the intervention. You can either use the Manual Planning mode to select a primary objective directly, or switch to the AI Advisor. The AI will analyze the well's known problems and historical data to recommend the most effective intervention strategies, complete with confidence scores and projected outcomes. Your choice here will determine the baseline procedure and resources for the plan.</p>
                 </div>
                 <div class="mt-8 max-w-4xl mx-auto">
@@ -320,8 +328,7 @@
             </section>
             <section id="step-3" class="hidden">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight">Step 3: Review the Generated Plan</h2>
-                    <p class="mt-2 max-w-2xl mx-auto text-lg">This is the initial, data-driven plan. Review and then begin the live operation.</p>
+                    <h3 class="text-2xl font-bold tracking-tight">Step 3: Review the Generated Plan</h3>
                     <p class="mt-4 max-w-3xl mx-auto text-sm">This is the final review stage. Based on your selections, the platform has generated a comprehensive, data-driven intervention plan. This includes the baseline procedure, a list of required equipment and personnel, and an initial risk assessment. Please review all sections carefully. If everything is in order, you can proceed to the 'Live Operation' view, which simulates the execution of this plan in real-time. If you need to make changes, you can 'Start Over'.</p>
                 </div>
                 <div id="plan-output" class="mt-10 light-card p-6 md:p-8 space-y-8 rounded-lg"></div>
@@ -352,6 +359,16 @@
             <div id="pob-content" class="mt-10"></div>
         </div>
 
+        <div id="whitepaper-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold tracking-tight">Well-Tegra White Paper</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg">Dive deeper into the technical architecture and strategic vision behind the Well-Tegra platform. Our white paper provides a comprehensive overview of the privacy-preserving AI, enterprise blockchain, and data unification strategies that power our solution.</p>
+                <a href="https://drive.google.com/file/d/18hNgPuFANg2pNHwpOlbkQWb_fTbBMQWF/view?usp=drive_link" target="_blank" download class="mt-8 inline-block rounded-md bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition">
+                    Download the White Paper
+                </a>
+            </div>
+        </div>
+
         <div id="faq-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Frequently Asked Questions</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Find answers to common questions about the Well-Tegra platform.</p></div>
             <div id="faq-accordion" class="mt-10 light-card rounded-lg shadow-md overflow-hidden">
@@ -364,6 +381,7 @@
             <div class="mt-10 light-card p-8 rounded-lg space-y-8">
                 <div>
                     <h3 class="text-2xl font-bold">The Driving Force: Kenneth McKenzie</h3>
+                    <p class="text-lg italic">Well-Tegra: Engineering Insight, Amplified by Data.</p>
                     <p>Well-Tegra is led by its founder and chief architect, Kenneth McKenzie. Mr. Mckenzie brings a unique and powerful combination of deep domain insight, proven technical capability, and extraordinary resilience that positions Well-Tegra for success.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
@@ -556,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
             answer: `<p>Well-Tegra implements a sophisticated, multi-stage anonymization protocol. This "defense-in-depth" strategy layers several advanced privacy-enhancing technologies:</p><ul><li><strong>Stage 1: Identification and Suppression:</strong> Removing explicit identifiers like company and well names.</li><li><strong>Stage 2: Generalization for K-Anonymity and L-Diversity:</strong> Making records indistinguishable from others to prevent re-identification from combined attributes.</li><li><strong>Stage 3: Perturbation with Differential Privacy:</strong> Adding calibrated statistical "noise" to sensitive numerical data to provide a formal, mathematical guarantee of privacy.</li></ul><p>The platform's most innovative feature is <strong>"verifiable privacy,"</strong> where the anonymization rules are coded into a smart contract on the blockchain, allowing participants to cryptographically verify that the agreed-upon privacy protocol was executed.</p>`
         },
         {
-            question: "What is the 'network effect' and how does it benefit me?",
+            question: "What is the 'network effect' and how does it benefit data providers?",
             answer: `<p>The "network effect" is the principle that the value of the platform increases for every participant as more members join. This is achieved by securely leveraging the collective, anonymized data of the entire consortium to build predictive models that are far more powerful than any single organization could develop alone.</p><p>This creates a <strong>virtuous cycle</strong>: more data leads to better models, which provides a powerful incentive for new members to join, which in turn makes the models even more powerful for everyone.</p>`
         },
     ];
@@ -650,6 +668,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let viewTitle = viewName.charAt(0).toUpperCase() + viewName.slice(1);
         if(viewName === 'pob') viewTitle = 'POB & ER';
         if(viewName === 'hse') viewTitle = 'HSE & Risk';
+        if(viewName === 'whitepaper') viewTitle = 'White Paper';
         headerTitle.textContent = `Well-Tegra: ${viewTitle}`;
 
         if (viewName === 'performer' && appState.selectedWell && appState.generatedPlan) {
@@ -1086,7 +1105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         well.completion.tubing?.forEach(t => { const topY = (t.top / maxDepth) * 600; const height = ((t.bottom - t.top) / maxDepth) * 600; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${isDark ? '#6b7280' : '#d1d5db'}" stroke="${isDark ? '#4b5563' : '#9ca3af'}" stroke-width="0.5"/>`; });
         well.completion.equipment?.forEach(e => { const y = (e.top / maxDepth) * 600; if(e.item.includes('Packer')) { svgContent += `<polygon points="75,${y-10} 105,${y-10} 110,${y} 70,${y}" fill="${isDark ? '#9ca3af' : '#4b5563'}"/>`; } else if (e.item.includes('SSSV')) { svgContent += `<rect x="82" y="${y}" width="16" height="20" class="${e.isProblem ? 'stroke-red-500 fill-red-200/50' : 'fill-gray-400'}" stroke-width="1"/><path d="M 85 ${y+3} l 10 14 M 85 ${y+17} l 10 -14" stroke="${e.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="1.5"/>`; } else if (e.item.includes('Scale')) { svgContent += `<path d="M 85 ${y-10} C 80 ${y}, 80 ${y+10}, 85 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 95 ${y-10} C 100 ${y}, 100 ${y+10}, 95 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/>`; } else if (e.item.includes('Shale')) { svgContent += `<rect x="40" y="${y}" width="100" height="100" fill="rgba(239, 68, 68, 0.1)" /><text x="75" y="${y+50}" class="schematic-label" text-anchor="middle" fill="#ef4444">${e.item}</text>`; } });
         well.completion.perforations?.forEach(p => { const topY = (p.top / maxDepth) * 600; const bottomY = (p.bottom / maxDepth) * 600; for(let y = topY; y <= bottomY; y += 10) { svgContent += `<path d="M 60 ${y} L 40 ${y}" stroke="${p.isProblem ? '#ef4444' : '#1d4ed8'}" stroke-width="1.5" />`; if(p.isProblem) svgContent += `<path d="M 40 ${y} l 4 4 m -4 0 l 4 -4" stroke="#ef4444" stroke-width="1.5"/>`; } });
-        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - p.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
+        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
         svgContent += `</svg>`; return svgContent;
     };
 
