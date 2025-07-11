@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v2 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
+    <title>v7 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('assets/watermark.png');
+            background-image: url('https://welltegra.network/assets/watermark.png');
             background-repeat: repeat;
             background-position: center;
             background-size: 350px;
@@ -41,7 +41,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('assets/watermark.png');
+            background-image: url('https://welltegra.network/assets/watermark.png');
             background-repeat: repeat;
             background-position: center;
             background-size: 350px;
@@ -165,6 +165,35 @@
         .dark .roi-calculator { background-color: #1e293b; }
         .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
         @media (min-width: 768px) { .chart-container { height: 400px; } }
+
+        /* --- FAQ & About Page Styles --- */
+        .faq-question {
+            width: 100%;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .theme-dark .faq-question { border-bottom-color: #374151; }
+        .faq-answer {
+            display: none;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .theme-dark .faq-answer { border-bottom-color: #374151; }
+        .faq-answer p, .faq-answer ul { margin-bottom: 1rem; }
+        .faq-answer li { margin-left: 1.5rem; list-style-type: disc; }
+        .faq-question.active + .faq-answer {
+            display: block;
+        }
+        .faq-question .icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active .icon {
+            transform: rotate(180deg);
+        }
+
     </style>
 </head>
 <body class="theme-light">
@@ -175,7 +204,7 @@
         <div class="max-w-full mx-auto py-3 px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <img src="assets/logo.png" alt="Well-Tegra Data Solutions Logo" class="h-12 w-auto mr-3">
+                    <img src="https://welltegra.network/assets/logo.png" alt="Well-Tegra Data Solutions Logo" class="h-12 w-auto mr-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f172a/ffffff?text=Logo';">
                     <h1 id="header-title" class="text-xl font-bold hidden md:block">Well-Tegra Data Solutions</h1>
                 </div>
                 <div id="header-nav" class="flex-1 flex items-center justify-center space-x-1 md:space-x-4">
@@ -203,9 +232,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         <span>POB & ER</span>
                     </a>
-                    <a id="whitepaper-nav-link" title="Read Our Technical Whitepaper" class="nav-link flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
-                        <span>Whitepaper</span>
+                     <a id="faq-nav-link" title="Frequently Asked Questions" class="nav-link flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+                        <span>FAQ</span>
+                    </a>
+                    <a id="about-nav-link" title="About the Founder" class="nav-link flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                        <span>About</span>
                     </a>
                 </div>
                 <div id="header-details" class="flex items-center space-x-4">
@@ -223,8 +256,8 @@
         <!-- Home View -->
         <div id="home-view" class="view-container">
             <section class="hero-section py-20 px-4 relative">
-                <video autoplay loop muted playsinline id="hero-video">
-                    <source src="assets/thumbnail.mp4" type="video/mp4">
+                <video autoplay loop muted playsinline id="hero-video" poster="https://welltegra.network/assets/thumbnail.png">
+                    <source src="https://welltegra.network/assets/thumbnail.mp4" type="video/mp4">
                 </video>
                 <div class="hero-overlay"></div>
                 <div class="max-w-4xl mx-auto text-center relative z-10">
@@ -294,25 +327,39 @@
             <div id="pob-content" class="mt-10"></div>
         </div>
 
-        <div id="whitepaper-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Our Data-Driven Framework</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Learn how we transform well delivery from a reactive process to a predictive science.</p></div>
-            <div class="mt-10 light-card p-8 rounded-lg">
-                <h3 class="text-2xl font-bold mb-4">Executive Summary</h3>
-                <p class="mb-4">The development of HPHT reservoirs is defined by extreme conditions and critically narrow operational margins. Failure to adequately model, manage, and mitigate the associated geomechanical risks invariably leads to catastrophic cost overruns and destruction of project value.</p>
-                <p class="mb-4">The Well-Tegra platform provides an integrated strategy, creating a single source of truth that inextricably links subsurface geomechanics, well trajectory design, advanced drilling fluid engineering, and risk-based economic modeling. Our platform ensures that each discipline informs and constrains the others in a continuous feedback loop, which is essential for de-risking investment and assuring well delivery.</p>
-                <a href="assets/whitepaper-video.mp4" target="_blank" class="inline-flex items-center rounded-md bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                    Download Full Whitepaper
-                </a>
+        <div id="faq-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Frequently Asked Questions</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Find answers to common questions about the Well-Tegra platform.</p></div>
+            <div id="faq-accordion" class="mt-10 light-card rounded-lg shadow-md overflow-hidden">
+                <!-- FAQ items will be injected here by JS -->
             </div>
-            <div class="mt-12 light-card p-8 rounded-lg text-center">
-                 <h3 class="text-2xl font-bold mb-4">Watch Our Platform in Action</h3>
-                 <div class="aspect-w-16 aspect-h-9 bg-slate-200 dark:bg-slate-800 rounded-lg flex items-center justify-center overflow-hidden">
-                    <video controls class="w-full h-full">
-                        <source src="assets/explainer-video.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                 </div>
+        </div>
+
+        <div id="about-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">About Well-Tegra & The Founder</h2></div>
+            <div class="mt-10 light-card p-8 rounded-lg space-y-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">The Driving Force: Kenneth McKenzie</h3>
+                    <p>Well-Tegra is led by its founder and chief architect, Kenneth McKenzie. Mr. Mckenzie brings a unique and powerful combination of deep domain insight, proven technical capability, and extraordinary resilience that positions Well-Tegra for success.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Unique Domain Insight</h4>
+                        <p>The vision for Well-Tegra stems from a deep, first-hand understanding of the operational challenges and workflow inefficiencies faced by the energy sector. Unlike technology solutions built in a vacuum, Well-Tegra is designed from the "operator's perspective," focusing on solving the real-world, daily pain points of well engineers and asset managers.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Proven Technical & Strategic Execution</h4>
+                        <p>Mr. Mckenzie has single-handedly driven Well-Tegra from concept to a fully-functional, interactive platform. This demonstrates a rare, multi-disciplinary skill set encompassing product strategy, full-stack development, UI/UX design, and marketing.</p>
+                    </div>
+                </div>
+                 <div>
+                    <h4 class="text-xl font-semibold mb-2">Extraordinary Drive & Resilience</h4>
+                    <p>Perhaps the most critical asset is the founder's proven determination. The development of the Well-Tegra platform was undertaken as a self-driven initiative, built on a Chromebook using free software, and required rapid self-education across multiple technical domains while simultaneously navigating significant personal and health challenges. This journey is a testament to the founder's unwavering commitment, problem-solving ability, and the resilience required to lead a successful startup venture.</p>
+                </div>
+                <div class="bg-blue-50 dark:bg-blue-900/50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+                    <h4 class="font-bold text-blue-800 dark:text-blue-300">Project Status & The Path Forward</h4>
+                    <p class="mt-2 text-blue-700 dark:text-blue-200">The Well-Tegra project is currently underway and is actively seeking funding for consultancy and business software services to accelerate its development and deployment.</p>
+                    <p class="mt-2 text-sm text-blue-600 dark:text-blue-400">It is important to note that the current demonstration of the platform is not yet driven by real-world well data. The illustrative datasets have been generated by the founder to showcase the platform's functionality. Consequently, the true value of the project—which lies in the power of collective data—is not yet fully visible. The precision and predictive accuracy of the Well-Tegra engine will grow exponentially as the data pool expands with real-world contributions, evolving from a small pool into a vast 'ocean' of shared intelligence.</p>
+                </div>
             </div>
         </div>
 
@@ -320,7 +367,7 @@
             <div class="h-full dashboard-grid">
                 <div id="procedure-panel" class="bg-slate-800/50 rounded-lg p-4 flex flex-col">
                     <h2 class="text-lg font-semibold mb-2 border-b border-slate-700 pb-2">Operational Procedure</h2>
-                    <p class="text-xs text-slate-400 mb-3">Click a future step to advance the simulation.</p>
+                    <p class="text-xs text-slate-400 mb-3">Simulation is running. Click a future step to jump ahead.</p>
                     <div id="procedure-steps" class="flex-1 space-y-3 overflow-y-auto pr-2"></div>
                     <div id="performer-controls" class="hidden mt-4">
                         <button id="view-analysis-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md transition">View Post-Job Analysis</button>
@@ -328,16 +375,24 @@
                 </div>
                 <div class="flex flex-col gap-4 lg:gap-6">
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-                        <div class="kpi-card p-4"><p class="text-sm">Hookload (klbf)</p><p id="kpi-hookload" class="text-3xl font-bold">0.0</p></div>
-                        <div class="kpi-card p-4"><p class="text-sm">Pump Pressure (psi)</p><p id="kpi-pressure" class="text-3xl font-bold">0</p></div>
-                        <div class="kpi-card p-4"><p class="text-sm">CT Speed (ft/min)</p><p id="kpi-speed" class="text-3xl font-bold">0</p></div>
-                        <div class="kpi-card p-4"><p class="text-sm">Depth (ft)</p><p id="kpi-depth" class="text-3xl font-bold">0</p></div>
+                        <div class="kpi-card p-4">
+                            <p id="kpi-label-1" class="text-sm">Hookload (klbf)</p>
+                            <p id="kpi-hookload" class="text-3xl font-bold">0.0</p>
+                        </div>
+                        <div id="kpi-card-pressure" class="kpi-card p-4">
+                            <p id="kpi-label-2" class="text-sm">Pump Pressure (psi)</p>
+                            <p id="kpi-pressure" class="text-3xl font-bold">0</p>
+                        </div>
+                        <div class="kpi-card p-4">
+                            <p id="kpi-label-3" class="text-sm">CT Speed (ft/min)</p>
+                            <p id="kpi-speed" class="text-3xl font-bold">0</p>
+                        </div>
+                        <div class="kpi-card p-4">
+                            <p class="text-sm">Depth (ft)</p>
+                            <p id="kpi-depth" class="text-3xl font-bold">0</p>
+                        </div>
                     </div>
-                    <div id="chart-card" class="flex-1 bg-slate-800/50 rounded-lg p-4 flex flex-col"><h3 class="text-lg font-semibold mb-2">Tubing Force Analysis: Plan vs. Actual</h3><div class="flex-1 relative"><canvas id="tfaChart"></canvas></div></div>
-                    <div id="manual-controls" class="bg-slate-800/50 rounded-lg p-4 flex items-center justify-center space-x-4">
-                        <button id="step-backward-btn" class="rounded-md bg-slate-600 px-6 py-2 text-base font-semibold text-white shadow-sm hover:bg-slate-500 disabled:opacity-50" disabled>Step Back</button>
-                        <button id="step-forward-btn" class="rounded-md bg-teal-600 px-6 py-2 text-base font-semibold text-white shadow-sm hover:bg-teal-500">Step Forward</button>
-                    </div>
+                    <div id="chart-card" class="flex-1 bg-slate-800/50 rounded-lg p-4 flex-col"><h3 class="text-lg font-semibold mb-2">Tubing Force Analysis: Plan vs. Actual</h3><div class="flex-1 relative"><canvas id="tfaChart"></canvas></div></div>
                 </div>
                 <div class="bg-slate-800/50 rounded-lg p-4 flex flex-col"><h2 class="text-lg font-semibold mb-4 border-b border-slate-700 pb-2">Operations Log</h2><div id="log-entries" class="flex-1 space-y-3 overflow-y-auto mb-4"></div><div class="mt-auto"><textarea id="log-input" class="w-full bg-slate-900 border border-slate-600 rounded-md p-2 text-sm" rows="3" placeholder="Add log entry..."></textarea><button id="add-log-btn" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-md transition">Add Entry</button></div></div>
             </div>
@@ -416,18 +471,74 @@ document.addEventListener('DOMContentLoaded', function() {
         prob3: [ { objectiveId: 'obj4', confidence: 95, outcome: 'Well permanently abandoned per regulations', reason: 'Well is a clear P&A candidate based on economic limit test.' }, { objectiveId: 'obj2', confidence: 55, outcome: 'Reduce water cut by 40%', reason: 'Water shut-off may extend well life, but has lower confidence of economic success.' } ]
     };
     const proceduresData = {
-        obj1: { name: "Coiled Tubing Acid Stimulation", personnel: ["Coiled Tubing Supervisor", "Pump Operator", "Wellsite Engineer"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Coiled Tubing unit and PCE.", "Pressure test PCE to 5000 psi.", "Run in hole (RIH) to 9,500 ft.", "Spot 50 bbls of 15% HCl acid.", "Pull out of hole (POOH) to surface.", "Flow back well and monitor returns.", "Rig down equipment."], tooling: ["Coiled Tubing Unit", "High-Pressure Pumps", "Fluid Tanks", "Jetting Nozzle BHA", "Wellhead Pressure Control Equipment", "Data Acquisition System"], risks: { operational: 4, geological: 3, equipment: 3, hse: 4, financial: 2 }, cost: 750000, duration: 5, tfaModel: { pickUp: [[0,0], [9500, 25]], slackOff: [[0,0], [9500, -25]], alarmUpper: [[0,2], [9500, 27]], alarmLower: [[0,-2], [9500, -27]] } },
-        obj2: { name: "Mechanical Plug Installation", personnel: ["Wireline Supervisor", "Wireline Operator"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Wireline unit.", "Run in hole with gauge ring.", "Run in hole with bridge plug and set at target depth.", "Dump bail cement on top of plug.", "Pressure test to confirm seal.", "Rig down equipment."], tooling: ["Wireline Truck/Skid", "Pressure Control Equipment (Lubricator)", "Setting Tool for Bridge Plug", "Gauge Rings", "Dump Bailer"], risks: { operational: 3, geological: 2, equipment: 3, hse: 3, financial: 1 }, cost: 325000, duration: 3, tfaModel: { pickUp: [[0,0], [9500, 10]], slackOff: [[0,0], [9500, -10]], alarmUpper: [[0,1], [9500, 11]], alarmLower: [[0,-1], [9500, -11]] } },
-        obj3: { name: "DHSV Replacement via Slickline", personnel: ["Slickline Supervisor", "Slickline Operator"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Slickline unit.", "Run in hole to equalize and retrieve failed DHSV insert.", "Run in hole with new DHSV insert and lock into place.", "Pressure test control line and valve.", "Function test valve.", "Rig down equipment."], tooling: ["Slickline Unit", "DHSV Pulling/Running Tools", "Hydraulic Control Unit for DHSV"], risks: { operational: 4, geological: 1, equipment: 5, hse: 4, financial: 3 }, cost: 480000, duration: 5, tfaModel: { pickUp: [[0,0], [9500, 5]], slackOff: [[0,0], [9500, -5]], alarmUpper: [[0,1], [9500, 6]], alarmLower: [[0,-1], [9500, -6]] } },
-        obj4: { name: "P&A - Section Milling & Plugging", personnel: ["Rig Supervisor", "Driller", "Derrickhand", "Floorhand"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up workover rig.", "Mill section of casing to expose formation.", "Set balanced cement plug across milled section.", "Verify plug placement and integrity.", "Repeat for all required barriers.", "Rig down equipment."], tooling: ["Workover Rig", "Milling BHA (Motor & Mill)", "Cementing Unit", "Casing Scrapers & Brushes"], risks: { operational: 5, geological: 4, equipment: 4, hse: 5, financial: 4 }, cost: 2500000, duration: 18, tfaModel: { pickUp: [[0,0], [5000, 50]], slackOff: [[0,0], [5000, -50]], alarmUpper: [[0,10], [5000, 60]], alarmLower: [[0,-10], [5000, -60]] } }
+        obj1: { name: "Coiled Tubing Acid Stimulation", personnel: ["Coiled Tubing Supervisor", "Pump Operator", "Wellsite Engineer"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Coiled Tubing unit and PCE.", "Pressure test PCE to 5000 psi.", "Run in hole (RIH) to 9,500 ft.", "Spot 50 bbls of 15% HCl acid.", "Pull out of hole (POOH) to surface.", "Flow back well and monitor returns.", "Rig down equipment."], risks: { operational: 4, geological: 3, equipment: 3, hse: 4, financial: 2 }, cost: 750000, duration: 5, tfaModel: { pickUp: [[0,0], [9500, 25]], slackOff: [[0,0], [9500, -25]], alarmUpper: [[0,2], [9500, 27]], alarmLower: [[0,-2], [9500, -27]] } },
+        obj2: { name: "Mechanical Plug Installation", personnel: ["Wireline Supervisor", "Wireline Operator"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Wireline unit.", "Run in hole with gauge ring.", "Run in hole with bridge plug and set at target depth.", "Dump bail cement on top of plug.", "Pressure test to confirm seal.", "Rig down equipment."], risks: { operational: 3, geological: 2, equipment: 3, hse: 3, financial: 1 }, cost: 325000, duration: 3, tfaModel: { pickUp: [[0,0], [9500, 10]], slackOff: [[0,0], [9500, -10]], alarmUpper: [[0,1], [9500, 11]], alarmLower: [[0,-1], [9500, -11]] } },
+        obj3: { name: "Slickline: DHSV Replacement", personnel: ["Slickline Supervisor", "Slickline Operator"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Slickline unit.", "Run in hole to equalize and retrieve failed DHSV insert.", "Run in hole with new DHSV insert and lock into place.", "Pressure test control line and valve.", "Function test valve.", "Rig down equipment."], risks: { operational: 4, geological: 1, equipment: 5, hse: 4, financial: 3 }, cost: 480000, duration: 5, tfaModel: { pickUp: [[0, 100], [9500, 150]], slackOff: [[0, 100], [9500, 50]], alarmUpper: [[0, 110], [9500, 160]], alarmLower: [[0, 90], [9500, 40]] } },
+        obj4: { name: "P&A - Section Milling & Plugging", personnel: ["Rig Supervisor", "Driller", "Derrickhand", "Floorhand"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up workover rig.", "Mill section of casing to expose formation.", "Set balanced cement plug across milled section.", "Verify plug placement and integrity.", "Repeat for all required barriers.", "Rig down equipment."], risks: { operational: 5, geological: 4, equipment: 4, hse: 5, financial: 4 }, cost: 2500000, duration: 18, tfaModel: { pickUp: [[0,0], [5000, 50]], slackOff: [[0,0], [5000, -50]], alarmUpper: [[0,10], [5000, 60]], alarmLower: [[0,-10], [5000, -60]] } }
+    };
+    const equipmentRequirements = {
+        obj1: [
+            { name: "Coiled Tubing Unit", source: "Vendor", vendor: "Halliburton", price: 125000 },
+            { name: "High-Pressure Pumps", source: "Onboard", vendor: "N/A", price: 0 },
+            { name: "Fluid Tanks", source: "Vendor", vendor: "Baker Hughes", price: 20000 },
+            { name: "Jetting Nozzle BHA", source: "Vendor", vendor: "Schlumberger", price: 15000 },
+            { name: "Wellhead Pressure Control Equipment", source: "Onboard", vendor: "N/A", price: 0 },
+            { name: "Data Acquisition System", source: "Vendor", vendor: "Weatherford", price: 30000 }
+        ],
+        obj2: [
+            { name: "Wireline Truck/Skid", source: "Vendor", vendor: "Expro", price: 90000 },
+            { name: "Pressure Control Equipment (Lubricator)", source: "Onboard", vendor: "N/A", price: 0 },
+            { name: "Setting Tool for Bridge Plug", source: "Vendor", vendor: "Baker Hughes", price: 25000 },
+            { name: "Gauge Rings", source: "Owned", vendor: "N/A", price: 0 },
+            { name: "Dump Bailer", source: "Vendor", vendor: "Schlumberger", price: 18000 }
+        ],
+        obj3: [
+            { name: "Slickline Unit", source: "Vendor", vendor: "Archer", price: 75000 },
+            { name: "DHSV Pulling/Running Tools", source: "Vendor", vendor: "Schlumberger", price: 45000 },
+            { name: "Hydraulic Control Unit for DHSV", source: "Onboard", vendor: "N/A", price: 0 }
+        ],
+        obj4: [
+            { name: "Workover Rig", source: "Onboard", vendor: "N/A", price: 0 },
+            { name: "Milling BHA (Motor & Mill)", source: "Vendor", vendor: "Weatherford", price: 250000 },
+            { name: "Cementing Unit", source: "Vendor", vendor: "Halliburton", price: 150000 },
+            { name: "Casing Scrapers & Brushes", source: "Owned", vendor: "N/A", price: 0 }
+        ]
     };
     const equipmentData = [ { id: 'CTU-01', type: 'Coiled Tubing Unit', location: 'Onboard - Deck A', testStatus: 'Passed', nextMaint: '2025-09-15', rate: 25000, status: 'On Job' }, { id: 'CTU-02', type: 'Coiled Tubing Unit', location: 'Onshore Base', testStatus: 'Pending', nextMaint: '2025-07-10', rate: 25000, status: 'Maintenance' }, { id: 'WL-01', type: 'Wireline Truck/Skid', location: 'Onshore Base', testStatus: 'Passed', nextMaint: '2025-08-22', rate: 18000, status: 'Available' }, { id: 'SL-01', type: 'Slickline Unit', location: 'In Transit', testStatus: 'Passed', nextMaint: '2025-07-20', rate: 15000, status: 'In Transit' }, { id: 'PUMP-01', type: 'High-Pressure Pumps', location: 'Onboard - Pump Room', testStatus: 'Pending', nextMaint: '2025-10-01', rate: 8000, status: 'On Job' }, { id: 'PUMP-02', type: 'High-Pressure Pumps', location: 'Onshore Base', testStatus: 'Passed', nextMaint: '2025-11-05', rate: 8000, status: 'Available' }, { id: 'RIG-01', type: 'Workover Rig', location: 'Onboard - Drill Floor', testStatus: 'Passed', nextMaint: '2025-08-01', rate: 85000, status: 'On Job' }, ];
     const personnelData = [ { id: 'P001', name: 'Bob Raker', role: 'Wellsite Engineer', company: 'Operator', status: 'Onboard', certsValid: true, rate: 2200, muster: 'A', lifeboat: 1 }, { id: 'P002', name: 'Jane Smith', role: 'Coiled Tubing Supervisor', company: 'Service Co.', status: 'Onboard', certsValid: true, rate: 2500, muster: 'A', lifeboat: 1 }, { id: 'P003', name: 'Mike Johnson', role: 'Wireline Supervisor', company: 'Service Co.', status: 'On Job', certsValid: true, rate: 2300, muster: 'B', lifeboat: 2 }, { id: 'P004', name: 'Emily White', role: 'Slickline Supervisor', company: 'Service Co.', status: 'Available', certsValid: false, rate: 2300, muster: 'B', lifeboat: 2 }, { id: 'P005', name: 'Chris Green', role: 'Pump Operator', company: 'Service Co.', status: 'In Transit', certsValid: true, rate: 1800, muster: 'A', lifeboat: 1 }, { id: 'P006', name: 'Alex Brown', role: 'Rig Supervisor', company: 'Operator', status: 'Onboard', certsValid: true, rate: 3000, muster: 'B', lifeboat: 2 }, ];
     const musterStations = [ { id: 'A', name: 'Muster Station A', capacity: 50, current: 0 }, { id: 'B', name: 'Muster Station B', capacity: 50, current: 0 } ];
     
+    // --- FAQ DATA ---
+    const faqData = [
+        {
+            question: "What is Well-Tegra?",
+            answer: `<p>Well-Tegra is an advanced technology platform designed to foster collaborative intelligence within the energy sector. It provides a comprehensive architectural blueprint that integrates privacy-preserving Artificial Intelligence (AI) and enterprise blockchain technology to solve long-standing challenges in energy operations.</p><p>Its primary mission is to transform the vast, fragmented, and often inaccessible data generated by oil and gas operations into a unified, analysis-ready asset, enabling competing firms to securely pool operational insights for mutual benefit.</p>`
+        },
+        {
+            question: "What fundamental problem does Well-Tegra solve?",
+            answer: `<p>The fundamental problem Well-Tegra addresses is the <strong>endemic data fragmentation</strong> that plagues the modern energy sector. Data is typically locked in isolated "silos," hindering the application of advanced analytics and machine learning.</p><p>This fragmentation comes from disparate sources, incompatible digital formats, and inaccessible physical data, meaning decades of invaluable operational knowledge remain locked away and unusable.</p>`
+        },
+        {
+            question: "Who is the target audience for the Well-Tegra platform?",
+            answer: `<p>The primary target audience consists of <strong>oil and gas operators</strong> and other firms within the energy industry's operational ecosystem. The platform is designed to serve both individual companies seeking to optimize their internal operations and consortia of competing firms aiming to achieve shared intelligence.</p>`
+        },
+        {
+            question: "Why does Well-Tegra use blockchain technology?",
+            answer: `<p>Well-Tegra uses a <strong>private, permissioned blockchain</strong> to create a trusted, transparent, and tamper-proof foundation for its multi-client collaborative ecosystem. This is not a public cryptocurrency blockchain, but a secure environment for vetted partners.</p><p>It provides three core guarantees:</p><ul><li><strong>Cryptographic Hashing:</strong> A unique digital fingerprint for data, making tampering obvious.</li><li><strong>Block Chaining:</strong> An unbreakable, interlocking chain where altering one block invalidates all subsequent blocks.</li><li><strong>Decentralization:</strong> The ledger is copied across all members, requiring majority consensus for changes, making fraudulent changes practically impossible.</li></ul>`
+        },
+        {
+            question: "How can competing companies share data without revealing confidential information?",
+            answer: `<p>Well-Tegra implements a sophisticated, multi-stage anonymization protocol. This "defense-in-depth" strategy layers several advanced privacy-enhancing technologies:</p><ul><li><strong>Stage 1: Identification and Suppression:</strong> Removing explicit identifiers like company and well names.</li><li><strong>Stage 2: Generalization for K-Anonymity and L-Diversity:</strong> Making records indistinguishable from others to prevent re-identification from combined attributes.</li><li><strong>Stage 3: Perturbation with Differential Privacy:</strong> Adding calibrated statistical "noise" to sensitive numerical data to provide a formal, mathematical guarantee of privacy.</li></ul><p>The platform's most innovative feature is <strong>"verifiable privacy,"</strong> where the anonymization rules are coded into a smart contract on the blockchain, allowing participants to cryptographically verify that the agreed-upon privacy protocol was executed.</p>`
+        },
+        {
+            question: "What is the 'network effect' and how does it benefit me?",
+            answer: `<p>The "network effect" is the principle that the value of the platform increases for every participant as more members join. This is achieved by securely leveraging the collective, anonymized data of the entire consortium to build predictive models that are far more powerful than any single organization could develop alone.</p><p>This creates a <strong>virtuous cycle</strong>: more data leads to better models, which provides a powerful incentive for new members to join, which in turn makes the models even more powerful for everyone.</p>`
+        },
+    ];
+
     // --- GLOBAL STATE ---
     let appState = {
-        currentView: 'home', selectedWell: null, selectedObjective: null, generatedPlan: null, liveData: null, logEntries: [], lessonsLearned: [], tfaChartInstance: null, nptChartInstance: null, savingsChartInstance: null,
+        currentView: 'home', selectedWell: null, selectedObjective: null, generatedPlan: null, liveData: null, logEntries: [], lessonsLearned: [], tfaChartInstance: null, nptChartInstance: null, savingsChartInstance: null, liveDataInterval: null,
         commercial: { afe: 0, actualCost: 0, serviceTickets: [] },
         ai: { selectedProblemId: null, selectedRecommendation: null },
         hse: { permits: [], riskRegister: [] },
@@ -459,13 +570,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiRecommendationsContainer = document.getElementById('ai-recommendations');
 
     // Performer
+    const kpiLabel1 = document.getElementById('kpi-label-1');
+    const kpiLabel3 = document.getElementById('kpi-label-3');
+    const kpiCardPressure = document.getElementById('kpi-card-pressure');
     const kpiHookload = document.getElementById('kpi-hookload'), kpiPressure = document.getElementById('kpi-pressure'), kpiSpeed = document.getElementById('kpi-speed'), kpiDepth = document.getElementById('kpi-depth');
     const procedureStepsContainer = document.getElementById('procedure-steps');
     const logEntriesContainer = document.getElementById('log-entries'), logInput = document.getElementById('log-input'), addLogBtn = document.getElementById('add-log-btn');
     const chartCard = document.getElementById('chart-card');
     const performerControls = document.getElementById('performer-controls');
     const viewAnalysisBtn = document.getElementById('view-analysis-btn');
-    const stepForwardBtn = document.getElementById('step-forward-btn'), stepBackwardBtn = document.getElementById('step-backward-btn');
 
     // Analyzer
     const analyzerSubtitle = document.getElementById('analyzer-subtitle'), summaryKpis = document.getElementById('summary-kpis'), lessonsLearnedList = document.getElementById('lessons-learned-list'), lessonInput = document.getElementById('lesson-input'), addLessonBtn = document.getElementById('add-lesson-btn'), planNewJobBtn = document.getElementById('plan-new-job-btn');
@@ -489,6 +602,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // --- VIEW & STATE MANAGEMENT ---
     const switchView = (viewName) => {
+        // Clear any running simulation when switching views
+        if (appState.liveDataInterval) {
+            clearInterval(appState.liveDataInterval);
+            appState.liveDataInterval = null;
+        }
+
         appState.currentView = viewName;
         body.classList.toggle('theme-dark', viewName === 'performer');
         body.classList.toggle('theme-light', viewName !== 'performer');
@@ -510,6 +629,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (viewName === 'performer' && appState.selectedWell && appState.generatedPlan) {
             headerDetails.innerHTML = `<span id="job-status" class="text-lg font-semibold text-emerald-400">● LIVE</span><div class="text-right"><p class="text-sm text-gray-300">Well: ${appState.selectedWell.name}</p><p class="text-sm text-gray-400">Job: ${appState.generatedPlan.name}</p></div>`;
+            initializePerformer();
         } else if (['analyzer', 'commercial', 'hse', 'pob'].includes(viewName)) {
             if(appState.selectedWell && appState.generatedPlan) {
                 headerDetails.innerHTML = `<div class="text-right"><p class="text-sm">Well: ${appState.selectedWell.name}</p><p class="text-sm">Job: ${appState.generatedPlan.name}</p></div>`;
@@ -519,6 +639,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (viewName === 'pob') initializePOB();
         } else if (viewName === 'logistics') {
             renderAssetManagementViews();
+        } else if (viewName === 'faq') {
+            initializeFaqAccordion();
         }
     };
     
@@ -548,7 +670,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const getRiskTag = (level) => { if (level <= 2) return `<span class="risk-low px-2 py-1 text-xs font-medium rounded-full">Low</span>`; if (level <= 3) return `<span class="risk-medium px-2 py-1 text-xs font-medium rounded-full">Medium</span>`; return `<span class="risk-high px-2 py-1 text-xs font-medium rounded-full">High</span>`; };
         const logisticsConflicts = checkLogistics();
         let logisticsHtml = logisticsConflicts.length > 0 ? `<div><h4 class="text-xl font-semibold mb-4">Logistics & Resource Conflicts</h4><ul class="space-y-2">${logisticsConflicts.map(c => `<li class="flex items-start p-3 rounded-md bg-red-50 dark:bg-red-900/50 border-l-4 border-red-400"><span class="text-red-600 mr-2 font-bold">⚠️</span><span class="text-red-800 dark:text-red-300">${c}</span></li>`).join('')}</ul></div>` : '';
-        planOutput.innerHTML = `<div><h3 class="text-2xl font-bold">Intervention Plan: ${well.name}</h3><p class="text-lg font-medium text-teal-700 dark:text-teal-400">${appState.selectedObjective.name}</p></div><div class="grid md:grid-cols-3 gap-6 text-center"><div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg"><p class="text-sm font-medium">Selected Well</p><p class="text-lg font-semibold">${well.name}</p></div><div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg"><p class="text-sm font-medium">Est. Duration</p><p class="text-lg font-semibold">${procedure.duration} days</p></div><div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg"><p class="text-sm font-medium">Est. Cost (AFE)</p><p class="text-lg font-semibold">$${procedure.cost.toLocaleString()}</p></div></div>${logisticsHtml}<div><h4 class="text-xl font-semibold mb-4">Baseline Procedure: ${procedure.name}</h4><ol class="list-decimal list-inside space-y-2">${procedure.steps.map(step => `<li>${step}</li>`).join('')}</ol></div><div><h4 class="text-xl font-semibold mb-4">Required Tooling & Equipment</h4><ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">${procedure.tooling.map(tool => `<li class="flex items-center"><span class="text-teal-500 mr-2">&#10003;</span>${tool}</li>`).join('')}</ul></div><div><h4 class="text-xl font-semibold mb-4">Initial Risk Assessment</h4><div class="grid md:grid-cols-2 gap-8 items-center"><div class="space-y-3">${riskLabels.map((label, i) => `<div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded"><span class="font-medium">${label}</span>${getRiskTag(riskData[i])}</div>`).join('')}</div><div class="h-64 md:h-80"><canvas id="riskChart"></canvas></div></div></div>`;
+        
+        const equipmentList = equipmentRequirements[appState.selectedObjective.id];
+        let equipmentHtml = `<div><h4 class="text-xl font-semibold mb-4">Equipment to be Mobilized</h4><div class="space-y-3">`;
+        equipmentList.forEach(item => {
+            equipmentHtml += `
+                <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500 mr-4" ${item.source !== 'Vendor' ? 'checked disabled' : ''}>
+                        <div>
+                            <p class="font-semibold">${item.name}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                Source: ${item.source} ${item.vendor !== 'N/A' ? `(${item.vendor})` : ''}
+                            </p>
+                        </div>
+                    </div>
+                    <p class="font-semibold text-sm">${item.price > 0 ? `$${item.price.toLocaleString()}` : 'N/A'}</p>
+                </div>
+            `;
+        });
+        equipmentHtml += `</div></div>`;
+
+        planOutput.innerHTML = `<div><h3 class="text-2xl font-bold">Intervention Plan: ${well.name}</h3><p class="text-lg font-medium text-teal-700 dark:text-teal-400">${appState.selectedObjective.name}</p></div><div class="grid md:grid-cols-3 gap-6 text-center"><div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg"><p class="text-sm font-medium">Selected Well</p><p class="text-lg font-semibold">${well.name}</p></div><div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg"><p class="text-sm font-medium">Est. Duration</p><p class="text-lg font-semibold">${procedure.duration} days</p></div><div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg"><p class="text-sm font-medium">Est. Cost (AFE)</p><p class="text-lg font-semibold">$${procedure.cost.toLocaleString()}</p></div></div>${logisticsHtml}<div><h4 class="text-xl font-semibold mb-4">Baseline Procedure: ${procedure.name}</h4><ol class="list-decimal list-inside space-y-2">${procedure.steps.map(step => `<li>${step}</li>`).join('')}</ol></div>${equipmentHtml}<div><h4 class="text-xl font-semibold mb-4">Initial Risk Assessment</h4><div class="grid md:grid-cols-2 gap-8 items-center"><div class="space-y-3">${riskLabels.map((label, i) => `<div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded"><span class="font-medium">${label}</span>${getRiskTag(riskData[i])}</div>`).join('')}</div><div class="h-64 md:h-80"><canvas id="riskChart"></canvas></div></div></div>`;
+        
         const riskChartCtx = document.getElementById('riskChart').getContext('2d');
         const chartTheme = getChartThemeOptions();
         new Chart(riskChartCtx, { type: 'radar', data: { labels: riskLabels, datasets: [{ label: 'Risk Level', data: riskData, backgroundColor: 'rgba(13, 148, 136, 0.2)', borderColor: 'rgba(13, 148, 136, 1)', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { suggestedMin: 0, suggestedMax: 5, ticks: { display: false }, grid: { color: chartTheme.scales.x.grid.color }, angleLines: { color: chartTheme.scales.x.grid.color }, pointLabels: { color: chartTheme.scales.x.ticks.color } } }, plugins: { legend: { display: false } } } });
@@ -557,41 +701,131 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- PERFORMER LOGIC ---
     const initializePerformer = () => {
-        appState.liveData = { depth: 0, hookload: 0, pressure: 0, speed: 0, currentStep: 1, isRIH: true, jobRunning: true, alarmState: false, npt: { weather: 0, equipment: 0, operational: 0 }, opTime: 0 };
+        const isSlickline = appState.generatedPlan.name.toLowerCase().includes('slickline');
+
+        // Set up KPI labels based on job type
+        if (isSlickline) {
+            kpiLabel1.textContent = 'Weight (lbs)';
+            kpiCardPressure.style.display = 'none';
+            kpiLabel3.textContent = 'Line Speed (ft/min)';
+        } else {
+            kpiLabel1.textContent = 'Hookload (klbf)';
+            kpiCardPressure.style.display = 'block';
+            kpiLabel3.textContent = 'CT Speed (ft/min)';
+        }
+
+        appState.liveData = { depth: 0, hookload: 0, pressure: 0, speed: 0, currentStep: 1, isRIH: true, jobRunning: true, alarmState: false, npt: { weather: 0, equipment: 0, operational: 0 }, opTime: 0, stepStartTime: Date.now() };
         appState.logEntries = [{ time: new Date(), user: 'System', text: 'Job initiated.' }];
         appState.generatedPlan.procedure = appState.generatedPlan.steps.map((s, i) => ({ id: i + 1, text: s, completed: false, active: false }));
-        if (appState.tfaChartInstance) appState.tfaChartInstance.destroy();
-        const chartCtx = document.getElementById('tfaChart').getContext('2d');
-        const chartThemeOptions = getChartThemeOptions();
-        appState.tfaChartInstance = new Chart(chartCtx, { type: 'line', data: { datasets: [ { label: 'Planned Pick-up', data: appState.generatedPlan.tfaModel.pickUp.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(52, 211, 153, 0.8)', borderWidth: 2, pointRadius: 0, tension: 0.1 }, { label: 'Planned Slack-off', data: appState.generatedPlan.tfaModel.slackOff.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(96, 165, 250, 0.8)', borderWidth: 2, pointRadius: 0, tension: 0.1 }, { label: 'Upper Alarm', data: appState.generatedPlan.tfaModel.alarmUpper.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(239, 68, 68, 0.4)', borderWidth: 1, pointRadius: 0, borderDash: [5, 5], fill: '+1' }, { label: 'Lower Alarm', data: appState.generatedPlan.tfaModel.alarmLower.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(239, 68, 68, 0.4)', borderWidth: 1, pointRadius: 0, borderDash: [5, 5], backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: '-1' }, { label: 'Actual Hookload', data: [], borderColor: '#f59e0b', borderWidth: 3, pointRadius: 0, tension: 0.1 } ] }, options: { responsive: true, maintainAspectRatio: false, ...chartThemeOptions } });
-        renderPerformerProcedure(); renderPerformerLog();
-        updatePerformerState(0);
+        
+        if (appState.tfaChartInstance) {
+            appState.tfaChartInstance.destroy();
+            appState.tfaChartInstance = null;
+        }
+        
+        chartCard.style.display = isSlickline ? 'none' : 'flex';
+        
+        if (!isSlickline) {
+            const chartCtx = document.getElementById('tfaChart').getContext('2d');
+            const chartThemeOptions = getChartThemeOptions();
+            chartThemeOptions.scales.y.title.text = 'Hookload (klbf)';
+            appState.tfaChartInstance = new Chart(chartCtx, { type: 'line', data: { datasets: [ { label: 'Planned Pick-up', data: appState.generatedPlan.tfaModel.pickUp.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(52, 211, 153, 0.8)', borderWidth: 2, pointRadius: 0, tension: 0.1 }, { label: 'Planned Slack-off', data: appState.generatedPlan.tfaModel.slackOff.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(96, 165, 250, 0.8)', borderWidth: 2, pointRadius: 0, tension: 0.1 }, { label: 'Upper Alarm', data: appState.generatedPlan.tfaModel.alarmUpper.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(239, 68, 68, 0.4)', borderWidth: 1, pointRadius: 0, borderDash: [5, 5], fill: '+1' }, { label: 'Lower Alarm', data: appState.generatedPlan.tfaModel.alarmLower.map(p => ({x: p[0], y: p[1]})), borderColor: 'rgba(239, 68, 68, 0.4)', borderWidth: 1, pointRadius: 0, borderDash: [5, 5], backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: '-1' }, { label: 'Actual Hookload', data: [], borderColor: '#f59e0b', borderWidth: 3, pointRadius: 0, tension: 0.1 } ] }, options: { responsive: true, maintainAspectRatio: false, ...chartThemeOptions } });
+        }
+        
+        renderPerformerProcedure(); 
+        renderPerformerLog();
+        updatePerformerState();
+        
         performerControls.classList.add('hidden');
-        stepForwardBtn.disabled = false;
-        stepBackwardBtn.disabled = true;
+
+        if (appState.liveDataInterval) clearInterval(appState.liveDataInterval);
+        appState.liveDataInterval = setInterval(simulateLiveData, 1000);
     };
-    const updatePerformerState = (newDepth) => {
-        if (!appState.liveData.jobRunning) return;
-        appState.liveData.depth = Math.max(0, newDepth);
+    
+    const simulateLiveData = () => {
+        if (!appState.liveData.jobRunning) {
+            clearInterval(appState.liveDataInterval);
+            appState.liveDataInterval = null;
+            return;
+        }
+
         const step = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep);
         if (!step) return;
+
         const stepText = step.text.toLowerCase();
-        appState.liveData.isRIH = stepText.includes('rih') || stepText.includes('run in hole');
-        appState.liveData.speed = (stepText.includes('rih') || stepText.includes('pooh')) ? (appState.liveData.isRIH ? 100 : -100) : 0;
+        const targetDepth = 9500;
+        let isMoving = false;
+
+        if (stepText.includes('rih')) {
+            isMoving = true;
+            appState.liveData.speed = 100 + Math.random() * 10 - 5;
+            appState.liveData.depth = Math.min(targetDepth, appState.liveData.depth + appState.liveData.speed / 60 * 2); // Simulate 2 sec interval
+            if (appState.liveData.depth >= targetDepth) {
+                advancePerformerStep();
+            }
+        } else if (stepText.includes('pooh')) {
+            isMoving = true;
+            appState.liveData.speed = -100 + Math.random() * 10 - 5;
+            appState.liveData.depth = Math.max(0, appState.liveData.depth + appState.liveData.speed / 60 * 2);
+             if (appState.liveData.depth <= 0) {
+                advancePerformerStep();
+            }
+        } else if (stepText.includes('spot') || stepText.includes('pump')) {
+            appState.liveData.speed = 0;
+            appState.liveData.pressure = Math.min(2500, appState.liveData.pressure + 250);
+        } else {
+             appState.liveData.speed = 0;
+             appState.liveData.pressure = Math.max(0, appState.liveData.pressure - 250);
+        }
+        
+        // Handle static steps
+        if (!isMoving && (Date.now() - appState.liveData.stepStartTime > 2000)) {
+            advancePerformerStep();
+        }
+        
         const modelPoints = appState.liveData.isRIH ? appState.generatedPlan.tfaModel.slackOff : appState.generatedPlan.tfaModel.pickUp;
-        appState.liveData.hookload = interpolate(modelPoints, appState.liveData.depth) + (Math.random() - 0.5);
-        if(appState.liveData.depth > 6000 && appState.liveData.depth < 7000 && appState.liveData.isRIH) { appState.liveData.hookload -= 5; appState.liveData.npt.operational += 0.005; }
+        appState.liveData.hookload = interpolate(modelPoints, appState.liveData.depth) + (Math.random() * 0.02 - 0.01);
+        if(appState.liveData.depth > 6000 && appState.liveData.depth < 7000 && appState.liveData.isRIH) { appState.liveData.hookload -= 0.05; appState.liveData.npt.operational += 0.005; }
+        
+        updatePerformerState();
+    };
+
+    const updatePerformerState = () => {
+        if (!appState.liveData || !appState.generatedPlan) return;
+        const isSlickline = appState.generatedPlan.name.toLowerCase().includes('slickline');
+
         const upperLimit = interpolate(appState.generatedPlan.tfaModel.alarmUpper, appState.liveData.depth);
         const lowerLimit = interpolate(appState.generatedPlan.tfaModel.alarmLower, appState.liveData.depth);
-        if (appState.liveData.hookload > upperLimit || appState.liveData.hookload < lowerLimit) { if (!appState.liveData.alarmState) { addLogEntry('System', 'ALARM: Hookload outside envelope!'); appState.liveData.alarmState = true; chartCard.classList.add('alarm'); appState.liveData.npt.equipment += 0.01; } } else { if (appState.liveData.alarmState) { addLogEntry('System', 'INFO: Hookload back in envelope.'); appState.liveData.alarmState = false; chartCard.classList.remove('alarm'); } }
-        kpiHookload.textContent = appState.liveData.hookload.toFixed(1); kpiPressure.textContent = Math.round(appState.liveData.pressure); kpiSpeed.textContent = appState.liveData.speed; kpiDepth.textContent = appState.liveData.depth;
-        const actualData = appState.tfaChartInstance.data.datasets[4].data;
-        const existingPointIndex = actualData.findIndex(p => p.x === appState.liveData.depth);
-        if(existingPointIndex > -1) { actualData[existingPointIndex].y = appState.liveData.hookload; } else { actualData.push({ x: appState.liveData.depth, y: appState.liveData.hookload }); }
-        actualData.sort((a, b) => a.x - b.x);
-        appState.tfaChartInstance.update('none');
-        if (appState.liveData.isRIH && appState.liveData.depth >= 9500) { advancePerformerStep(); }
-        else if (!appState.liveData.isRIH && appState.liveData.depth <= 0 && stepText.includes('pooh')) { advancePerformerStep(); }
+        
+        if (appState.liveData.hookload > upperLimit || appState.liveData.hookload < lowerLimit) { 
+            if (!appState.liveData.alarmState) { 
+                addLogEntry('System', 'ALARM: Primary tension outside envelope!'); 
+                appState.liveData.alarmState = true; 
+                if (!isSlickline) chartCard.classList.add('alarm'); 
+                appState.liveData.npt.equipment += 0.01; 
+            } 
+        } else { 
+            if (appState.liveData.alarmState) { 
+                addLogEntry('System', 'INFO: Primary tension back in envelope.'); 
+                appState.liveData.alarmState = false; 
+                if (!isSlickline) chartCard.classList.remove('alarm'); 
+            } 
+        }
+
+        kpiHookload.textContent = isSlickline ? (appState.liveData.hookload).toFixed(0) : appState.liveData.hookload.toFixed(1);
+        kpiPressure.textContent = Math.round(appState.liveData.pressure); 
+        kpiSpeed.textContent = Math.round(appState.liveData.speed); 
+        kpiDepth.textContent = Math.round(appState.liveData.depth);
+        
+        if (appState.tfaChartInstance) {
+            const actualData = appState.tfaChartInstance.data.datasets[4].data;
+            actualData.push({ x: appState.liveData.depth, y: appState.liveData.hookload }); 
+            actualData.sort((a, b) => a.x - b.x);
+            if (actualData.length > 500) {
+                actualData.splice(0, actualData.length - 500);
+            }
+            appState.tfaChartInstance.update('none');
+        }
     };
     const renderPerformerProcedure = () => {
         const currentStepId = appState.liveData.currentStep;
@@ -604,8 +838,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const advancePerformerStep = () => {
         const current = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep); if (current) current.completed = true;
         if (appState.liveData.currentStep < appState.generatedPlan.procedure.length) {
-            appState.liveData.currentStep++; const next = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep); addLogEntry('System', `Starting Step ${next.id}: ${next.text}`); appState.liveData.isRIH = next.text.toLowerCase().includes('rih');
-        } else { appState.liveData.jobRunning = false; addLogEntry('System', 'Job procedure complete.'); document.getElementById('job-status').textContent = "● JOB COMPLETE"; document.getElementById('job-status').classList.replace('text-emerald-400', 'text-gray-500'); performerControls.classList.remove('hidden'); stepForwardBtn.disabled = true; stepBackwardBtn.disabled = true; }
+            appState.liveData.currentStep++; 
+            const next = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep); 
+            addLogEntry('System', `Starting Step ${next.id}: ${next.text}`); 
+            appState.liveData.isRIH = next.text.toLowerCase().includes('rih');
+            appState.liveData.stepStartTime = Date.now();
+        } else { 
+            appState.liveData.jobRunning = false; 
+            addLogEntry('System', 'Job procedure complete.'); 
+            document.getElementById('job-status').textContent = "● JOB COMPLETE"; 
+            document.getElementById('job-status').classList.replace('text-emerald-400', 'text-gray-500'); 
+            performerControls.classList.remove('hidden'); 
+        }
         renderPerformerProcedure();
     };
     const jumpToStep = (targetStepId) => {
@@ -626,7 +870,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (prevStepText.includes('rih')) { lastDepth = 9500; }
             else if (prevStepText.includes('pooh')) { lastDepth = 0; }
         }
-        updatePerformerState(lastDepth);
+        appState.liveData.depth = lastDepth;
+        appState.liveData.stepStartTime = Date.now();
+        updatePerformerState();
         renderPerformerProcedure();
     };
     function interpolate(points, x) { for (let i = 0; i < points.length - 1; i++) { if (x >= points[i][0] && x <= points[i+1][0]) { return points[i][1] + (points[i+1][1] - points[i][1]) * (x - points[i][0]) / (points[i+1][0] - points[i][0]); } } return points[points.length - 1][1]; }
@@ -657,8 +903,25 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     const checkLogistics = () => {
         const conflicts = [];
-        appState.generatedPlan.tooling.forEach(toolName => { const availableTool = equipmentData.find(e => e.type === toolName && e.status === 'Available'); if (!availableTool) { conflicts.push(`No available equipment of type: <strong>${toolName}</strong>.`); } });
-        appState.generatedPlan.personnel.forEach(roleName => { const availablePerson = personnelData.find(p => p.role === roleName && p.status === 'Available'); if (!availablePerson) { conflicts.push(`No available personnel for role: <strong>${roleName}</strong>.`); } else if (!availablePerson.certsValid) { conflicts.push(`Personnel <strong>${availablePerson.name} (${roleName})</strong> has expired certifications.`); } });
+        const requiredEquipment = equipmentRequirements[appState.selectedObjective.id];
+
+        requiredEquipment.forEach(req => {
+            if (req.source === 'Vendor') {
+                const availableTool = equipmentData.find(e => e.type === req.name && e.status === 'Available');
+                if (!availableTool) {
+                    conflicts.push(`No available equipment of type: <strong>${req.name}</strong>. Must be ordered from vendor.`);
+                }
+            }
+        });
+
+        appState.generatedPlan.personnel.forEach(roleName => {
+            const availablePerson = personnelData.find(p => p.role === roleName && p.status === 'Available');
+            if (!availablePerson) {
+                conflicts.push(`No available personnel for role: <strong>${roleName}</strong>.`);
+            } else if (!availablePerson.certsValid) {
+                conflicts.push(`Personnel <strong>${availablePerson.name} (${roleName})</strong> has expired certifications.`);
+            }
+        });
         return conflicts;
     };
     const initializePOB = () => {
@@ -743,6 +1006,31 @@ document.addEventListener('DOMContentLoaded', function() {
         hseContent.innerHTML = `<div class="grid gap-8 lg:grid-cols-2">${riskRegisterHtml}${ptwHtml}</div>`;
     };
     
+    // --- FAQ LOGIC ---
+    const initializeFaqAccordion = () => {
+        const accordion = document.getElementById('faq-accordion');
+        accordion.innerHTML = faqData.map(item => `
+            <div>
+                <button class="faq-question flex justify-between items-center">
+                    <span>${item.question}</span>
+                    <svg class="icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="faq-answer">${item.answer}</div>
+            </div>
+        `).join('');
+
+        accordion.addEventListener('click', (e) => {
+            const questionButton = e.target.closest('.faq-question');
+            if (questionButton) {
+                const currentlyActive = document.querySelector('.faq-question.active');
+                if (currentlyActive && currentlyActive !== questionButton) {
+                    currentlyActive.classList.remove('active');
+                }
+                questionButton.classList.toggle('active');
+            }
+        });
+    };
+
     // --- MODAL LOGIC ---
     const openModal = (wellId) => {
         const well = wellData.find(w => w.id === wellId); if (!well) return;
@@ -875,9 +1163,11 @@ document.addEventListener('DOMContentLoaded', function() {
         calculateROI();
     };
 
-    [engineerCountSlider, nptReductionSlider, timeSavingsSlider].forEach(slider => {
-        slider.addEventListener('input', calculateROI);
-    });
+    if (engineerCountSlider) {
+        [engineerCountSlider, nptReductionSlider, timeSavingsSlider].forEach(slider => {
+            slider.addEventListener('input', calculateROI);
+        });
+    }
 
     // --- EVENT LISTENERS ---
     themeToggleBtn.addEventListener('click', () => {
@@ -922,7 +1212,7 @@ document.addEventListener('DOMContentLoaded', function() {
     generatePlanBtnManual.addEventListener('click', () => { if (!appState.selectedWell || !appState.selectedObjective) return; appState.generatedPlan = proceduresData[appState.selectedObjective.id]; renderPlan(); updatePlannerStepUI(3); });
     generatePlanBtnAi.addEventListener('click', () => { if (!appState.selectedWell || !appState.ai.selectedRecommendation) return; appState.selectedObjective = objectivesData.find(o => o.id === appState.ai.selectedRecommendation.objectiveId); appState.generatedPlan = proceduresData[appState.selectedObjective.id]; renderPlan(); updatePlannerStepUI(3); });
     startOverBtn.addEventListener('click', () => resetApp(false));
-    beginOpBtn.addEventListener('click', () => { if (!appState.generatedPlan) return; switchView('performer'); initializePerformer(); });
+    beginOpBtn.addEventListener('click', () => { if (!appState.generatedPlan) return; switchView('performer'); });
     addLogBtn.addEventListener('click', () => { addLogEntry('Operator', logInput.value); logInput.value = ''; });
     procedureStepsContainer.addEventListener('click', (e) => {
         const stepDiv = e.target.closest('.procedure-step');
@@ -938,8 +1228,6 @@ document.addEventListener('DOMContentLoaded', function() {
     viewAnalysisBtn.addEventListener('click', () => { switchView('analyzer'); initializeAnalyzer(); });
     addLessonBtn.addEventListener('click', () => { if(lessonInput.value.trim()){ appState.lessonsLearned.push(lessonInput.value.trim()); lessonInput.value = ''; renderLessons(); } });
     planNewJobBtn.addEventListener('click', () => resetApp(true));
-    stepForwardBtn.addEventListener('click', () => { const stepText = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep).text.toLowerCase(); if (stepText.includes('rih') || stepText.includes('pooh')) { const newDepth = Math.min(9500, appState.liveData.depth + 250); updatePerformerState(newDepth); stepBackwardBtn.disabled = false; } else { advancePerformerStep(); } });
-    stepBackwardBtn.addEventListener('click', () => { const stepText = appState.generatedPlan.procedure.find(s => s.id === appState.liveData.currentStep).text.toLowerCase(); if (stepText.includes('rih') || stepText.includes('pooh')) { const newDepth = Math.max(0, appState.liveData.depth - 250); updatePerformerState(newDepth); if(newDepth === 0) stepBackwardBtn.disabled = true; } });
     equipmentSearch.addEventListener('input', (e) => renderAssetManagementViews(e.target.value, personnelSearch.value));
     personnelSearch.addEventListener('input', (e) => renderAssetManagementViews( equipmentSearch.value, e.target.value));
     closeModalBtn.addEventListener('click', closeModal);
@@ -950,7 +1238,9 @@ document.addEventListener('DOMContentLoaded', function() {
         renderWellCards();
         renderObjectives();
         renderProblems();
-        initSavingsChart();
+        if (document.getElementById('savingsChart')) {
+            initSavingsChart();
+        }
         resetApp(true); // Start on the home page
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
