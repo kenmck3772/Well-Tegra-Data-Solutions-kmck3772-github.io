@@ -13,12 +13,15 @@
         body { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; }
         h1, h2, h3, h4, h5, h6 { font-weight: 800; }
         
-        .theme-light { background-color: #f8fafc; color: #1e293b; }
+        .theme-light { background-color: #f0f9ff; color: #1e293b; }
         .theme-dark { background-color: #0B1120; color: #E0E7FF; }
 
         .section-title {
             font-weight: 800;
             letter-spacing: -0.025em;
+        }
+        .theme-light .section-title { color: #1e3a8a; }
+        .theme-dark .section-title {
             background: linear-gradient(to right, #00C6FF, #0072FF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -30,33 +33,16 @@
         .header { background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
         .dark .header { background-color: rgba(11, 17, 32, 0.8); border-bottom: 1px solid #1E293B; }
         
-        .nav-link { color: #475569; font-size: 1rem; padding: 0.75rem 0.5rem; transition: color 0.3s, border-bottom-color 0.3s; border-bottom: 2px solid transparent; }
-        .dark .nav-link { color: #94a3b8; }
-        .nav-link.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 700; }
-        .dark .nav-link.active { color: #60a5fa; border-bottom-color: #60a5fa; }
+        .nav-link { font-size: 1rem; padding: 0.75rem 0.5rem; transition: color 0.3s, border-bottom-color 0.3s; border-bottom: 2px solid transparent; }
+        .theme-light .nav-link { color: #475569; }
+        .theme-dark .nav-link { color: #94a3b8; }
+        .nav-link.active { font-weight: 700; }
+        .theme-light .nav-link.active { color: #1d4ed8; border-bottom-color: #1d4ed8; }
+        .theme-dark .nav-link.active { color: #60a5fa; border-bottom-color: #60a5fa; }
 
         .hero-section { position: relative; overflow: hidden; }
-        #hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -100;
-            transform: translateX(-50%) translateY(-50%);
-            background-size: cover;
-        }
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(15, 23, 42, 0.7);
-            z-index: -50;
-        }
+        #hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100; transform: translateX(-50%) translateY(-50%); background-size: cover; }
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.7); z-index: -50; }
         .hero-section h1 { color: white; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); }
         .hero-section p { color: #e0e7ff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); }
         
@@ -83,7 +69,7 @@
                 <div id="header-nav" class="flex-1 flex items-center justify-center space-x-1 md:space-x-4">
                     <a id="home-nav-link" title="Return to the Home Page" class="nav-link active flex items-center space-x-2"><span>Home</span></a>
                     <a id="planner-nav-link" title="Go to the Well Intervention Planner" class="nav-link flex items-center space-x-2"><span>Planner</span></a>
-                    <a id="about-nav-link" title="About the Founder" class="nav-link flex items-center space-x-2"><span>About</span></a>
+                    <a id="about-nav-link" title="About Us" class="nav-link flex items-center space-x-2"><span>About</span></a>
                     <a id="whitepaper-nav-link" title="Read Our Technical Whitepaper" class="nav-link flex items-center space-x-2"><span>Whitepaper</span></a>
                     <a id="faq-nav-link" title="Frequently Asked Questions" class="nav-link flex items-center space-x-2"><span>FAQ</span></a>
                     <a id="questionnaire-nav-link" title="Contact Us" class="nav-link flex items-center space-x-2"><span>Questionnaire</span></a>
@@ -92,7 +78,7 @@
                     <a href="https://translate.google.com/" target="_blank" title="Translate Website" class="text-indigo-200 hover:text-white transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
                     </a>
-                    <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-slate-700 text-indigo-200 hover:text-white">
+                     <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-slate-700 text-indigo-200 hover:text-white">
                         <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                         <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
@@ -106,7 +92,7 @@
         <!-- Home View -->
         <div id="home-view" class="view-container">
             <section class="hero-section py-20 px-4 relative">
-                <video autoplay muted loop id="hero-video">
+                <video autoplay muted loop playsinline id="hero-video">
                   <source src="assets/Well-Tegra 30-Second Promo.mp4" type="video/mp4">
                 </video>
                 <div class="hero-overlay"></div>
@@ -139,7 +125,7 @@
                     <ol class="list-decimal list-inside text-indigo-200 space-y-1 mt-4">
                         <li><strong>Planner:</strong> This is the core of the simulation. You can walk through the 3-step process of planning a well intervention. In Step 2, you can toggle the "AI Advisor" on to see how the system can provide intelligent recommendations.</li>
                         <li><strong>Performer (Picture-in-Picture):</strong> After generating a plan in the Planner, clicking "Begin Live Operation" will open the live dashboard in a modal window. This was designed to show how a team can monitor live operations without losing the context of the main application.</li>
-                        <li><strong>Whitepaper:</strong> This section contains the full executive summary and a simplified explanation of the underlying technology. The full PDF is also available for download here.</li>
+                        <li><strong>Whitepaper:</strong> This section contains the full executive summary and a simplified explanation of the underlying technology (Blockchain, Smart Contracts, etc.). The full PDF is also available for download here.</li>
                     </ol>
                 </details>
             </div>
@@ -221,6 +207,26 @@
                 <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-blue-700 transition">Submit Inquiry</button>
             </form>
             <p id="form-submission-message" class="text-center mt-4 text-green-400 hidden">Thank you for your interest! We will be in touch shortly.</p>
+        </div>
+        
+        <div id="about-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+             <div class="text-center mb-12"><h2 class="text-4xl section-title">About the Founder</h2></div>
+             <div class="light-card p-8 rounded-lg space-y-6 text-left">
+                <h3 class="text-2xl font-bold text-white">Ken McKenzie, Founder & Chief Architect</h3>
+                <p class="text-indigo-200">The founder brings a unique and powerful combination of deep domain insight, proven technical capability, and extraordinary resilience that positions Well-Tegra for success.</p>
+                <div>
+                    <h4 class="text-xl font-semibold" style="color: #00C6FF;">Unique Domain Insight</h4>
+                    <p class="mt-2 text-indigo-200">The vision for Well-Tegra stems from a deep, first-hand understanding of the operational challenges and workflow inefficiencies faced by the energy sector. Unlike technology solutions built in a vacuum, Well-Tegra is designed from the "operator's perspective," focusing on solving the real-world, daily pain points of well engineers and asset managers.</p>
+                </div>
+                 <div>
+                    <h4 class="text-xl font-semibold" style="color: #00C6FF;">Proven Technical & Strategic Execution</h4>
+                    <p class="mt-2 text-indigo-200">The founder has single-handedly driven Well-Tegra from concept to a fully-functional, interactive platform. This demonstrates a rare, multi-disciplinary skill set encompassing Product Strategy, Full-Stack Development, UI/UX Design, and Marketing Strategy.</p>
+                </div>
+                 <div>
+                    <h4 class="text-xl font-semibold" style="color: #00C6FF;">Extraordinary Drive & Resilience</h4>
+                    <p class="mt-2 text-indigo-200">Perhaps the most critical asset is the founder's proven determination. The development of the Well-Tegra platform was undertaken as a self-driven initiative, requiring rapid self-education across multiple technical domains while simultaneously navigating significant personal and health challenges. This journey is a testament to the founder's unwavering commitment, problem-solving ability, and the resilience required to lead a successful startup venture.</p>
+                </div>
+             </div>
         </div>
     </main>
     
