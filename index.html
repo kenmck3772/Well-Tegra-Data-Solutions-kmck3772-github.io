@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v7 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
+    <title>v8 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
+        /* --- Base & Theme Setup --- */
         body { font-family: 'Inter', sans-serif; font-weight: 500; }
-        h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+        h1, h2, h3, h4, h5, h6 { font-weight: 800; } /* Bolder headings */
         .theme-light { background-color: #f8fafc; }
         .theme-dark { background-color: #0f172a; color: #e2e8f0; }
 
+        /* --- Watermark Background --- */
         #main-content {
             position: relative;
             z-index: 1;
@@ -22,10 +24,7 @@
         .theme-light #main-content::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: url('https://welltegra.network/assets/watermark.png');
             background-repeat: repeat;
             background-position: center;
@@ -37,10 +36,7 @@
         .theme-dark #main-content::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: url('https://welltegra.network/assets/watermark.png');
             background-repeat: repeat;
             background-position: center;
@@ -68,8 +64,11 @@
         .theme-dark .nav-link.active { color: #60a5fa; border-bottom-color: #60a5fa; }
         .theme-light h1, .theme-light h2, .theme-light h3, .theme-light h4 { color: #1e293b; }
         .theme-dark h1, .theme-dark h2, .theme-dark h3, .theme-dark h4 { color: #f8fafc; }
-        .theme-light p, .theme-light span, .theme-light label, .theme-light td, .theme-light li { color: #475569; }
-        .theme-dark p, .theme-dark span, .theme-dark label, .theme-dark td, .theme-dark li { color: #cbd5e1; }
+        
+        /* Improved text readability */
+        .theme-light p, .theme-light span, .theme-light label, .theme-light td, .theme-light li { color: #334155; line-height: 1.65; }
+        .theme-dark p, .theme-dark span, .theme-dark label, .theme-dark td, .theme-dark li { color: #e2e8f0; line-height: 1.65; }
+
         .theme-light .table-header { background-color: #f1f5f9; }
         .theme-dark .table-header { background-color: #334155; }
         .theme-light .table-row-alt { background-color: #f8fafc; }
@@ -148,11 +147,8 @@
         }
         .hero-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(15, 23, 42, 0.75); /* Darker blue overlay for better contrast */
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(15, 23, 42, 0.8); /* Darker overlay for better contrast */
             z-index: -50;
         }
         .hero-section h1 { text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); }
@@ -192,6 +188,9 @@
         }
         .faq-question.active .icon {
             transform: rotate(180deg);
+        }
+        .about-view h3, .about-view h4 {
+             margin-bottom: 0.75rem;
         }
 
     </style>
@@ -270,18 +269,18 @@
                 <div class="max-w-5xl mx-auto relative z-10">
                     <div class="text-center">
                         <h2 class="section-title">Are You Paying the Hidden Taxes of Inefficiency?</h2>
-                        <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">Your operations are being taxed by disconnected workflows you can't see on a balance sheet.</p>
+                        <p class="mt-4 text-lg">Your operations are being taxed by disconnected workflows you can't see on a balance sheet.</p>
                     </div>
                     <div class="mt-12 grid md:grid-cols-3 gap-8">
-                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Data Wrangling Tax</h3><p class="mt-2 text-slate-600 dark:text-slate-300">Your most valuable assets—your engineers—are forced to act as data clerks, wasting countless hours hunting for information in emails, correcting spreadsheet errors, and re-entering data from PDFs.</p></div>
-                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The NPT Tax</h3><p class="mt-2 text-slate-600 dark:text-slate-300">Every moment of Non-Productive Time is a direct hit to your bottom line. Plans based on poor data lead to equipment failures, procedural errors, and costly downtime.</p></div>
-                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Collaboration Tax</h3><p class="mt-2 text-slate-600 dark:text-slate-300">The critical gap between your team and service partners is where value is lost. Static PDF handoffs create slow, error-prone workflows that prevent true, real-time collaboration.</p></div>
+                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Data Wrangling Tax</h3><p class="mt-2">Your most valuable assets—your engineers—are forced to act as data clerks, wasting countless hours hunting for information in emails, correcting spreadsheet errors, and re-entering data from PDFs.</p></div>
+                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The NPT Tax</h3><p class="mt-2">Every moment of Non-Productive Time is a direct hit to your bottom line. Plans based on poor data lead to equipment failures, procedural errors, and costly downtime.</p></div>
+                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Collaboration Tax</h3><p class="mt-2">The critical gap between your team and service partners is where value is lost. Static PDF handoffs create slow, error-prone workflows that prevent true, real-time collaboration.</p></div>
                     </div>
                 </div>
             </section>
             <section class="py-20 px-4 roi-calculator dark:bg-slate-900/50">
                 <div class="max-w-6xl mx-auto relative z-10">
-                    <div class="text-center"><h2 class="section-title">The Platform That Pays for Itself</h2><p class="mt-4 text-lg text-slate-600 dark:text-slate-300">Use our interactive calculator to estimate your potential annual savings with Well-Tegra.</p></div>
+                    <div class="text-center"><h2 class="section-title">The Platform That Pays for Itself</h2><p class="mt-4 text-lg">Use our interactive calculator to estimate your potential annual savings with Well-Tegra.</p></div>
                     <div class="mt-12 grid lg:grid-cols-2 gap-12 items-center">
                         <div class="light-card p-8 rounded-lg shadow-lg">
                             <div class="space-y-6">
@@ -299,9 +298,35 @@
         
         <div id="planner-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="mb-12 flex items-center justify-center space-x-4"><div id="step-1-indicator" class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div><div class="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full"></div><div id="step-2-indicator" class="step-indicator bg-gray-200 dark:bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div><div class="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full"></div><div id="step-3-indicator" class="step-indicator bg-gray-200 dark:bg-gray-700 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div></div>
-            <section id="step-1"><div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Step 1: Select a Well</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Choose a candidate well for the intervention plan.</p></div><div id="well-selection-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div></section>
-            <section id="step-2" class="hidden"><div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Step 2: Define Intervention Plan</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Choose a planning method to define the primary goal for this intervention.</p></div><div class="mt-8 max-w-4xl mx-auto"><div class="flex items-center justify-center mb-6"><span class="text-sm font-medium mr-3">Manual Planning</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="ai-toggle" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div></label><span class="text-sm font-medium ml-3">AI Advisor</span></div><div id="manual-planning-view"><fieldset id="objectives-fieldset" class="space-y-4"></fieldset><div class="mt-8 flex justify-center"><button id="generate-plan-btn-manual" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan</button></div></div><div id="ai-advisor-view" class="hidden"><div id="problem-selection"><h3 class="text-lg font-semibold text-center mb-4">What is the primary problem with this well?</h3><fieldset id="problems-fieldset" class="space-y-4"></fieldset></div><div id="ai-recommendations" class="hidden mt-8"></div><div class="mt-8 flex justify-center"><button id="generate-plan-btn-ai" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan from Recommendation</button></div></div></div></section>
-            <section id="step-3" class="hidden"><div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Step 3: Review the Generated Plan</h2><p class="mt-2 max-w-2xl mx-auto text-lg">This is the initial, data-driven plan. Review and then begin the live operation.</p></div><div id="plan-output" class="mt-10 light-card p-6 md:p-8 space-y-8 rounded-lg"></div><div class="mt-8 flex justify-center space-x-4"><button id="start-over-btn" class="rounded-md bg-gray-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-gray-500">Start Over</button><button id="begin-op-btn" class="rounded-md bg-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-emerald-500">Begin Live Operation</button></div></section>
+            <section id="step-1">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">Step 1: Select a Well</h2>
+                    <p class="mt-2 max-w-2xl mx-auto text-lg">Choose a candidate well for the intervention plan.</p>
+                    <p class="mt-4 max-w-3xl mx-auto text-sm">Welcome to the Well Intervention Planner. This process begins by selecting a candidate well from the available assets. Each card represents a well with key status indicators and known issues. Click 'View Details' to explore a well's full history, including past operations, schematics, and legacy reports. Once you've identified a suitable candidate, click on the card to select it and proceed to the next step.</p>
+                </div>
+                <div id="well-selection-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div>
+            </section>
+            <section id="step-2" class="hidden">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">Step 2: Define Intervention Plan</h2>
+                    <p class="mt-2 max-w-2xl mx-auto text-lg">Choose a planning method to define the primary goal for this intervention.</p>
+                    <p class="mt-4 max-w-3xl mx-auto text-sm">Now that you've selected a well, it's time to define the objective of the intervention. You can either use the Manual Planning mode to select a primary objective directly, or switch to the AI Advisor. The AI will analyze the well's known problems and historical data to recommend the most effective intervention strategies, complete with confidence scores and projected outcomes. Your choice here will determine the baseline procedure and resources for the plan.</p>
+                </div>
+                <div class="mt-8 max-w-4xl mx-auto">
+                    <div class="flex items-center justify-center mb-6"><span class="text-sm font-medium mr-3">Manual Planning</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="ai-toggle" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div></label><span class="text-sm font-medium ml-3">AI Advisor</span></div>
+                    <div id="manual-planning-view"><fieldset id="objectives-fieldset" class="space-y-4"></fieldset><div class="mt-8 flex justify-center"><button id="generate-plan-btn-manual" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan</button></div></div>
+                    <div id="ai-advisor-view" class="hidden"><div id="problem-selection"><h3 class="text-lg font-semibold text-center mb-4">What is the primary problem with this well?</h3><fieldset id="problems-fieldset" class="space-y-4"></fieldset></div><div id="ai-recommendations" class="hidden mt-8"></div><div class="mt-8 flex justify-center"><button id="generate-plan-btn-ai" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan from Recommendation</button></div></div>
+                </div>
+            </section>
+            <section id="step-3" class="hidden">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">Step 3: Review the Generated Plan</h2>
+                    <p class="mt-2 max-w-2xl mx-auto text-lg">This is the initial, data-driven plan. Review and then begin the live operation.</p>
+                    <p class="mt-4 max-w-3xl mx-auto text-sm">This is the final review stage. Based on your selections, the platform has generated a comprehensive, data-driven intervention plan. This includes the baseline procedure, a list of required equipment and personnel, and an initial risk assessment. Please review all sections carefully. If everything is in order, you can proceed to the 'Live Operation' view, which simulates the execution of this plan in real-time. If you need to make changes, you can 'Start Over'.</p>
+                </div>
+                <div id="plan-output" class="mt-10 light-card p-6 md:p-8 space-y-8 rounded-lg"></div>
+                <div class="mt-8 flex justify-center space-x-4"><button id="start-over-btn" class="rounded-md bg-gray-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-gray-500">Start Over</button><button id="begin-op-btn" class="rounded-md bg-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-emerald-500">Begin Live Operation</button></div>
+            </section>
         </div>
 
         <div id="logistics-view" class="view-container hidden max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -338,21 +363,21 @@
             <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">About Well-Tegra & The Founder</h2></div>
             <div class="mt-10 light-card p-8 rounded-lg space-y-8">
                 <div>
-                    <h3 class="text-2xl font-bold mb-2">The Driving Force: Kenneth McKenzie</h3>
+                    <h3 class="text-2xl font-bold">The Driving Force: Kenneth McKenzie</h3>
                     <p>Well-Tegra is led by its founder and chief architect, Kenneth McKenzie. Mr. Mckenzie brings a unique and powerful combination of deep domain insight, proven technical capability, and extraordinary resilience that positions Well-Tegra for success.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
-                        <h4 class="text-xl font-semibold mb-2">Unique Domain Insight</h4>
+                        <h4 class="text-xl font-semibold">Unique Domain Insight</h4>
                         <p>The vision for Well-Tegra stems from a deep, first-hand understanding of the operational challenges and workflow inefficiencies faced by the energy sector. Unlike technology solutions built in a vacuum, Well-Tegra is designed from the "operator's perspective," focusing on solving the real-world, daily pain points of well engineers and asset managers.</p>
                     </div>
                     <div>
-                        <h4 class="text-xl font-semibold mb-2">Proven Technical & Strategic Execution</h4>
+                        <h4 class="text-xl font-semibold">Proven Technical & Strategic Execution</h4>
                         <p>Mr. Mckenzie has single-handedly driven Well-Tegra from concept to a fully-functional, interactive platform. This demonstrates a rare, multi-disciplinary skill set encompassing product strategy, full-stack development, UI/UX design, and marketing.</p>
                     </div>
                 </div>
                  <div>
-                    <h4 class="text-xl font-semibold mb-2">Extraordinary Drive & Resilience</h4>
+                    <h4 class="text-xl font-semibold">Extraordinary Drive & Resilience</h4>
                     <p>Perhaps the most critical asset is the founder's proven determination. The development of the Well-Tegra platform was undertaken as a self-driven initiative, built on a Chromebook using free software, and required rapid self-education across multiple technical domains while simultaneously navigating significant personal and health challenges. This journey is a testament to the founder's unwavering commitment, problem-solving ability, and the resilience required to lead a successful startup venture.</p>
                 </div>
                 <div class="bg-blue-50 dark:bg-blue-900/50 border-l-4 border-blue-400 p-4 rounded-r-lg">
@@ -628,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function() {
         headerTitle.textContent = `Well-Tegra: ${viewTitle}`;
 
         if (viewName === 'performer' && appState.selectedWell && appState.generatedPlan) {
-            headerDetails.innerHTML = `<span id="job-status" class="text-lg font-semibold text-emerald-400">● LIVE</span><div class="text-right"><p class="text-sm text-gray-300">Well: ${appState.selectedWell.name}</p><p class="text-sm text-gray-400">Job: ${appState.generatedPlan.name}</p></div>`;
+            headerDetails.innerHTML = `<span id="job-status" class="text-lg font-semibold text-emerald-400">● LIVE</span><div class="text-right"><p class="text-sm">Well: ${appState.selectedWell.name}</p><p class="text-sm">Job: ${appState.generatedPlan.name}</p></div>`;
             initializePerformer();
         } else if (['analyzer', 'commercial', 'hse', 'pob'].includes(viewName)) {
             if(appState.selectedWell && appState.generatedPlan) {
