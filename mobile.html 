@@ -1,275 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Well-Tegra Communicator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v9 - Well-Tegra Data Solutions | Interactive Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link.active { border-bottom-color: #2563eb; color: #1d4ed8; font-weight: 600; }
+        .dark .nav-link.active { border-bottom-color: #60a5fa; color: #bfdbfe;}
+        .light-card { background-color: white; }
+        .dark .light-card { background-color: #1e293b; border: 1px solid #334155; }
+        .planner-card { transition: all 0.2s ease-in-out; }
+        .planner-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        .planner-card.selected { border-color: #2563eb; transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); border-width: 2px; }
         .view-container { display: none; }
         .view-container.active { display: block; }
-        .nav-link.active { border-bottom-color: #10b981; color: #059669; font-weight: 600; }
-        .card { background: white; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
-        .alert-card { background-color: #fef2f2; border-left: 4px solid #ef4444; }
-        .insight-card { background-color: #ecfdf5; border-left: 4px solid #10b981; }
-        .moc-card { background-color: #fffbeb; border-left: 4px solid #f59e0b; }
-        .log-entry { border-bottom: 1px solid #e5e7eb; padding: 0.75rem 0; }
-        .log-entry:last-child { border-bottom: none; }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: center;
-            transition: background-color 0.2s;
-        }
-        .btn-primary { background-color: #0d9488; color: white; }
-        .btn-primary:hover { background-color: #047857; }
-        .btn-secondary { background-color: #f59e0b; color: white; }
-        .btn-secondary:hover { background-color: #d97706; }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-100 dark:bg-slate-900 text-gray-900 dark:text-gray-100">
 
-    <div id="app-container" class="max-w-md mx-auto bg-white min-h-screen shadow-2xl">
-        <!-- Header -->
-        <header class="bg-white p-4 sticky top-0 z-20 shadow-md">
-            <h1 class="text-xl font-bold text-center text-gray-800">Well-Tegra Communicator</h1>
-            <p id="user-context" class="text-center text-sm text-gray-500 mt-1">Monitoring Operations</p>
-        </header>
+<div id="app-container" class="min-h-screen flex flex-col">
+    <header id="app-header" class="header sticky top-0 z-30 transition-colors bg-white dark:bg-slate-800 shadow-md">
+        <!-- Header content is rendered by JS -->
+    </header>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Dashboard View -->
-            <div id="dashboard-view" class="view-container active p-4">
-                <div id="dashboard-content">
-                    <p class="text-center text-gray-500 py-10">No active operation assigned.</p>
+    <main id="main-content" class="flex-1">
+        <!-- Views are rendered by JS -->
+    </main>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6LY84yVnYD1klizY2NDHfpIXBQA4ALw",
+      authDomain: "welltegra-platform.firebaseapp.com",
+      projectId: "welltegra-platform",
+      storageBucket: "welltegra-platform.appspot.com",
+      messagingSenderId: "881352584574",
+      appId: "1:881352584574:web:f4bdc480a224708524372f"
+    };
+
+    let app, db;
+    try {
+        app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        console.log("Firebase Initialized Successfully.");
+    } catch (e) {
+        console.error("Firebase initialization failed:", e);
+        document.getElementById('main-content').innerHTML = `<div class="p-8 text-center"><h2 class="text-2xl font-bold text-red-600">Firebase Configuration Error</h2><p class="mt-4">Could not connect to the backend.</p></div>`;
+    }
+
+    const appState = {
+        currentView: 'home',
+        wells: [],
+        selectedWellId: null,
+    };
+
+    function renderHeader() {
+        const header = document.getElementById('app-header');
+        header.innerHTML = `
+            <div class="max-w-full mx-auto py-3 px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img src="https://welltegra.network/assets/logo.png" alt="Well-Tegra Data Solutions Logo" class="h-12 w-auto mr-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f172a/ffffff?text=Logo';">
+                        <h1 id="header-title" class="text-xl font-bold hidden md:block">Well-Tegra Data Solutions</h1>
+                    </div>
+                    <div id="header-nav" class="flex-1 flex items-center justify-center space-x-1 md:space-x-4">
+                        <a id="home-nav-link" href="#" class="nav-link text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white border-b-2 border-transparent pb-1">Home</a>
+                        <a id="planner-nav-link" href="#" class="nav-link text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white border-b-2 border-transparent pb-1">Planner</a>
+                    </div>
+                    <div id="header-details" class="flex items-center space-x-4"></div>
                 </div>
             </div>
+        `;
+    }
 
-            <!-- Insights View -->
-            <div id="insights-view" class="view-container p-4">
-                 <div class="card">
-                    <h2 class="text-lg font-bold mb-2">AI-Powered Insights</h2>
-                    <p class="text-sm text-gray-600 mb-4">Leverage the "Ocean of Info" to anticipate and mitigate potential failures based on anonymized industry-wide data.</p>
+    function renderHomeView() {
+        document.getElementById('main-content').innerHTML = `
+            <div id="home-view" class="view-container">
+                <section class="hero-section py-20 px-4 relative">
+                    <div class="max-w-4xl mx-auto text-center relative z-10">
+                        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white">From Data Chaos to Predictive Clarity.</h1>
+                        <p class="mt-6 text-lg md:text-xl text-slate-100">Welcome to the Well-Tegra platform.</p>
+                    </div>
+                </section>
+            </div>
+        `;
+    }
+    
+    function renderPlannerView() {
+        document.getElementById('main-content').innerHTML = `
+            <div id="planner-view" class="view-container max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold tracking-tight">Well Intervention Planner</h2>
+                    <p class="mt-2 max-w-2xl mx-auto text-lg">Select a well to begin the planning process.</p>
                 </div>
-                <div id="insights-content">
-                    <!-- Insights will be dynamically injected here -->
+                <div id="well-selection-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <p class="text-center col-span-full text-gray-500">Loading wells from database...</p>
+                </div>
+            </div>`;
+        fetchWellsFromFirestore();
+    }
+
+    function renderWells() {
+        const wellSelectionGrid = document.getElementById('well-selection-grid');
+        if (!wellSelectionGrid) return;
+
+        if (appState.wells.length === 0) {
+            wellSelectionGrid.innerHTML = '<p class="text-center col-span-full text-gray-500">No wells found in the database. Please add data to the "wells" collection in Firestore.</p>';
+            return;
+        }
+
+        wellSelectionGrid.innerHTML = appState.wells.map(well => `
+            <div class="planner-card light-card p-6 cursor-pointer rounded-lg shadow-md border-2 border-transparent" data-well-id="${well.id}">
+                <h3 class="text-xl font-bold">${well.name}</h3>
+                <p class="text-sm font-medium text-teal-600">${well.field} - ${well.type}</p>
+                <div class="mt-4 space-y-2 text-sm">
+                    <p><strong>Status:</strong> <span class="font-normal px-2 py-1 rounded-full inline-block">${well.status}</span></p>
+                    <p><strong>Issue:</strong> <span class="font-normal">${well.issue}</span></p>
                 </div>
             </div>
-
-             <!-- MoC View -->
-            <div id="moc-view" class="view-container p-4">
-                 <div class="card">
-                    <h2 class="text-lg font-bold mb-2">Management of Change (MoC)</h2>
-                    <p class="text-sm text-gray-600 mb-4">Review, approve, and track operational changes. Major changes require department head verification.</p>
-                </div>
-                <div id="moc-list" class="space-y-4">
-                    <!-- MoC items will be dynamically injected here -->
-                </div>
-            </div>
-        </main>
-
-        <!-- Navigation -->
-        <footer class="bg-white p-2 sticky bottom-0 z-20 border-t">
-            <nav class="flex justify-around">
-                <a href="#" id="dashboard-nav-link" class="nav-link active text-sm text-center w-full p-2 border-b-2 border-transparent">Dashboard</a>
-                <a href="#" id="insights-nav-link" class="nav-link text-sm text-center w-full p-2 border-b-2 border-transparent">Insights</a>
-                <a href="#" id="moc-nav-link" class="nav-link text-sm text-center w-full p-2 border-b-2 border-transparent">MoC</a>
-            </nav>
-        </footer>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Simulated API for Main App Communication ---
-            const api = {
-                getOperationState: () => {
-                    try {
-                        // Access the main app's state if this app is opened in a new window
-                        return window.opener.appState || null;
-                    } catch (e) {
-                        console.warn("Could not access parent window. Running in standalone mode.");
-                        return null;
-                    }
-                },
-                getInsights: () => [
-                    { id: 1, title: 'HPHT Pressure Spikes', text: 'In 15% of similar HPHT operations, pressure spikes occurred during DHSV retrieval. Recommend close monitoring of surface pressure.', severity: 'high' },
-                    { id: 2, title: 'Slickline Toolstring Failure', text: 'Analysis of 500+ slickline jobs shows a 5% risk of toolstring separation when jarring upwards above 10,000 ft in deviated wells.', severity: 'medium' },
-                    { id: 3, title: 'Incorrect Fluid Volume', text: 'Minor fluid volume miscalculations have led to a 12% increase in NPT during acid stimulation jobs. Double-check all volumes.', severity: 'low' },
-                ],
-                submitMoC: (moc) => {
-                    console.log('MoC submitted from mobile, syncing to main app:', moc);
-                    if (window.opener && typeof window.opener.addLogEntry === 'function') {
-                        const logText = `MOC Submitted: ${moc.change} (Severity: ${moc.severity}). Signed by ${moc.engineerSignature}${moc.deptHeadSignature ? ' & ' + moc.deptHeadSignature : ''}.`;
-                        window.opener.addLogEntry('Mobile Communicator', logText);
-                    }
-                }
-            };
-
-            // --- View Switching ---
-            const views = document.querySelectorAll('.view-container');
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const viewId = link.id.replace('-nav-link', '-view');
-                    views.forEach(v => v.classList.remove('active'));
-                    document.getElementById(viewId).classList.add('active');
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                });
+        `).join('');
+        
+        document.querySelectorAll('.planner-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const wellId = e.currentTarget.dataset.wellId;
+                appState.selectedWellId = wellId;
+                console.log("Selected Well ID:", wellId);
+                document.querySelectorAll('.planner-card').forEach(c => c.classList.remove('selected', 'border-blue-500'));
+                e.currentTarget.classList.add('selected', 'border-blue-500');
+                // Next step logic will go here
             });
-
-            // --- Render Functions ---
-            function renderDashboard(state) {
-                const container = document.getElementById('dashboard-content');
-                if (!state || !state.liveData || !state.generatedPlan) {
-                    container.innerHTML = '<p class="text-center text-gray-500 py-10">No active operation assigned.</p>';
-                    return;
-                }
-
-                const isSlickline = state.generatedPlan.name.toLowerCase().includes('slickline');
-                const alertHtml = state.liveData.alarmState ? `
-                    <div class="alert-card p-3 rounded-lg mt-4">
-                        <h3 class="font-bold text-red-800">High Tension Alarm!</h3>
-                        <p class="text-sm text-red-700">Weight has exceeded the planned operational window.</p>
-                    </div>` : '';
-
-                container.innerHTML = `
-                    <div class="card">
-                        <h2 class="text-lg font-bold mb-2">Live Operation: ${state.generatedPlan.name}</h2>
-                        <p class="text-sm text-gray-500">Well: ${state.selectedWell.name}</p>
-                        <div class="grid grid-cols-2 gap-4 mt-4 text-center">
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase">Depth</p>
-                                <p class="text-2xl font-bold">${state.liveData.depth.toFixed(0)} ft</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase">${isSlickline ? 'Weight' : 'Hookload'}</p>
-                                <p class="text-2xl font-bold">${state.liveData.hookload.toFixed(1)} ${isSlickline ? 'lbs' : 'klbf'}</p>
-                            </div>
-                        </div>
-                        ${alertHtml}
-                    </div>
-                    <div class="card">
-                        <h3 class="text-lg font-bold mb-2">Operations Log</h3>
-                        <div class="max-h-48 overflow-y-auto">
-                            ${state.logEntries.slice().reverse().map(entry => `
-                                <div class="log-entry">
-                                    <p class="text-xs text-gray-400">${new Date(entry.time).toLocaleTimeString()} - ${entry.user}</p>
-                                    <p class="text-sm">${entry.text}</p>
-                                </div>`).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            function renderInsights() {
-                const container = document.getElementById('insights-content');
-                const insights = api.getInsights();
-                const severityColors = {
-                    high: 'border-red-500 bg-red-50',
-                    medium: 'border-yellow-500 bg-yellow-50',
-                    low: 'border-green-500 bg-green-50'
-                };
-                container.innerHTML = insights.map(insight => `
-                    <div class="card insight-card ${severityColors[insight.severity]}">
-                        <h3 class="font-bold text-gray-800">${insight.title}</h3>
-                        <p class="text-sm text-gray-700 mt-1">${insight.text}</p>
-                        <p class="text-xs text-gray-500 mt-2">Source: ${insight.source}</p>
-                    </div>
-                `).join('');
-            }
-
-            function renderMoC() {
-                const container = document.getElementById('moc-list');
-                container.innerHTML = `
-                    <div class="card moc-card">
-                        <h3 class="text-lg font-bold mb-2">New Management of Change</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label for="moc-change" class="block text-sm font-medium text-gray-700">Proposed Change:</label>
-                                <input type="text" id="moc-change" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" placeholder="e.g., Switch to alternative tool">
-                            </div>
-                            <div>
-                                <label for="moc-severity" class="block text-sm font-medium text-gray-700">Severity:</label>
-                                <select id="moc-severity-select" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
-                                    <option value="minor">Minor (e.g., tool adjustment)</option>
-                                    <option value="major">Major (e.g., procedure change)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="moc-engineer-sig" class="block text-sm font-medium text-gray-700">Engineer Signature:</label>
-                                <input type="text" id="moc-engineer-sig" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" placeholder="Type name to sign">
-                            </div>
-                            <div id="dept-head-sig-container" class="hidden">
-                                <label for="moc-dept-head-sig" class="block text-sm font-medium text-gray-700">Dept. Head Signature:</label>
-                                <input type="text" id="moc-dept-head-sig" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" placeholder="Required for major change">
-                            </div>
-                            <button id="submit-moc-btn" class="btn btn-secondary">Sign & Submit MoC</button>
-                        </div>
-                    </div>
-                `;
-
-                const severitySelect = document.getElementById('moc-severity-select');
-                const deptHeadContainer = document.getElementById('dept-head-sig-container');
-                severitySelect.addEventListener('change', () => {
-                    deptHeadContainer.classList.toggle('hidden', severitySelect.value !== 'major');
-                });
-
-                document.getElementById('submit-moc-btn').addEventListener('click', () => {
-                    const change = document.getElementById('moc-change').value;
-                    const engineerSignature = document.getElementById('moc-engineer-sig').value;
-                    const deptHeadSignature = document.getElementById('moc-dept-head-sig').value;
-                    const severity = severitySelect.value;
-
-                    if (!change || !engineerSignature) {
-                        alert('Please provide a change description and engineer signature.');
-                        return;
-                    }
-                    if (severity === 'major' && !deptHeadSignature) {
-                        alert('Department Head signature is required for major changes.');
-                        return;
-                    }
-
-                    const moc = {
-                        change,
-                        severity,
-                        engineerSignature,
-                        deptHeadSignature: severity === 'major' ? deptHeadSignature : null,
-                        timestamp: new Date().toISOString()
-                    };
-                    api.submitMoC(moc);
-                    alert('MoC submitted successfully.');
-                    // Clear form
-                    document.getElementById('moc-change').value = '';
-                    document.getElementById('moc-engineer-sig').value = '';
-                    document.getElementById('moc-dept-head-sig').value = '';
-                });
-            }
-
-            // --- Initialization ---
-            function main() {
-                const operationalState = api.getOperationState();
-                
-                renderDashboard(operationalState);
-                renderInsights();
-                renderMoC();
-
-                // Periodically check for updates from the main app
-                setInterval(() => {
-                    const updatedState = api.getOperationState();
-                    renderDashboard(updatedState);
-                }, 2000);
-            }
-
-            main();
         });
-    </script>
+    }
+
+    async function fetchWellsFromFirestore() {
+        if (!db) return;
+        const wellSelectionGrid = document.getElementById('well-selection-grid');
+        try {
+            const querySnapshot = await getDocs(collection(db, "wells"));
+            appState.wells = [];
+            querySnapshot.forEach((doc) => {
+                appState.wells.push({ id: doc.id, ...doc.data() });
+            });
+            console.log("Wells fetched from Firestore:", appState.wells);
+            renderWells();
+        } catch (error) {
+            console.error("Error fetching wells: ", error);
+            if (wellSelectionGrid) {
+                wellSelectionGrid.innerHTML = '<p class="text-center col-span-full text-red-500">Error loading wells. Check browser console and Firestore security rules.</p>';
+            }
+        }
+    }
+
+    function switchView(viewName) {
+        appState.currentView = viewName;
+        if (viewName === 'home') {
+            renderHomeView();
+        } else if (viewName === 'planner') {
+            renderPlannerView();
+        } else {
+            document.getElementById('main-content').innerHTML = `<div class="p-8 text-center"><h2 class="text-2xl">${viewName.charAt(0).toUpperCase() + viewName.slice(1)} View</h2><p>This view is under construction.</p></div>`;
+        }
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(`${viewName}-nav-link`)?.classList.add('active');
+    }
+
+    function init() {
+        renderHeader();
+        switchView('planner'); 
+
+        document.getElementById('header-nav').addEventListener('click', (e) => {
+            if (e.target.matches('.nav-link')) {
+                e.preventDefault();
+                switchView(e.target.id.replace('-nav-link', ''));
+            }
+        });
+    }
+
+    if (db) {
+        init();
+    }
+});
+</script>
+
 </body>
 </html>
