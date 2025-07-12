@@ -33,8 +33,6 @@
                 <div id="header-nav" class="flex-1 flex items-center justify-center space-x-1 md:space-x-4">
                     <a id="home-nav-link" title="Return to the Home Page" class="nav-link text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white border-b-2 border-transparent pb-1">Home</a>
                     <a id="planner-nav-link" title="Go to the Well Intervention Planner" class="nav-link text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white border-b-2 border-transparent pb-1">Planner</a>
-                    <a id="performer-nav-link" title="Go to the Performer" class="nav-link text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white border-b-2 border-transparent pb-1">Performer</a>
-                    <a id="analyzer-nav-link" title="Go to the Analyzer" class="nav-link text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white border-b-2 border-transparent pb-1">Analyzer</a>
                 </div>
                 <div id="header-details" class="flex items-center space-x-4">
                     <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700">
@@ -47,7 +45,6 @@
     </header>
 
     <main id="main-content" class="flex-1">
-        <!-- Planner View -->
         <div id="planner-view" class="view-container max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold tracking-tight">Well Intervention Planner</h2>
@@ -57,16 +54,13 @@
                 <p class="text-center col-span-full text-gray-500">Loading wells from database...</p>
             </div>
         </div>
-        <!-- Other views will be added here later -->
     </main>
 </div>
 
 <script type="module">
-    // Firebase Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-    // --- YOUR UNIQUE FIREBASE CONFIGURATION ---
     const firebaseConfig = {
       apiKey: "AIzaSyB6LY84yVnYD1klizY2NDHfpIXBQA4ALw",
       authDomain: "welltegra-platform.firebaseapp.com",
@@ -75,9 +69,7 @@
       messagingSenderId: "881352584574",
       appId: "1:881352584574:web:f4bdc480a224708524372f"
     };
-    // ---------------------------------------------
 
-    // Initialize Firebase
     let app, db;
     try {
         app = initializeApp(firebaseConfig);
@@ -91,13 +83,10 @@
         }
     }
 
-    // --- Global State ---
     const appState = {
         wells: [],
-        selectedWellId: null,
     };
 
-    // --- Render Functions ---
     function renderWells() {
         const wellSelectionGrid = document.getElementById('well-selection-grid');
         if (!wellSelectionGrid) return;
@@ -119,7 +108,6 @@
         `).join('');
     }
 
-    // --- Firebase Functions ---
     async function fetchWellsFromFirestore() {
         if (!db) return;
         const wellSelectionGrid = document.getElementById('well-selection-grid');
@@ -130,7 +118,7 @@
                 appState.wells.push({ id: doc.id, ...doc.data() });
             });
             console.log("Wells fetched from Firestore:", appState.wells);
-            renderWells(); // Re-render the view with the new data
+            renderWells();
         } catch (error) {
             console.error("Error fetching wells: ", error);
             if (wellSelectionGrid) {
@@ -139,24 +127,13 @@
         }
     }
 
-    // --- INITIALIZATION ---
     function init() {
-        // Add nav link functionality
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                // For now, just log the click. View switching logic will be added later.
-                console.log(`Navigating to ${e.currentTarget.id.replace('-nav-link', '')}`);
-            });
-        });
-
         if (db) {
             fetchWellsFromFirestore();
         }
     }
 
-    init();
-});
+    document.addEventListener('DOMContentLoaded', init);
 </script>
 
 </body>
