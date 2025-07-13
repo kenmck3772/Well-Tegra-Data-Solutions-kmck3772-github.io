@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v8 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
+    <title>v15 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -99,16 +99,16 @@
         .planner-card { transition: all 0.2s ease-in-out; }
         .planner-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
         .planner-card.selected { border-color: #2563eb; transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); border-width: 2px; }
-        .planner-card[data-well-id="W666"].selected { border-color: #ef4444; box-shadow: 0 10px 15px -3px rgb(239 68 68 / 0.2), 0 4px 6px -4px rgb(239 68 68 / 0.2); }
+        .planner-card[data-well-id="W666"].selected { border-color: #16a34a; box-shadow: 0 10px 15px -3px rgb(22 163 74 / 0.2), 0 4px 6px -4px rgb(22 163 74 / 0.2); }
         .step-indicator { transition: background-color 0.3s, color 0.3s; }
         .step-indicator.active { background-color: #2563eb; color: white; }
         .step-indicator.completed { background-color: #1d4ed8; color: white; }
         .risk-low { background-color: #dcfce7; color: #166534; }
         .risk-medium { background-color: #fef9c3; color: #854d0e; }
         .risk-high { background-color: #fee2e2; color: #991b1b; }
-        .status-available, .status-active, .status-approved, .status-mustered, .status-passed { background-color: #dcfce7; color: #166534; }
+        .status-available, .status-active-underperforming, .status-active-lowinjectivity, .status-approved, .status-mustered, .status-passed, .status-active-restoredproduction { background-color: #dcfce7; color: #166534; }
         .status-maintenance, .status-pending, .status-intransit { background-color: #fef9c3; color: #854d0e; }
-        .status-unavailable, .status-onjob, .status-expired, .status-unaccounted, .status-failed, .status-drilling-criticalsection { background-color: #fee2e2; color: #991b1b; }
+        .status-unavailable, .status-onjob, .status-expired, .status-unaccounted, .status-failed, .status-drilling-criticalsection, .status-shut-in, .status-shut-in-wellintegrityissues, .status-pacandidate { background-color: #fee2e2; color: #991b1b; }
         .status-onboard { background-color: #cffafe; color: #0e7490; }
 
         /* --- Performer View Styles --- */
@@ -196,9 +196,25 @@
 
     </style>
 </head>
-<body class="theme-light">
+<body class="theme-dark">
 
-<div id="app-container" class="min-h-screen flex flex-col">
+<div id="welcome-screen" class="fixed inset-0 bg-slate-900 flex items-center justify-center z-50 transition-opacity duration-500">
+    <div class="text-center">
+        <img src="https://welltegra.network/assets/logo.png" alt="Well-Tegra Data Solutions Logo" class="h-24 w-auto mx-auto mb-8 animate-pulse">
+        <div class="bg-slate-800 p-8 rounded-lg shadow-2xl w-80">
+            <h2 class="text-2xl font-bold text-white mb-6">Platform Login</h2>
+            <div class="space-y-4">
+                <input type="text" id="username" placeholder="Username" value="demo@welltegra.com" class="w-full p-3 rounded-md bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <input type="password" id="password" placeholder="Password" value="password" class="w-full p-3 rounded-md bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <button id="login-btn" class="mt-6 w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-4 rounded-md transition-colors">
+                Login
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="app-container" class="min-h-screen flex-col hidden">
     <!-- Header -->
     <header id="app-header" class="header sticky top-0 z-30 transition-colors">
         <div class="max-w-full mx-auto py-3 px-4 sm:px-6 lg:px-8">
@@ -318,18 +334,23 @@
             <section id="step-2" class="hidden">
                 <div class="text-center">
                     <h3 class="text-2xl font-bold tracking-tight">Step 2: Define Intervention Plan</h3>
-                    <p class="mt-4 max-w-3xl mx-auto text-sm">Now that you've selected a well, it's time to define the objective of the intervention. You can either use the Manual Planning mode to select a primary objective directly, or switch to the AI Advisor. The AI will analyze the well's known problems and historical data to recommend the most effective intervention strategies, complete with confidence scores and projected outcomes. Your choice here will determine the baseline procedure and resources for the plan.</p>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg">Now that you've selected a well, it's time to define the objective of the intervention. You can either use the Manual Planning mode to select a primary objective directly, or switch to the AI Advisor. The AI will analyze the well's known problems and historical data to recommend the most effective intervention strategies, complete with confidence scores and projected outcomes. Your choice here will determine the baseline procedure and resources for the plan.</p>
                 </div>
                 <div class="mt-8 max-w-4xl mx-auto">
                     <div class="flex items-center justify-center mb-6"><span class="text-sm font-medium mr-3">Manual Planning</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="ai-toggle" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div></label><span class="text-sm font-medium ml-3">AI Advisor</span></div>
                     <div id="manual-planning-view"><fieldset id="objectives-fieldset" class="space-y-4"></fieldset><div class="mt-8 flex justify-center"><button id="generate-plan-btn-manual" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan</button></div></div>
-                    <div id="ai-advisor-view" class="hidden"><div id="problem-selection"><h3 class="text-lg font-semibold text-center mb-4">What is the primary problem with this well?</h3><fieldset id="problems-fieldset" class="space-y-4"></fieldset></div><div id="ai-recommendations" class="hidden mt-8"></div><div class="mt-8 flex justify-center"><button id="generate-plan-btn-ai" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan from Recommendation</button></div></div>
+                    <div id="ai-advisor-view" class="hidden">
+                        <div class="bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg text-center mb-6">
+                            <p class="text-sm text-blue-800 dark:text-blue-200">Our AI analyzes anonymized operational patterns from all community data providers to find optimal solutions. Your raw well data is never shared, and Well-Tegra cannot access it. This process is secured by smart contracts.</p>
+                        </div>
+                        <div id="problem-selection"><h3 class="text-lg font-semibold text-center mb-4">What is the primary problem with this well?</h3><fieldset id="problems-fieldset" class="space-y-4"></fieldset></div><div id="ai-recommendations" class="hidden mt-8"></div><div class="mt-8 flex justify-center"><button id="generate-plan-btn-ai" class="rounded-md bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-teal-500 disabled:bg-gray-400" disabled>Generate Plan from Recommendation</button></div>
+                    </div>
                 </div>
             </section>
             <section id="step-3" class="hidden">
                 <div class="text-center">
                     <h3 class="text-2xl font-bold tracking-tight">Step 3: Review the Generated Plan</h3>
-                    <p class="mt-4 max-w-3xl mx-auto text-sm">This is the final review stage. Based on your selections, the platform has generated a comprehensive, data-driven intervention plan. This includes the baseline procedure, a list of required equipment and personnel, and an initial risk assessment. Please review all sections carefully. If everything is in order, you can proceed to the 'Live Operation' view, which simulates the execution of this plan in real-time. If you need to make changes, you can 'Start Over'.</p>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg">This is the final review stage. Based on your selections, the platform has generated a comprehensive, data-driven intervention plan. This includes the baseline procedure, a list of required equipment and personnel, and an initial risk assessment. Please review all sections carefully. If everything is in order, you can proceed to the 'Live Operation' view, which simulates the execution of this plan in real-time. If you need to make changes, you can 'Start Over'.</p>
                 </div>
                 <div id="plan-output" class="mt-10 light-card p-6 md:p-8 space-y-8 rounded-lg"></div>
                 <div class="mt-8 flex justify-center space-x-4"><button id="start-over-btn" class="rounded-md bg-gray-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-gray-500">Start Over</button><button id="begin-op-btn" class="rounded-md bg-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-emerald-500">Begin Live Operation</button></div>
@@ -363,7 +384,7 @@
             <div class="text-center">
                 <h2 class="text-3xl font-bold tracking-tight">Well-Tegra White Paper</h2>
                 <p class="mt-4 max-w-2xl mx-auto text-lg">Dive deeper into the technical architecture and strategic vision behind the Well-Tegra platform. Our white paper provides a comprehensive overview of the privacy-preserving AI, enterprise blockchain, and data unification strategies that power our solution.</p>
-                <a href="https://drive.google.com/file/d/18hNgPuFANg2pNHwpOlbkQWb_fTbBMQWF/view?usp=drive_link" target="_blank" download class="mt-8 inline-block rounded-md bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition">
+                <a href="https://github.com/your-username/your-repo/raw/main/assets/well-tegra-whitepaper.pdf" target="_blank" download class="mt-8 inline-block rounded-md bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition">
                     Download the White Paper
                 </a>
             </div>
@@ -372,8 +393,7 @@
         <div id="faq-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="text-center"><h2 class="text-3xl font-bold tracking-tight">Frequently Asked Questions</h2><p class="mt-2 max-w-2xl mx-auto text-lg">Find answers to common questions about the Well-Tegra platform.</p></div>
             <div id="faq-accordion" class="mt-10 light-card rounded-lg shadow-md overflow-hidden">
-                <!-- FAQ items will be injected here by JS -->
-            </div>
+                </div>
         </div>
 
         <div id="about-view" class="view-container hidden max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -387,7 +407,7 @@
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
                         <h4 class="text-xl font-semibold">Unique Domain Insight</h4>
-                        <p>The vision for Well-Tegra stems from a deep, first-hand understanding of the operational challenges and workflow inefficiencies faced by the energy sector. Unlike technology solutions built in a vacuum, Well-Tegra is designed from the "operator's perspective," focusing on solving the real-world, daily pain points of well engineers and asset managers.</p>
+                        <p>The vision for Well-Tegra is born from decades of hands-on, global experience in the energy sector. As a Well Services Supervisor for major operators like BG Group and a specialist in completions, workovers, and interventions, Mr. McKenzie has directly managed the complex operations the platform is designed to optimize. His career, spanning roles from Coiled Tubing Supervisor to Well Services Instructor, provides an authentic "operator's perspective" that is baked into every feature, ensuring the solution addresses the real-world pain points of engineers and asset managers.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold">Proven Technical & Strategic Execution</h4>
@@ -400,7 +420,7 @@
                 </div>
                 <div class="bg-blue-50 dark:bg-blue-900/50 border-l-4 border-blue-400 p-4 rounded-r-lg">
                     <h4 class="font-bold text-blue-800 dark:text-blue-300">Project Status & The Path Forward</h4>
-                    <p class="mt-2 text-blue-700 dark:text-blue-200">The Well-Tegra project is currently underway and is actively seeking funding for consultancy and business software services to accelerate its development and deployment.</p>
+                    <p class="mt-2 text-blue-700 dark:text-blue-200">The Well-Tegra project is currently underway and is actively seeking funding for consultancy and business software services to accelerate its development and deployment. The platform's architecture is specifically designed to enable secure, privacy-preserving collaboration between multiple data providers.</p>
                     <p class="mt-2 text-sm text-blue-600 dark:text-blue-400">It is important to note that the current demonstration of the platform is not yet driven by real-world well data. The illustrative datasets have been generated by the founder to showcase the platform's functionality. Consequently, the true value of the project—which lies in the power of collective data—is not yet fully visible. The precision and predictive accuracy of the Well-Tegra engine will grow exponentially as the data pool expands with real-world contributions, evolving from a small pool into a vast 'ocean' of shared intelligence.</p>
                 </div>
             </div>
@@ -464,7 +484,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- DATA STORE (Sample Data for Simulation) ---
+    // --- DATA STORE (Expanded Sample Data for Simulation) ---
     const wellData = [
         { 
             id: 'W666', 
@@ -474,15 +494,17 @@ document.addEventListener('DOMContentLoaded', function() {
             region: 'UKCS', 
             type: 'HPHT Gas Condensate', 
             depth: '18,500ft', 
-            status: 'Drilling - Critical Section', 
-            issue: 'Extreme overpressure and borehole stability issues in the Hades Shale formation.', 
+            status: 'Active - Restored Production', 
+            issue: 'Well brought back online after successful AI-guided fishing and tubing repair campaign.', 
             history: [ 
-                { date: '2025-06-28', operation: 'Ran 9-5/8" Casing', problem: 'Experienced severe losses while cementing. Required multiple top-up jobs.', lesson: 'The fracture gradient in this area is even lower than predicted. Future cement jobs must use ultra-lightweight slurry and precision placement techniques.' }, 
-                { date: '2025-06-15', operation: 'Drilling 12-1/4" Hole', problem: 'Encountered multiple pack-off and stuck pipe events in the Hades Shale. 48 hours of NPT.', lesson: 'The Hades Shale is mechanically weak and highly reactive. Requires SBM with maximum inhibition and a tightly controlled ROP to minimize cuttings buildup.' } 
+                { date: '2026-05-22', operation: 'Coiled Tubing: Milling Operation', problem: 'Ran 2-3/8" CT with a high-torque motor and mill to clear the obstruction. Motor stalled repeatedly. Aggressive milling parameters led to coiled tubing fatigue and a pipe fracture. CT parted at 11,800ft.', lesson: 'CT fatigue must be tracked meticulously in real-time. Milling in HPHT wells without clear visuals is a high-risk gamble. The default response should not be more force.' },
+                { date: '2026-08-01', operation: 'Wireline: Complex Fishing Operation', problem: 'Ran a wireline fishing toolstring to latch onto the parted CT. The high deviation and debris in the well prevented a successful latch. After 72 hours of attempts, the wireline tools became hopelessly tangled with the coiled tubing fish.', lesson: 'A consolidated, single source of truth detailing all previous runs (including tool dimensions and debris) is critical before designing a fishing BHA. The vendor-provided fishing diagram was based on incomplete data.' },
+                { date: '2027-01-15', operation: 'Pumping & Cementing: Attempted Well Kill', problem: 'Attempted to pump kill-weight mud to secure the well for further operations. Due to suspected tubing-to-annulus communication from the milling damage, there was a complete loss of returns and H2S ingress to the B-annulus.', lesson: 'Well integrity must be fully diagnosed via pressure fall-off tests *before* any pumping operation. Assumed integrity of the production tubing was the critical failure point.' },
+                { date: '2027-08-10', operation: 'Well-Tegra AI-Guided Intervention', problem: 'Final attempt to recover well before full P&A. A new intervention plan was designed using the Well-Tegra platform, leveraging data from the entire asset pool.', lesson: 'By analyzing failures on other wells, the AI recommended a multi-stage approach: a high-viscosity cleanout run, followed by a specialized cutting tool, and finally a heavy-duty overshot to retrieve both fish. The operation was successful, saving the well and proving the value of the Well-Tegra data pool.' }
             ], 
             dailyReports: [ 
-                { date: '2025-07-07', summary: 'Drilling 8-1/2" hole. Experiencing intermittent high torque and drag. Mud weight at 17.8 ppg, just 0.2 ppg below estimated fracture gradient.', npt: 2.0 }, 
-                { date: '2025-07-08', summary: 'Lost circulation event. Lost 300 bbls of SBM. Pumping LCM pills to cure losses. Preparing to pull back and perform a remedial cement job.', npt: 8.5 } 
+                { date: '2026-08-04', summary: 'Day 3 of fishing for CT. Unable to get a latch. Jarring operations ceased. Decision made to POOH and reconsider strategy. Fish (CT) and fish (Wireline tools) now both left in hole. Well status downgraded to severe integrity risk.', npt: 24.0, toolstringRun: ['Rope Socket', 'Stem', 'Spang Jars', 'CT Overshot'] }, 
+                { date: '2027-08-12', summary: 'Day 2 of AI-guided intervention. Successfully retrieved tangled fish. Now preparing to run tubing patch.', npt: 0.0, toolstringRun: ['Heavy Duty Rope Socket', 'Accelerator', 'Hydraulic Jars', 'Heavy Duty Pulling Tool', 'Specialized Overshot'] } 
             ], 
             completion: { 
                 casing: [
@@ -493,31 +515,115 @@ document.addEventListener('DOMContentLoaded', function() {
                 ], 
                 tubing: [{type: 'Production', size: '4 1/2', top: 0, bottom: 17800}], 
                 equipment: [
-                    {item: 'Liner Hanger Packer', top: 9200, comments: 'Hydraulic Set'},
-                    {item: 'SSSV', top: 12500, comments: 'TRSSSV, Flapper'}, 
+                    {item: 'Tubing Patch', top: 12450, comments: 'High-expansion metal patch', isProblem: false},
+                    {item: 'SSSV', top: 12500, comments: 'TRSSSV, Functioning', isProblem: false}, 
                     {item: 'Permanent Packer', top: 17750, comments: 'HPHT Permanent Packer'},
-                    {item: 'Hades Shale Formation', top: 14000, comments: 'Highly Stressed, Prone to Collapse', isProblem: true}
+                    {item: 'Hades Shale Formation', top: 14000, comments: 'Highly Stressed', isProblem: true}
                 ], 
-                perforations: [{top: 18000, bottom: 18250, date: 'N/A'}] 
+                perforations: [{top: 18000, bottom: 18250, date: '2025-07-10'}] 
             } 
         },
-        { id: 'W001', name: 'Gullfaks C-34', field: 'Gullfaks', region: 'Norwegian Sector', type: 'Oil Producer', depth: '2,850m', status: 'Active - Underperforming', issue: 'Suspected scale buildup in tubing.', history: [ { date: '2022-05-12', operation: 'Slickline Plug Set', problem: 'Minor delays due to weather.', lesson: 'Allocate more buffer time for weather in North Sea operations during spring.' }, { date: '2020-10-03', operation: 'Scale Inhibitor Squeeze', problem: 'Pump failure led to 12 hours of NPT.', lesson: 'Increase preventative maintenance frequency on pump units.' } ], dailyReports: [ { date: '2022-05-12', summary: 'RIH to set plug. Encountered minor weather delays.', npt: 2.5 }, { date: '2022-05-13', summary: 'Set plug successfully. POOH. Job complete.', npt: 0 } ], completion: { casing: [{type: 'Surface', size: '13 3/8', top: 0, bottom: 800}, {type: 'Production', size: '9 5/8', top: 0, bottom: 2850}], tubing: [{type: 'Production', size: '4 1/2', top: 0, bottom: 2750}], equipment: [{item: 'SSSV', top: 1200, comments: 'TRSSSV, Flapper'}, {item: 'Packer', top: 2700, comments: 'Hydraulic Set'}, {item: 'Scale Buildup', top: 2300, comments: 'Suspected from history', isProblem: true}], perforations: [{top: 2800, bottom: 2820, date: '2019-03-10'}] } },
-        { id: 'W002', name: 'Statfjord A-12', field: 'Statfjord', region: 'Norwegian Sector', type: 'Water Injector', depth: '3,100m', status: 'Active - Low Injectivity', issue: 'Possible perforation plugging.', history: [ { date: '2023-01-20', operation: 'Coiled Tubing Acid Wash', problem: 'Incorrect acid concentration mixed initially.', lesson: 'Implement double-check verification for all fluid mixtures.' } ], dailyReports: [ { date: '2023-01-20', summary: 'Rig up CTU. Mixed acid, identified concentration error. Remixed. NPT: 3 hours.', npt: 3 }, { date: '2023-01-21', summary: 'RIH, spotted acid. POOH. Job complete.', npt: 0 } ], completion: { casing: [{type: 'Production', size: '9 5/8', top: 0, bottom: 3100}], tubing: [{type: 'Injection', size: '4 1/2', top: 0, bottom: 3000}], equipment: [{item: 'Packer', top: 2950, comments: 'Hydraulic Set'}], perforations: [{top: 3050, bottom: 3080, date: '2017-05-20', comments: 'Partially plugged', isProblem: true}] } },
-        { id: 'W003', name: 'Oseberg B-21', field: 'Oseberg', region: 'Norwegian Sector', type: 'Gas Producer', depth: '2,500m', status: 'Shut-in', issue: 'Suspected downhole safety valve failure.', history: [ { date: '2021-08-05', operation: 'Routine DHSV Test', problem: 'Valve failed to close on first attempt.', lesson: 'DHSV shows early signs of wear; schedule for replacement in next planned intervention.' } ], dailyReports: [ { date: '2021-08-05', summary: 'Performed routine DHSV test. Valve failed initial closure command. Cycled valve multiple times, eventually closed. Recommend monitoring.', npt: 1.5 } ], completion: { casing: [{type: 'Production', size: '7', top: 0, bottom: 2500}], tubing: [{type: 'Production', size: '3 1/2', top: 0, bottom: 2400}], equipment: [{item: 'SSSV', top: 1000, comments: 'Failed to close on test', isProblem: true}, {item: 'Packer', top: 2350, comments: 'Mechanical Set'}], perforations: [{top: 2450, bottom: 2480, date: '2018-01-15'}] } },
-        { id: 'W004', name: 'Halfdan D-5', field: 'Halfdan', region: 'Danish Sector', type: 'Oil Producer', depth: '2,200m', status: 'P&A Candidate', issue: 'High water cut; uneconomical production.', history: [ { date: '2022-09-18', operation: 'Zonal Isolation Evaluation', problem: 'Logging tool failure downhole (NPT event).', lesson: 'Ensure all electronic tools are surface-tested for 4 hours prior to RIH.' } ], dailyReports: [], completion: { casing: [{type: 'Surface', size: '13 3/8', top: 0, bottom: 500}, {type: 'Production', size: '9 5/8', top: 0, bottom: 2200}], plugs: [{type: 'Surface Plug', top: 50, bottom: 100, material: 'Cement'}, {type: 'Intermediate Plug', top: 1200, bottom: 1300, material: 'Cement'}, {type: 'Reservoir Plug', top: 2100, bottom: 2200, material: 'Cement'}] } },
+        { 
+            id: 'W001', 
+            name: 'Gullfaks C-34', 
+            field: 'Gullfaks', 
+            region: 'Norwegian Sector', 
+            type: 'Oil Producer', 
+            depth: '2,850m', 
+            status: 'Active - Underperforming', 
+            issue: 'Suspected scale buildup in tubing.', 
+            history: [ 
+                { date: '2020-10-03', operation: 'Scale Inhibitor Squeeze', problem: 'Pumping failure led to 12 hours of NPT due to a faulty valve on the cementing unit.', lesson: 'Third-party equipment maintenance records must be integrated into the job planning phase.' },
+                { date: '2024-02-20', operation: 'Coiled Tubing Scale Cleanout', problem: 'Motor stalled multiple times due to unexpectedly hard scale. The fluid system was unable to efficiently lift the large volume of debris, causing a pack-off scare.', lesson: 'Real-time downhole data (pressure, temperature, motor RPM) is essential for intervention effectiveness. The job should have been stopped earlier based on poor returns.' }
+            ], 
+            dailyReports: [ { date: '2024-02-20', summary: 'RIH with CT and motor. Encountered hard scale. Stalled motor 3 times. Circulated high-vis sweeps to clean hole. POOH slowly. Job took 12 hours longer than planned.', npt: 12.0, toolstringRun: ['CT Connector', 'Dual-Flapper Check Valve', 'Hydraulic Disconnect', 'High-Torque Motor', 'Scale Mill'] } ], 
+            completion: { casing: [{type: 'Surface', size: '13 3/8', top: 0, bottom: 800}, {type: 'Production', size: '9 5/8', top: 0, bottom: 2850}], tubing: [{type: 'Production', size: '4 1/2', top: 0, bottom: 2750}], equipment: [{item: 'SSSV', top: 1200, comments: 'TRSSSV, Flapper'}, {item: 'Packer', top: 2700, comments: 'Hydraulic Set'}, {item: 'Scale Buildup', top: 2300, comments: 'Suspected from history', isProblem: true}], perforations: [{top: 2800, bottom: 2820, date: '2019-03-10'}] } 
+        },
+        { 
+            id: 'W002', 
+            name: 'Statfjord A-12', 
+            field: 'Statfjord', 
+            region: 'Norwegian Sector', 
+            type: 'Water Injector', 
+            depth: '3,100m', 
+            status: 'Active - Low Injectivity', 
+            issue: 'Possible perforation plugging.', 
+            history: [ 
+                { date: '2023-01-20', operation: 'Coiled Tubing Acid Wash', problem: 'Incorrect acid concentration mixed initially. Wrong valve opened on chemical skid.', lesson: 'Implement a digital, step-by-step checklist with valve confirmations before starting any pumping job. Human error in mixing is a common, preventable NPT cause.' },
+                { date: '2024-04-11', operation: 'Production Logging (Wireline)', problem: 'Logging tool string became stuck at 2,900m. Jarring was unsuccessful. Had to perform a "cut and thread" fishing operation to retrieve the tool.', lesson: 'Wellbore tortuosity data was not consulted prior to the job. A rigid toolstring was run into a high-angle section, causing the hangup. The risk could have been flagged automatically.' }
+            ], 
+            dailyReports: [ { date: '2024-04-12', summary: 'Successfully fished PLT string after 36 hours of continuous operations. Significant NPT incurred. Wellbore is clear but injectivity issue remains unresolved.', npt: 36.0, toolstringRun: ['Rope Socket', 'Stem', 'Jars', 'Wireline Cutter', 'Rope-Socket Overshot'] } ], 
+            completion: { casing: [{type: 'Production', size: '9 5/8', top: 0, bottom: 3100}], tubing: [{type: 'Injection', size: '4 1/2', top: 0, bottom: 3000}], equipment: [{item: 'Packer', top: 2950, comments: 'Hydraulic Set'}], perforations: [{top: 3050, bottom: 3080, date: '2017-05-20', comments: 'Partially plugged', isProblem: true}] } 
+        },
+        { 
+            id: 'W003', 
+            name: 'Oseberg B-21', 
+            field: 'Oseberg', 
+            region: 'Norwegian Sector', 
+            type: 'Gas Producer', 
+            depth: '2,500m', 
+            status: 'Shut-in', 
+            issue: 'Suspected downhole safety valve failure.', 
+            history: [ 
+                { date: '2021-08-05', operation: 'Routine DHSV Test (Slickline)', problem: 'Valve failed to close on first attempt. Required multiple cycles to eventually close. Indicated hydraulic leak in control line or failing valve internals.', lesson: 'DHSV test failures should automatically trigger a "Well Integrity" flag and schedule a mandatory diagnostic run, not just a "monitor" recommendation.' },
+                { date: '2023-09-14', operation: 'Slickline: Attempted DHSV Lock-Open', problem: 'Ran lock-open tool. Tool sheared prematurely due to debris in the control line, leaving a new fish on top of the already faulty DHSV.', lesson: 'A simple control line flush was missed in the procedure. This highlights a failure in planning and assessing prerequisite tasks. The cost of this error is an order of magnitude higher than the cost of the flush.' }
+            ], 
+            dailyReports: [ { date: '2023-09-14', summary: 'Sheared pin on DHSV lock-open tool. Unable to retrieve. Well is now shut-in with an inoperable DHSV and a fish in the hole.', npt: 8.0, toolstringRun: ['Rope Socket', 'Stem', 'Spang Jars', 'Running Tool', 'DHSV Lock-Open Prong'] } ], 
+            completion: { casing: [{type: 'Production', size: '7', top: 0, bottom: 2500}], tubing: [{type: 'Production', size: '3 1/2', top: 0, bottom: 2400}], equipment: [{item: 'Lock-Open Tool Fish', top: 995, comments: 'Sheared tool', isProblem: true}, {item: 'SSSV', top: 1000, comments: 'Failed to close on test', isProblem: true}, {item: 'Packer', top: 2350, comments: 'Mechanical Set'}], perforations: [{top: 2450, bottom: 2480, date: '2018-01-15'}] } 
+        },
+        { 
+            id: 'W004', 
+            name: 'Halfdan D-5', 
+            field: 'Halfdan', 
+            region: 'Danish Sector', 
+            type: 'Oil Producer', 
+            depth: '2,200m', 
+            status: 'P&A Candidate', 
+            issue: 'High water cut; uneconomical production.', 
+            history: [ 
+                { date: '2022-09-18', operation: 'Zonal Isolation Evaluation (Wireline)', problem: 'Logging tool failed downhole due to high temperature. The tool selected was not rated for the BHT of the well, an error in the planning phase.', lesson: 'Equipment specifications (temp/pressure rating) must be cross-referenced against well parameters automatically. This was a preventable human error.' },
+                { date: '2024-01-20', operation: 'P&A: Set Bridge Plug (Wireline)', problem: 'Set bridge plug, but it failed a pressure test. The casing was found to be more corroded than historical records indicated. Plug had to be milled out.', lesson: 'Legacy data from drilling (e.g., caliper logs) must be easily accessible during intervention planning. The data existed but was buried in a PDF in an old system.' }
+            ], 
+            dailyReports: [ { date: '2022-09-18', summary: 'Attempted to run CBL/VDL log. Tool failed at 2100m due to temperature. POOH. NPT for the day.', npt: 6.0, toolstringRun: ['Rope Socket', 'CCL', 'Cement Bond Log Tool', 'VDL Tool'] } ], 
+            completion: { casing: [{type: 'Surface', size: '13 3/8', top: 0, bottom: 500}, {type: 'Production', size: '9 5/8', top: 0, bottom: 2200, comments: 'Corrosion noted in last report', isProblem: true}], plugs: [] } 
+        },
     ];
-    const objectivesData = [ { id: 'obj1', name: 'Production Enhancement', description: 'Intervention to increase hydrocarbon flow rate.' }, { id: 'obj2', name: 'Water Shut-off', description: 'Isolate water-producing zones to reduce water cut.' }, { id: 'obj3', name: 'Well Integrity Restoration', description: 'Repair or replace failed downhole components.' }, { id: 'obj4', name: 'Plug & Abandonment', description: 'Permanently seal the wellbore.' }, ];
-    const problemsData = [ { id: 'prob1', name: 'Production Decline / Low Injectivity', description: 'Well performance is below expected levels.', linked_objectives: ['obj1'] }, { id: 'prob2', name: 'Well Integrity Concern', description: 'Suspected failure of a downhole component (e.g., DHSV, packer).', linked_objectives: ['obj3'] }, { id: 'prob3', name: 'End of Life / Uneconomical', description: 'Well is no longer commercially viable.', linked_objectives: ['obj4', 'obj2'] }, ];
+    const objectivesData = [ 
+        { id: 'obj1', name: 'Production Enhancement', description: 'Intervention to increase hydrocarbon flow rate.' }, 
+        { id: 'obj2', name: 'Water Shut-off', description: 'Isolate water-producing zones to reduce water cut.' }, 
+        { id: 'obj3', name: 'Well Integrity Restoration', description: 'Repair or replace failed downhole components.' }, 
+        { id: 'obj4', name: 'Plug & Abandonment', description: 'Permanently seal the wellbore.' },
+        { id: 'obj5', name: 'AI-Guided Fishing & Repair', description: 'Execute a complex, data-driven plan to recover fish and restore production.' }
+    ];
+    const problemsData = [ 
+        { id: 'prob1', name: 'Production Decline / Low Injectivity', description: 'Well performance is below expected levels.', linked_objectives: ['obj1'] }, 
+        { id: 'prob2', name: 'Well Integrity Concern', description: 'Suspected failure of a downhole component (e.g., DHSV, packer).', linked_objectives: ['obj3'] }, 
+        { id: 'prob3', name: 'End of Life / Uneconomical', description: 'Well is no longer commercially viable.', linked_objectives: ['obj4', 'obj2'] },
+        { id: 'prob4', name: 'Complex Wellbore Obstruction / Fish', description: 'Multiple fish in hole with suspected tubing/casing integrity failure.', linked_objectives: ['obj5', 'obj4'] }
+    ];
     const aiRecommendations = {
-        prob1: [ { objectiveId: 'obj1', confidence: 92, outcome: '+250 bopd uplift', reason: 'Offset well analysis shows high success rate for acid stimulation in this formation.' } ],
-        prob2: [ { objectiveId: 'obj3', confidence: 88, outcome: 'Restore well to safe operational state', reason: 'Log data indicates likely DHSV failure, a standard slickline operation.' }, { objectiveId: 'obj4', confidence: 65, outcome: 'Permanently secure well', reason: 'P&A is a secondary option if integrity restoration is not feasible or economical.' } ],
-        prob3: [ { objectiveId: 'obj4', confidence: 95, outcome: 'Well permanently abandoned per regulations', reason: 'Well is a clear P&A candidate based on economic limit test.' }, { objectiveId: 'obj2', confidence: 55, outcome: 'Reduce water cut by 40%', reason: 'Water shut-off may extend well life, but has lower confidence of economic success.' } ]
+        prob1: [ 
+            { objectiveId: 'obj1', confidence: 92, outcome: '+250 bopd uplift', reason: 'Analysis of anonymized operational patterns from <strong>Gullfaks C-34 (W001)</strong> indicates a high success rate for acid stimulation in this formation type.' } 
+        ],
+        prob2: [ 
+            { objectiveId: 'obj3', confidence: 88, outcome: 'Restore well to safe operational state', reason: 'Log data indicates likely DHSV failure. The anonymized operational patterns from the tool failure on <strong>Oseberg B-21 (W003)</strong> highlights the need for a pre-job control line flush, which will be added to the procedure.' }, 
+            { objectiveId: 'obj4', confidence: 65, outcome: 'Permanently secure well', reason: 'P&A is a secondary option if integrity restoration is not feasible. The casing corrosion issues on <strong>Halfdan D-5 (W004)</strong> suggest a full casing integrity log should be run first.' } 
+        ],
+        prob3: [ 
+            { objectiveId: 'obj4', confidence: 95, outcome: 'Well permanently abandoned per regulations', reason: 'Well is a clear P&A candidate based on economic limit test and referencing the P&A challenges on <strong>Halfdan D-5 (W004)</strong>.' }, 
+            { objectiveId: 'obj2', confidence: 55, outcome: 'Reduce water cut by 40%', reason: 'Water shut-off may extend well life, but has lower confidence of economic success based on similar zonal isolation jobs.' } 
+        ],
+        prob4: [
+            { objectiveId: 'obj5', confidence: 95, outcome: 'Fish recovered and well online', reason: 'This plan is generated by analyzing the entire data pool. Anonymized patterns from the failed fishing job on <strong>Statfjord A-12 (W002)</strong> mandate a pre-job cleanout. The successful milling on <strong>Gullfaks C-34 (W001)</strong> provides the optimal parameters for a cutting run. Finally, the tool failure on <strong>Oseberg B-21 (W003)</strong> informs the selection of a more robust, heavy-duty fishing assembly.'},
+            { objectiveId: 'obj4', confidence: 98, outcome: 'Permanently secure wellbore', reason: 'Safest option. Given the multiple integrity failures and tangled fish, referencing the P&A challenges on <strong>Halfdan D-5 (W004)</strong> and the cementing failures on this well, a complex section milling and plugging operation is the surest path to permanent abandonment.'}
+        ]
     };
     const proceduresData = {
         obj1: { name: "Coiled Tubing Acid Stimulation", personnel: ["Coiled Tubing Supervisor", "Pump Operator", "Wellsite Engineer"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Coiled Tubing unit and PCE.", "Pressure test PCE to 5000 psi.", "Run in hole (RIH) to 9,500 ft.", "Spot 50 bbls of 15% HCl acid.", "Pull out of hole (POOH) to surface.", "Flow back well and monitor returns.", "Rig down equipment."], risks: { operational: 4, geological: 3, equipment: 3, hse: 4, financial: 2 }, cost: 750000, duration: 5, tfaModel: { pickUp: [[0,0], [9500, 25]], slackOff: [[0,0], [9500, -25]], alarmUpper: [[0,2], [9500, 27]], alarmLower: [[0,-2], [9500, -27]] } },
         obj2: { name: "Mechanical Plug Installation", personnel: ["Wireline Supervisor", "Wireline Operator"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Wireline unit.", "Run in hole with gauge ring.", "Run in hole with bridge plug and set at target depth.", "Dump bail cement on top of plug.", "Pressure test to confirm seal.", "Rig down equipment."], risks: { operational: 3, geological: 2, equipment: 3, hse: 3, financial: 1 }, cost: 325000, duration: 3, tfaModel: { pickUp: [[0,0], [9500, 10]], slackOff: [[0,0], [9500, -10]], alarmUpper: [[0,1], [9500, 11]], alarmLower: [[0,-1], [9500, -11]] } },
         obj3: { name: "Slickline: DHSV Replacement", personnel: ["Slickline Supervisor", "Slickline Operator"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up Slickline unit.", "Run in hole to equalize and retrieve failed DHSV insert.", "Run in hole with new DHSV insert and lock into place.", "Pressure test control line and valve.", "Function test valve.", "Rig down equipment."], risks: { operational: 4, geological: 1, equipment: 5, hse: 4, financial: 3 }, cost: 480000, duration: 5, tfaModel: { pickUp: [[0, 100], [9500, 150]], slackOff: [[0, 100], [9500, 50]], alarmUpper: [[0, 110], [9500, 160]], alarmLower: [[0, 90], [9500, 40]] } },
-        obj4: { name: "P&A - Section Milling & Plugging", personnel: ["Rig Supervisor", "Driller", "Derrickhand", "Floorhand"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up workover rig.", "Mill section of casing to expose formation.", "Set balanced cement plug across milled section.", "Verify plug placement and integrity.", "Repeat for all required barriers.", "Rig down equipment."], risks: { operational: 5, geological: 4, equipment: 4, hse: 5, financial: 4 }, cost: 2500000, duration: 18, tfaModel: { pickUp: [[0,0], [5000, 50]], slackOff: [[0,0], [5000, -50]], alarmUpper: [[0,10], [5000, 60]], alarmLower: [[0,-10], [5000, -60]] } }
+        obj4: { name: "P&A - Section Milling & Plugging", personnel: ["Rig Supervisor", "Driller", "Derrickhand", "Floorhand"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "Rig up workover rig.", "Mill section of casing to expose formation.", "Set balanced cement plug across milled section.", "Verify plug placement and integrity.", "Repeat for all required barriers.", "Rig down equipment."], risks: { operational: 5, geological: 4, equipment: 4, hse: 5, financial: 4 }, cost: 2500000, duration: 18, tfaModel: { pickUp: [[0,0], [5000, 50]], slackOff: [[0,0], [5000, -50]], alarmUpper: [[0,10], [5000, 60]], alarmLower: [[0,-10], [5000, -60]] } },
+        obj5: { name: "AI-Guided Fishing & Repair", personnel: ["Wellsite Engineer", "Coiled Tubing Supervisor", "Wireline Supervisor"], steps: ["Hold pre-job safety meeting & TBT.", "Confirm all PTW are approved.", "RIH with Coiled Tubing and circulate high-viscosity sweeps to clean debris.", "POOH Coiled Tubing.", "RIH with Wireline cutting tool to cut tangled fish.", "RIH with heavy-duty overshot to latch and retrieve fish.", "RIH with high-expansion tubing patch and set across damaged interval.", "Pressure test patch and bring well online."], risks: { operational: 5, geological: 3, equipment: 4, hse: 5, financial: 5 }, cost: 3200000, duration: 15, tfaModel: { pickUp: [[0,0], [12000, 40]], slackOff: [[0,0], [12000, -40]], alarmUpper: [[0,5], [12000, 45]], alarmLower: [[0,-5], [12000, -45]] } }
     };
     const equipmentRequirements = {
         obj1: [
@@ -525,26 +631,27 @@ document.addEventListener('DOMContentLoaded', function() {
             { name: "High-Pressure Pumps", source: "Onboard", vendor: "N/A", price: 0 },
             { name: "Fluid Tanks", source: "Vendor", vendor: "Baker Hughes", price: 20000 },
             { name: "Jetting Nozzle BHA", source: "Vendor", vendor: "Schlumberger", price: 15000 },
-            { name: "Wellhead Pressure Control Equipment", source: "Onboard", vendor: "N/A", price: 0 },
-            { name: "Data Acquisition System", source: "Vendor", vendor: "Weatherford", price: 30000 }
         ],
         obj2: [
             { name: "Wireline Truck/Skid", source: "Vendor", vendor: "Expro", price: 90000 },
-            { name: "Pressure Control Equipment (Lubricator)", source: "Onboard", vendor: "N/A", price: 0 },
             { name: "Setting Tool for Bridge Plug", source: "Vendor", vendor: "Baker Hughes", price: 25000 },
-            { name: "Gauge Rings", source: "Owned", vendor: "N/A", price: 0 },
             { name: "Dump Bailer", source: "Vendor", vendor: "Schlumberger", price: 18000 }
         ],
         obj3: [
             { name: "Slickline Unit", source: "Vendor", vendor: "Archer", price: 75000 },
             { name: "DHSV Pulling/Running Tools", source: "Vendor", vendor: "Schlumberger", price: 45000 },
-            { name: "Hydraulic Control Unit for DHSV", source: "Onboard", vendor: "N/A", price: 0 }
         ],
         obj4: [
             { name: "Workover Rig", source: "Onboard", vendor: "N/A", price: 0 },
             { name: "Milling BHA (Motor & Mill)", source: "Vendor", vendor: "Weatherford", price: 250000 },
             { name: "Cementing Unit", source: "Vendor", vendor: "Halliburton", price: 150000 },
-            { name: "Casing Scrapers & Brushes", source: "Owned", vendor: "N/A", price: 0 }
+        ],
+        obj5: [
+            { name: "Coiled Tubing Unit", source: "Vendor", vendor: "Halliburton", price: 125000 },
+            { name: "Wireline Truck/Skid", source: "Vendor", vendor: "Expro", price: 90000 },
+            { name: "Wireline Cutting Tool", source: "Vendor", vendor: "Specialist", price: 80000 },
+            { name: "Heavy Duty Overshot", source: "Vendor", vendor: "Specialist", price: 60000 },
+            { name: "High-Expansion Tubing Patch", source: "Vendor", vendor: "Metalskin", price: 450000 },
         ]
     };
     const equipmentData = [ { id: 'CTU-01', type: 'Coiled Tubing Unit', location: 'Onboard - Deck A', testStatus: 'Passed', nextMaint: '2025-09-15', rate: 25000, status: 'On Job' }, { id: 'CTU-02', type: 'Coiled Tubing Unit', location: 'Onshore Base', testStatus: 'Pending', nextMaint: '2025-07-10', rate: 25000, status: 'Maintenance' }, { id: 'WL-01', type: 'Wireline Truck/Skid', location: 'Onshore Base', testStatus: 'Passed', nextMaint: '2025-08-22', rate: 18000, status: 'Available' }, { id: 'SL-01', type: 'Slickline Unit', location: 'In Transit', testStatus: 'Passed', nextMaint: '2025-07-20', rate: 15000, status: 'In Transit' }, { id: 'PUMP-01', type: 'High-Pressure Pumps', location: 'Onboard - Pump Room', testStatus: 'Pending', nextMaint: '2025-10-01', rate: 8000, status: 'On Job' }, { id: 'PUMP-02', type: 'High-Pressure Pumps', location: 'Onshore Base', testStatus: 'Passed', nextMaint: '2025-11-05', rate: 8000, status: 'Available' }, { id: 'RIG-01', type: 'Workover Rig', location: 'Onboard - Drill Floor', testStatus: 'Passed', nextMaint: '2025-08-01', rate: 85000, status: 'On Job' }, ];
@@ -590,6 +697,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- DOM ELEMENTS ---
     const body = document.body;
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const appContainer = document.getElementById('app-container');
+    const loginBtn = document.getElementById('login-btn');
     const views = document.querySelectorAll('.view-container');
     const navLinks = document.querySelectorAll('.nav-link');
     const headerTitle = document.getElementById('header-title');
@@ -652,8 +762,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         appState.currentView = viewName;
-        body.classList.toggle('theme-dark', viewName === 'performer');
-        body.classList.toggle('theme-light', viewName !== 'performer');
+        body.className = `theme-${localStorage.getItem('theme') || 'light'}`;
+        if (viewName === 'performer') {
+            body.classList.add('theme-dark');
+        }
 
         views.forEach(v => v.classList.add('hidden'));
         document.getElementById(`${viewName}-view`).classList.remove('hidden');
@@ -706,7 +818,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // --- PLANNER LOGIC ---
-    const renderWellCards = () => { wellSelectionGrid.innerHTML = wellData.map(well => `<div class="planner-card light-card p-6 cursor-pointer rounded-lg shadow-md" data-well-id="${well.id}"><div class="flex justify-between items-start"><div class="flex-1"><h3 class="text-xl font-bold">${well.name}</h3><p class="text-sm font-medium ${well.id === 'W666' ? 'text-red-500' : 'text-teal-600 dark:text-teal-400'}">${well.field} - ${well.type}</p></div><button class="view-details-btn text-sm text-teal-600 hover:text-teal-800 dark:text-teal-400 dark:hover:text-teal-200 font-semibold" data-well-id="${well.id}">View Details</button></div><div class="mt-4 space-y-2 text-sm"><p><strong>Status:</strong> <span class="font-normal status-${well.status.toLowerCase().replace(/\s/g, '')} px-2 py-1 rounded-full inline-block">${well.status}</span></p><p><strong>Issue:</strong> <span class="font-normal">${well.issue}</span></p></div></div>`).join(''); };
+    const renderWellCards = () => { wellSelectionGrid.innerHTML = wellData.map(well => `<div class="planner-card light-card p-6 cursor-pointer rounded-lg shadow-md" data-well-id="${well.id}"><div class="flex justify-between items-start"><div class="flex-1"><h3 class="text-xl font-bold">${well.name}</h3><p class="text-sm font-medium ${well.id === 'W666' ? 'text-green-600' : 'text-teal-600 dark:text-teal-400'}">${well.field} - ${well.type}</p></div><button class="view-details-btn text-sm text-teal-600 hover:text-teal-800 dark:text-teal-400 dark:hover:text-teal-200 font-semibold" data-well-id="${well.id}">View Details</button></div><div class="mt-4 space-y-2 text-sm"><p><strong>Status:</strong> <span class="font-normal status-${well.status.toLowerCase().replace(/[\s-]/g, '')} px-2 py-1 rounded-full inline-block">${well.status}</span></p><p><strong>Issue:</strong> <span class="font-normal">${well.issue}</span></p></div></div>`).join(''); };
     const renderObjectives = () => { objectivesFieldset.innerHTML = objectivesData.map(obj => `<div><input type="radio" name="objective" id="${obj.id}" value="${obj.id}" class="sr-only"><label for="${obj.id}" class="objective-label flex flex-col p-4 rounded-lg"><span class="font-semibold">${obj.name}</span><span class="text-sm">${obj.description}</span></label></div>`).join(''); };
     const renderProblems = () => { problemsFieldset.innerHTML = problemsData.map(prob => `<div><input type="radio" name="problem" id="${prob.id}" value="${prob.id}" class="sr-only"><label for="${prob.id}" class="problem-label flex flex-col p-4 rounded-lg"><span class="font-semibold">${prob.name}</span><span class="text-sm">${prob.description}</span></label></div>`).join(''); };
     const renderPlan = () => {
@@ -797,7 +909,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!step) return;
 
         const stepText = step.text.toLowerCase();
-        const targetDepth = 9500;
+        const targetDepth = 12000;
         let isMoving = false;
 
         if (stepText.includes('rih')) {
@@ -814,7 +926,7 @@ document.addEventListener('DOMContentLoaded', function() {
              if (appState.liveData.depth <= 0) {
                 advancePerformerStep();
             }
-        } else if (stepText.includes('spot') || stepText.includes('pump')) {
+        } else if (stepText.includes('spot') || stepText.includes('pump') || stepText.includes('circulate')) {
             appState.liveData.speed = 0;
             appState.liveData.pressure = Math.min(2500, appState.liveData.pressure + 250);
         } else {
@@ -911,7 +1023,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const previousStep = appState.generatedPlan.procedure.find(s => s.id === targetStepId - 1);
         if (previousStep) {
             const prevStepText = previousStep.text.toLowerCase();
-            if (prevStepText.includes('rih')) { lastDepth = 9500; }
+            if (prevStepText.includes('rih')) { lastDepth = 12000; }
             else if (prevStepText.includes('pooh')) { lastDepth = 0; }
         }
         appState.liveData.depth = lastDepth;
@@ -980,7 +1092,7 @@ document.addEventListener('DOMContentLoaded', function() {
         musterStations.forEach(ms => { ms.current = appState.pob.personnel.filter(p => p.muster === ms.id && p.musterStatus === 'Mustered').length; });
         const summaryHtml = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"><div class="light-card p-6 text-center rounded-lg"><p class="text-sm font-medium">Total POB</p><p class="text-4xl font-bold">${totalPOB}</p></div><div class="light-card p-6 text-center rounded-lg"><p class="text-sm font-medium">Accounted For</p><p class="text-4xl font-bold text-green-600">${musteredCount}</p></div><div class="light-card p-6 text-center rounded-lg"><p class="text-sm font-medium">Unaccounted For</p><p class="text-4xl font-bold text-red-600">${totalPOB - musteredCount}</p></div></div>`;
         const musterStationHtml = musterStations.map(ms => `<div class="light-card p-4 rounded-lg"><h4 class="font-semibold">${ms.name}</h4><p class="text-sm">Capacity: ${ms.capacity}</p><p class="text-2xl font-bold">${ms.current}</p></div>`).join('');
-        const pobTableHtml = `<div class="light-card p-6 rounded-lg"><h3 class="text-xl font-semibold mb-4">Live POB Manifest</h3><div class="h-96 overflow-y-auto"><table class="w-full text-sm text-left"><thead class="table-header sticky top-0"><tr><th class="p-2">Name</th><th>Company</th><th>Role</th><th>Muster Station</th><th>Status</th></tr></thead><tbody>${appState.pob.personnel.map(p => `<tr class="table-row-alt border-b dark:border-gray-700"><td class="p-2">${p.name}</td><td class="p-2">${p.company}</td><td class="p-2">${p.role}</td><td class="p-2">${p.muster}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${p.musterStatus.toLowerCase().replace(' ', '')}">${p.musterStatus}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+        const pobTableHtml = `<div class="light-card p-6 rounded-lg"><h3 class="text-xl font-semibold mb-4">Live POB Manifest</h3><div class="h-96 overflow-y-auto"><table class="w-full text-sm text-left"><thead class="table-header sticky top-0"><tr><th class="p-2">Name</th><th>Company</th><th>Role</th><th>Muster Station</th><th>Status</th></tr></thead><tbody>${appState.pob.personnel.map(p => `<tr class="border-b table-row-alt dark:border-gray-700"><td class="p-2">${p.name}</td><td class="p-2">${p.company}</td><td class="p-2">${p.role}</td><td class="p-2">${p.muster}</td><td class="p-2"><span class="px-2 py-1 text-xs font-medium rounded-full status-${p.musterStatus.toLowerCase().replace(' ', '')}">${p.musterStatus}</span></td></tr>`).join('')}</tbody></table></div></div>`;
         pobContent.innerHTML = `${summaryHtml}<div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="md:col-span-2">${pobTableHtml}</div><div><div class="light-card p-6 rounded-lg"><h3 class="text-xl font-semibold mb-4">Muster Stations</h3><div class="grid grid-cols-2 gap-4">${musterStationHtml}</div></div><div class="mt-8"><button id="muster-drill-btn" class="w-full rounded-md ${appState.pob.musterActive ? 'bg-red-600 hover:bg-red-500' : 'bg-yellow-500 hover:bg-yellow-400'} px-6 py-3 text-base font-semibold text-white shadow-sm">${appState.pob.musterActive ? 'End Muster Drill' : 'Simulate Emergency Muster'}</button></div></div></div>`;
         document.getElementById('muster-drill-btn').addEventListener('click', toggleMusterDrill);
     };
@@ -1011,11 +1123,11 @@ document.addEventListener('DOMContentLoaded', function() {
         appState.commercial.afe = appState.generatedPlan.cost;
         appState.commercial.actualCost = 0;
         appState.commercial.serviceTickets = [];
-        appState.generatedPlan.tooling.forEach(toolName => {
-            const tool = equipmentData.find(t => t.type === toolName);
-            if(tool) {
-                const cost = tool.rate * appState.generatedPlan.duration;
-                appState.commercial.serviceTickets.push({ description: `Rental: ${tool.type} (${tool.id})`, cost: cost, validated: true });
+        const equipmentList = equipmentRequirements[appState.selectedObjective.id] || [];
+        equipmentList.forEach(item => {
+            if (item.price > 0) {
+                const cost = item.price * appState.generatedPlan.duration;
+                appState.commercial.serviceTickets.push({ description: `Rental: ${item.name} (${item.vendor})`, cost: cost, validated: true });
                 appState.commercial.actualCost += cost;
             }
         });
@@ -1093,19 +1205,90 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.classList.remove('hidden');
     };
     const renderModalTabs = (well) => {
-        document.getElementById('history-content').innerHTML = well.history.length ? well.history.map(h => `<div class="p-4 mb-4 border dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50"><p class="font-bold text-lg">${h.operation} <span class="text-sm font-normal">- ${h.date}</span></p><div class="mt-2 pl-4 border-l-2 border-gray-200 dark:border-gray-600"><p class="text-sm"><strong class="text-red-600">Problem:</strong> ${h.problem}</p><p class="text-sm mt-1"><strong class="text-green-600">Lesson Learned:</strong> ${h.lesson}</p></div></div>`).join('') : '<p>No historical data available.</p>';
-        document.getElementById('reports-content').innerHTML = well.dailyReports.length ? `<table class="w-full text-sm text-left"><thead class="table-header"><tr><th class="p-2">Date</th><th class="p-2">Summary</th><th class="p-2">NPT (hrs)</th></tr></thead><tbody>${well.dailyReports.map(r => `<tr class="border-b table-row-alt dark:border-gray-700"><td class="p-2">${r.date}</td><td class="p-2">${r.summary}</td><td class="p-2">${r.npt}</td></tr>`).join('')}</tbody></table>` : '<p>No daily reports available.</p>';
+        document.getElementById('history-content').innerHTML = well.history.length ? well.history.map(h => `
+            <div class="p-4 mb-4 border dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p class="font-bold text-lg">${h.operation} <span class="text-sm font-normal">- ${h.date}</span></p>
+                <div class="mt-3 space-y-3">
+                    <div class="flex items-start">
+                        <span class="text-xl mr-3">⚠️</span>
+                        <div>
+                            <strong class="font-semibold text-red-600 dark:text-red-400">Problem:</strong>
+                            <p class="text-sm">${h.problem}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-xl mr-3">💡</span>
+                        <div>
+                            <strong class="font-semibold text-green-600 dark:text-green-400">Lesson Learned:</strong>
+                            <p class="text-sm">${h.lesson}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>`).join('') : '<p>No historical data available.</p>';
+        document.getElementById('reports-content').innerHTML = well.dailyReports.length ? `
+            <table class="w-full text-sm text-left">
+                <thead class="table-header">
+                    <tr>
+                        <th class="p-2">Date</th>
+                        <th class="p-2">Summary</th>
+                        <th class="p-2">NPT (hrs)</th>
+                        <th class="p-2">Toolstring Run</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${well.dailyReports.map(r => `
+                        <tr class="border-b table-row-alt dark:border-gray-700">
+                            <td class="p-2 align-top">${r.date}</td>
+                            <td class="p-2 align-top">${r.summary}</td>
+                            <td class="p-2 align-top">${r.npt}</td>
+                            <td class="p-2 align-top font-mono text-xs">
+                                <ul class="space-y-1">
+                                    ${r.toolstringRun.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </td>
+                        </tr>`).join('')}
+                </tbody>
+            </table>` : '<p>No daily reports available.</p>';
     };
     const closeModal = () => modal.classList.add('hidden');
     const renderWellSchematic = (well) => {
         const isDark = body.classList.contains('theme-dark');
-        const maxDepth = 20000; // Use a fixed max depth for consistent scaling
-        let svgContent = `<svg viewBox="0 0 150 600" class="w-full h-auto"><g class="schematic-depth-marker" text-anchor="end" fill="${isDark ? '#94a3b8' : '#1d4ed8'}"><text x="25" y="53">0k</text><line x1="28" y1="50" x2="35" y2="50" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="203">5k</text><line x1="28" y1="200" x2="35" y2="200" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="353">10k</text><line x1="28" y1="350" x2="35" y2="350" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/><text x="25" y="503">15k</text><line x1="28" y1="500" x2="35" y2="500" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/></g><rect x="40" y="0" width="100" height="600" fill="${isDark ? '#281e14' : '#eaddc7'}" /><rect x="50" y="0" width="80" height="600" fill="${isDark ? '#3a2d21' : '#d2b48c'}" /><rect x="50" y="20" width="80" height="10" fill="${isDark ? '#4b5563' : '#9ca3af'}"/><rect x="75" y="10" width="30" height="10" fill="${isDark ? '#6b7280' : '#6b7280'}"/>`;
-        well.completion.casing?.forEach(c => { const topY = (c.top / maxDepth) * 600; const height = ((c.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="60" y="${topY}" width="60" height="${height}" fill="none" stroke="${c.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="2"/>`; });
-        well.completion.tubing?.forEach(t => { const topY = (t.top / maxDepth) * 600; const height = ((t.bottom - t.top) / maxDepth) * 600; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${isDark ? '#6b7280' : '#d1d5db'}" stroke="${isDark ? '#4b5563' : '#9ca3af'}" stroke-width="0.5"/>`; });
-        well.completion.equipment?.forEach(e => { const y = (e.top / maxDepth) * 600; if(e.item.includes('Packer')) { svgContent += `<polygon points="75,${y-10} 105,${y-10} 110,${y} 70,${y}" fill="${isDark ? '#9ca3af' : '#4b5563'}"/>`; } else if (e.item.includes('SSSV')) { svgContent += `<rect x="82" y="${y}" width="16" height="20" class="${e.isProblem ? 'stroke-red-500 fill-red-200/50' : 'fill-gray-400'}" stroke-width="1"/><path d="M 85 ${y+3} l 10 14 M 85 ${y+17} l 10 -14" stroke="${e.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="1.5"/>`; } else if (e.item.includes('Scale')) { svgContent += `<path d="M 85 ${y-10} C 80 ${y}, 80 ${y+10}, 85 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 95 ${y-10} C 100 ${y}, 100 ${y+10}, 95 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/>`; } else if (e.item.includes('Shale')) { svgContent += `<rect x="40" y="${y}" width="100" height="100" fill="rgba(239, 68, 68, 0.1)" /><text x="75" y="${y+50}" class="schematic-label" text-anchor="middle" fill="#ef4444">${e.item}</text>`; } });
-        well.completion.perforations?.forEach(p => { const topY = (p.top / maxDepth) * 600; const bottomY = (p.bottom / maxDepth) * 600; for(let y = topY; y <= bottomY; y += 10) { svgContent += `<path d="M 60 ${y} L 40 ${y}" stroke="${p.isProblem ? '#ef4444' : '#1d4ed8'}" stroke-width="1.5" />`; if(p.isProblem) svgContent += `<path d="M 40 ${y} l 4 4 m -4 0 l 4 -4" stroke="#ef4444" stroke-width="1.5"/>`; } });
-        well.completion.plugs?.forEach(p => { const topY = (p.top / maxDepth) * 600; const height = ((p.bottom - c.top) / maxDepth) * 600; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
+        const maxDepth = Math.max(...well.completion.casing.map(c => c.bottom), 18500); // Dynamic max depth
+        const scale = 600 / maxDepth;
+
+        let svgContent = `<svg viewBox="0 0 150 600" class="w-full h-auto">`;
+        
+        // Depth markers
+        svgContent += `<g class="schematic-depth-marker" text-anchor="end" fill="${isDark ? '#94a3b8' : '#1d4ed8'}">`;
+        for (let d = 0; d <= maxDepth; d += 5000) {
+            const y = d * scale;
+            svgContent += `<text x="25" y="${y+3}">${d/1000}k</text><line x1="28" y1="${y}" x2="35" y2="${y}" stroke="${isDark ? '#4b5563' : '#d1d5db'}" stroke-width="1"/>`;
+        }
+        svgContent += `</g>`;
+
+        // Wellbore background
+        svgContent += `<rect x="40" y="0" width="100" height="600" fill="${isDark ? '#281e14' : '#eaddc7'}" /><rect x="50" y="0" width="80" height="600" fill="${isDark ? '#3a2d21' : '#d2b48c'}" /><rect x="50" y="20" width="80" height="10" fill="${isDark ? '#4b5563' : '#9ca3af'}"/><rect x="75" y="10" width="30" height="10" fill="${isDark ? '#6b7280' : '#6b7280'}"/>`;
+        
+        // Components
+        well.completion.casing?.forEach(c => { const topY = c.top * scale; const height = (c.bottom - c.top) * scale; svgContent += `<rect x="60" y="${topY}" width="60" height="${height}" fill="none" stroke="${c.isProblem ? '#ef4444' : '#6b7280'}" stroke-width="2"/>`; });
+        well.completion.tubing?.forEach(t => { const topY = t.top * scale; const height = (t.bottom - t.top) * scale; svgContent += `<rect x="85" y="${topY}" width="10" height="${height}" fill="${t.isProblem ? 'rgba(239, 68, 68, 0.3)' : (isDark ? '#6b7280' : '#d1d5db')}" stroke="${t.isProblem ? '#ef4444' : (isDark ? '#4b5563' : '#9ca3af')}" stroke-width="0.5"/>`; });
+        well.completion.equipment?.forEach(e => { 
+            const y = e.top * scale; 
+            const fillProblem = 'rgba(239, 68, 68, 0.5)';
+            const strokeProblem = '#ef4444';
+            const fillNormal = isDark ? '#9ca3af' : '#4b5563';
+            const fillSuccess = 'rgba(22, 163, 74, 0.5)';
+            const strokeSuccess = '#16a34a';
+
+            if(e.item.includes('Packer')) { svgContent += `<polygon points="75,${y-10} 105,${y-10} 110,${y} 70,${y}" fill="${fillNormal}"/>`; } 
+            else if (e.item.includes('SSSV')) { svgContent += `<rect x="82" y="${y}" width="16" height="20" class="${e.isProblem ? 'stroke-red-500 fill-red-200/50' : 'fill-gray-400'}" stroke-width="1"/><path d="M 85 ${y+3} l 10 14 M 85 ${y+17} l 10 -14" stroke="${e.isProblem ? strokeProblem : '#6b7280'}" stroke-width="1.5"/>`; } 
+            else if (e.item.includes('Scale')) { svgContent += `<path d="M 85 ${y-10} C 80 ${y}, 80 ${y+10}, 85 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 95 ${y-10} C 100 ${y}, 100 ${y+10}, 95 ${y+20}" stroke="#c2410c" stroke-width="2" fill="none" stroke-linecap="round"/>`; } 
+            else if (e.item.includes('Shale')) { svgContent += `<rect x="40" y="${y}" width="100" height="100" fill="rgba(239, 68, 68, 0.1)" /><text x="75" y="${y+50}" class="schematic-label" text-anchor="middle" fill="#ef4444">${e.item}</text>`; }
+            else if (e.item.includes('Fish')) { svgContent += `<g transform="translate(90 ${y})"><path d="M-5 -10 L 5 -10 L 3 -5 L -3 -5 Z M-2 -5 L 2 -5 L 2 10 L -2 10 Z" fill="${fillProblem}" stroke="${strokeProblem}" stroke-width="1" /><text x="15" y="5" class="schematic-label" fill="${strokeProblem}">${e.item}</text></g>`; }
+            else if (e.item.includes('Tubing Patch')) { svgContent += `<rect x="82" y="${y}" width="16" height="50" fill="${fillSuccess}" stroke="${strokeSuccess}" stroke-width="1.5"/><text x="105" y="${y+25}" class="schematic-label" fill="${strokeSuccess}">${e.item}</text>`}
+        });
+        well.completion.perforations?.forEach(p => { const topY = p.top * scale; const bottomY = p.bottom * scale; for(let y = topY; y <= bottomY; y += 10) { svgContent += `<path d="M 60 ${y} L 40 ${y}" stroke="${p.isProblem ? '#ef4444' : '#1d4ed8'}" stroke-width="1.5" />`; if(p.isProblem) svgContent += `<path d="M 40 ${y} l 4 4 m -4 0 l 4 -4" stroke="#ef4444" stroke-width="1.5"/>`; } });
+        well.completion.plugs?.forEach(p => { const topY = p.top * scale; const height = (p.bottom - p.top) * scale; svgContent += `<rect x="55" y="${topY}" width="70" height="${height}" fill="#a8a29e"/>`; });
         svgContent += `</svg>`; return svgContent;
     };
 
@@ -1149,6 +1332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const savingsChartCanvas = document.getElementById('savingsChart').getContext('2d');
 
     const calculateROI = () => {
+        if (!engineerCountSlider) return;
         const engineers = parseInt(engineerCountSlider.value);
         const nptReduction = parseInt(nptReductionSlider.value) / 100;
         const timeSavings = parseInt(timeSavingsSlider.value) / 100;
@@ -1170,11 +1354,14 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const updateSavingsChart = (engineerSavings, nptSavings) => {
-        appState.savingsChartInstance.data.datasets[0].data = [engineerSavings, nptSavings];
-        appState.savingsChartInstance.update();
+        if(appState.savingsChartInstance) {
+            appState.savingsChartInstance.data.datasets[0].data = [engineerSavings, nptSavings];
+            appState.savingsChartInstance.update();
+        }
     };
 
     const initSavingsChart = () => {
+        if (!savingsChartCanvas) return;
         const isDark = body.classList.contains('theme-dark');
         appState.savingsChartInstance = new Chart(savingsChartCanvas, {
             type: 'bar',
@@ -1214,8 +1401,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- EVENT LISTENERS ---
+    loginBtn.addEventListener('click', () => {
+        welcomeScreen.style.opacity = '0';
+        setTimeout(() => {
+            welcomeScreen.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            appContainer.classList.add('flex');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+            switchView('home');
+        }, 500);
+    });
+
     themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        const currentTheme = body.classList.contains('theme-dark') ? 'dark' : 'light';
         setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
     navLinks.forEach(link => {
@@ -1228,10 +1427,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.closest('.view-details-btn')) { e.stopPropagation(); openModal(e.target.closest('.view-details-btn').dataset.wellId); return; }
         const card = e.target.closest('.planner-card'); if (!card) return;
         appState.selectedWell = wellData.find(w => w.id === card.dataset.wellId);
-        document.querySelectorAll('.planner-card').forEach(c => c.classList.remove('selected', 'border-red-500'));
+        document.querySelectorAll('.planner-card').forEach(c => c.classList.remove('selected', 'border-red-500', 'border-green-500'));
         card.classList.add('selected');
         if (card.dataset.wellId === 'W666') {
-            card.classList.add('border-red-500'); // Special border for the special well
+            card.classList.add('border-green-500'); 
         } else {
              card.classList.add('border-teal-500');
         }
@@ -1282,12 +1481,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderWellCards();
         renderObjectives();
         renderProblems();
-        if (document.getElementById('savingsChart')) {
-            initSavingsChart();
-        }
-        resetApp(true); // Start on the home page
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        setTheme(savedTheme);
+        initSavingsChart();
     };
 
     init();
