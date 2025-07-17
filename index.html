@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v16 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
+    <title>v15 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -292,12 +292,11 @@
                         <h2 class="section-title">Are You Paying the Hidden Taxes of Inefficiency?</h2>
                         <p class="mt-4 text-lg">Your operations are being taxed by disconnected workflows you can't see on a balance sheet.</p>
                     </div>
-                    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Data Wrangling Tax</h3><p class="mt-2">Your most valuable assets—your engineers—are forced to act as data clerks, wasting countless hours hunting for information in emails, correcting spreadsheet errors, and re-entering data from PDFs.</p></div>
+                    <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Data Wrangling Tax</h3><p class="mt-2">Unlock Your Data. Your most valuable assets—your engineers—are forced to act as data clerks, wasting countless hours hunting for information in emails, correcting spreadsheet errors, and re-entering data from PDFs.</p></div>
                         <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The NPT Tax</h3><p class="mt-2">Every moment of Non-Productive Time is a direct hit to your bottom line. Plans based on poor data lead to equipment failures, procedural errors, and costly downtime.</p></div>
                         <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Collaboration Tax</h3><p class="mt-2">The critical gap between your team and service partners is where value is lost. Static PDF handoffs create slow, error-prone workflows that prevent true, real-time collaboration.</p></div>
                         <div class="feature-card light-card p-6 rounded-lg shadow"><h3 class="text-xl font-bold">The Energy & Emissions Tax</h3><p class="mt-2">Inefficient operations don't just waste money—they waste energy. Extended run times and unnecessary flaring contribute to higher operational costs and a larger carbon footprint.</p></div>
-                        <div class="feature-card light-card p-6 rounded-lg shadow lg:col-start-2"><h3 class="text-xl font-bold">The Approval Delay Tax</h3><p class="mt-2">Decisions are bottlenecked waiting for senior staff who are away from their desks. The Well-Tegra Mobile Communicator provides secure, on-the-go MOC approvals and real-time data access for managers.</p></div>
                     </div>
                 </div>
             </section>
@@ -385,7 +384,7 @@
             <div class="text-center">
                 <h2 class="text-3xl font-bold tracking-tight">Well-Tegra White Paper</h2>
                 <p class="mt-4 max-w-2xl mx-auto text-lg">Dive deeper into the technical architecture and strategic vision behind the Well-Tegra platform. Our white paper provides a comprehensive overview of the privacy-preserving AI, enterprise blockchain, and data unification strategies that power our solution.</p>
-                <a href="assets/well-tegra-whitepaper.pdf" target="_blank" download class="mt-8 inline-block rounded-md bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition">
+                <a href="https://github.com/your-username/your-repo/raw/main/assets/well-tegra-whitepaper.pdf" target="_blank" download class="mt-8 inline-block rounded-md bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition">
                     Download the White Paper
                 </a>
             </div>
@@ -1329,7 +1328,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nptReductionValue = document.getElementById('nptReductionValue');
     const timeSavingsValue = document.getElementById('timeSavingsValue');
     const totalSavingsValue = document.getElementById('totalSavings');
-    const savingsChartCanvas = document.getElementById('savingsChart')?.getContext('2d');
+    const savingsChartCanvas = document.getElementById('savingsChart').getContext('2d');
 
     const calculateROI = () => {
         if (!engineerCountSlider) return;
