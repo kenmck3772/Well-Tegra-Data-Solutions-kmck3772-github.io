@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v17 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
+    <title>v18 - Well-Tegra Data Solutions | Integrated Well Delivery Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const wellData = [
         { 
             id: 'M-21', 
-            name: 'Montrose M-21',
+            name: 'The Montrose Squeeze',
             field: 'Montrose', 
             region: 'UKCS', 
             type: 'HPHT Gas Condensate', 
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         { 
             id: 'S-15', 
-            name: 'Montrose S-15',
+            name: 'The Scale Trap',
             field: 'Montrose', 
             region: 'UKCS', 
             type: 'HPHT Gas Condensate', 
@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         { 
             id: 'C-08', 
-            name: 'Montrose C-08',
+            name: 'The Sandstorm',
             field: 'Montrose', 
             region: 'UKCS', 
             type: 'HPHT Gas Condensate', 
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         { 
             id: 'W-04', 
-            name: 'Montrose W-04',
+            name: 'The Water Log',
             field: 'Montrose', 
             region: 'UKCS', 
             type: 'HPHT Gas Condensate', 
@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         { 
             id: 'F-11', 
-            name: 'Montrose F-11',
+            name: 'The Broken Barrier',
             field: 'Montrose', 
             region: 'UKCS', 
             type: 'HPHT Gas Condensate', 
@@ -575,36 +575,86 @@ document.addEventListener('DOMContentLoaded', function() {
                 perforations: [{top: 9650, bottom: 9750}] 
             } 
         },
+        { 
+            id: 'F-45', 
+            name: 'The Dead Spark',
+            field: 'Forties', 
+            region: 'UKCS', 
+            type: 'Oil Producer', 
+            depth: '8,000ft', 
+            status: 'Shut-in - Well Integrity Issues', 
+            issue: 'Failed Electric Submersible Pump (ESP) and high water cut.', 
+            history: [ 
+                { date: '2023-10-20', operation: 'ESP Monitoring', problem: 'ESP amperage dropped to zero, and production ceased. Well is now shut-in.', lesson: 'ESP failure requires a full workover to replace the pump and restore production.' }
+            ], 
+            dailyReports: [], 
+            completion: { 
+                casing: [{type: 'Production', size: '9 5/8', top: 0, bottom: 8000}], 
+                tubing: [{type: 'Production', size: '5 1/2', top: 0, bottom: 7800}], 
+                equipment: [{item: 'ESP', top: 7500, comments: 'Failed', isProblem: true}, {item: 'Packer', top: 7750}], 
+                perforations: [{top: 7850, bottom: 7950}] 
+            } 
+        },
+        { 
+            id: 'P-12', 
+            name: 'The Wax Plug',
+            field: 'Piper', 
+            region: 'UKCS', 
+            type: 'Oil Producer', 
+            depth: '7,500ft', 
+            status: 'Active - Underperforming', 
+            issue: 'Severe paraffin wax blockage in tubing restricting flow.', 
+            history: [ 
+                { date: '2024-01-15', operation: 'Slickline Gauge Ring Run', problem: 'Gauge ring tagged a soft, waxy obstruction at 6,000ft. Unable to pass.', lesson: 'Paraffin deposition requires a combined chemical and mechanical intervention to effectively remove.' }
+            ], 
+            dailyReports: [], 
+            completion: { 
+                casing: [{type: 'Production', size: '7', top: 0, bottom: 7500}], 
+                tubing: [{type: 'Production', size: '3 1/2', top: 0, bottom: 7300}], 
+                equipment: [{item: 'SSSV', top: 1200}, {item: 'Packer', top: 7250}, {item: 'Wax Deposit', top: 6000, comments: 'Blockage', isProblem: true}], 
+                perforations: [{top: 7350, bottom: 7450}] 
+            } 
+        },
     ];
     const objectivesData = [ 
         { id: 'obj1', name: 'Remediate Casing Deformation', description: 'Install an expandable steel patch to restore wellbore access.' }, 
         { id: 'obj2', name: 'Remove BaSO4 Scale', description: 'Use a chemical and mechanical method to clear tubing blockage.' }, 
         { id: 'obj3', name: 'Repair Sand Control', description: 'Install a through-tubing expandable sand screen patch.' }, 
         { id: 'obj4', name: 'Water Shut-Off', description: 'Set a dual-barrier plug to isolate the water-producing zone.' },
-        { id: 'obj5', name: 'Restore Downhole Safety Valve', description: 'Lock open the failed TRSSV and install a new insert valve.' }
+        { id: 'obj5', name: 'Restore Downhole Safety Valve', description: 'Lock open the failed TRSSV and install a new insert valve.' },
+        { id: 'obj6', name: 'ESP Replacement', description: 'Perform a rigless workover to replace a failed ESP.' },
+        { id: 'obj7', name: 'Paraffin Wax Removal', description: 'Use CT with chemicals and tools to remove wax blockage.' }
     ];
     const problemsData = [ 
         { id: 'prob1', name: 'Loss of Well Access (Casing Deformation)', description: 'Wellbore is restricted due to geomechanical forces.', linked_objectives: ['obj1'] }, 
         { id: 'prob2', name: 'Severe Scale Blockage', description: 'Production is blocked by hard, insoluble scale.', linked_objectives: ['obj2'] }, 
         { id: 'prob3', name: 'Sand Control Failure', description: 'Excessive sand production is damaging equipment and limiting rates.', linked_objectives: ['obj3'] },
         { id: 'prob4', name: 'Excessive Water Production', description: 'Water breakthrough in a lower zone has killed the well.', linked_objectives: ['obj4'] },
-        { id: 'prob5', name: 'Failed Primary Safety Barrier (DHSV)', description: 'Well is legally shut-in due to a failed safety valve.', linked_objectives: ['obj5'] }
+        { id: 'prob5', name: 'Failed Primary Safety Barrier (DHSV)', description: 'Well is legally shut-in due to a failed safety valve.', linked_objectives: ['obj5'] },
+        { id: 'prob6', name: 'Failed Artificial Lift (ESP)', description: 'Well is shut-in due to a failed downhole pump.', linked_objectives: ['obj6'] },
+        { id: 'prob7', name: 'Flow Assurance Blockage (Wax)', description: 'Production is severely restricted by paraffin deposits.', linked_objectives: ['obj7'] }
     ];
     const aiRecommendations = {
         prob1: [ 
             { objectiveId: 'obj1', confidence: 95, outcome: 'Full-bore access restored', reason: 'Analysis of the MFC log confirms ovalization consistent with depletion. An expandable steel patch is the standard, high-success-rate rigless solution for this failure mode.' } 
         ],
         prob2: [ 
-            { objectiveId: 'obj2', confidence: 90, outcome: 'Blockage cleared, production restored', reason: 'Water analysis and a hard tag confirm BaSO4. A two-stage chemical (DTPA) and mechanical (jetting) intervention has a high success rate. Pre-job CT modeling is mandatory to prevent stuck pipe, a lesson learned from the stuck PLT on <strong>Statfjord A-12</strong>.' } 
+            { objectiveId: 'obj2', confidence: 90, outcome: 'Blockage cleared, production restored', reason: 'Water analysis and a hard tag confirm BaSO4. A two-stage chemical (DTPA) and mechanical (jetting) intervention has a high success rate. Pre-job CT modeling is mandatory to prevent stuck pipe, a lesson learned from a previous failed fishing job.' } 
         ],
         prob3: [ 
             { objectiveId: 'obj3', confidence: 85, outcome: 'Sand-free production at >80% potential', reason: 'Downhole video confirms screen failure. A through-tubing expandable sand screen is the optimal rigless solution. Material must be upgraded to a corrosion-resistant alloy, based on the failure mode.' } 
         ],
         prob4: [
-            { objectiveId: 'obj4', confidence: 98, outcome: 'Water production eliminated, oil production restored', reason: 'PLT data is definitive. A dual-barrier CIBP and cement plug is the most robust long-term isolation method. The procedure incorporates lessons on cement quality from the P&A attempt on <strong>Halfdan D-5</strong>.'}
+            { objectiveId: 'obj4', confidence: 98, outcome: 'Water production eliminated, oil production restored', reason: 'PLT data is definitive. A dual-barrier CIBP and cement plug is the most robust long-term isolation method. The procedure incorporates lessons on cement quality from previous P&A attempts.'}
         ],
         prob5: [
-            { objectiveId: 'obj5', confidence: 99, outcome: 'Well returned to safe, compliant production', reason: 'This is a standard, high-success slickline operation. The key is using advanced, reliable tooling (e.g., a mechanical lock-open tool) to avoid the procedural failures seen on <strong>Oseberg B-21</strong>.'}
+            { objectiveId: 'obj5', confidence: 99, outcome: 'Well returned to safe, compliant production', reason: 'This is a standard, high-success slickline operation. The key is using advanced, reliable tooling (e.g., a mechanical lock-open tool) to avoid the procedural failures seen on <strong>The Broken Barrier</strong>.'}
+        ],
+        prob6: [
+            { objectiveId: 'obj6', confidence: 92, outcome: 'Well returned to production with new ESP', reason: 'ESP failure is confirmed by telemetry data. A rigless workover using a hydraulic workover unit is the most cost-effective solution for replacement.'}
+        ],
+        prob7: [
+            { objectiveId: 'obj7', confidence: 88, outcome: 'Wax blockage removed, production increased by >400%', reason: 'Slickline tag confirms a soft blockage. A Coiled Tubing intervention with heated chemical dissolvers and a mechanical scraper tool is the recommended procedure, based on successful similar operations in the field.'}
         ]
     };
     const proceduresData = {
@@ -612,17 +662,21 @@ document.addEventListener('DOMContentLoaded', function() {
         obj2: { name: "CT Chemical & Mechanical Scale Removal", personnel: ["Coiled Tubing Supervisor", "Pump Operator"], steps: ["RIH with CT and spot DTPA chemical dissolver across scale.", "POOH with CT and let chemical soak for 36 hours.", "RIH with CT and rotating jetting BHA.", "Mechanically break up and circulate out softened scale.", "Circulate well clean and POOH.", "Return well to production."], risks: { operational: 5, geological: 2, equipment: 4, hse: 4, financial: 3 }, cost: 950000, duration: 6, tfaModel: { pickUp: [[0,0], [9500, 25]], slackOff: [[0,0], [9500, -25]], alarmUpper: [[0,2], [9500, 27]], alarmLower: [[0,-2], [9500, -27]] } },
         obj3: { name: "Through-Tubing ESS Patch Installation", personnel: ["Wellsite Engineer", "HWU Supervisor"], steps: ["Perform CT cleanout of sand from inside existing screen.", "RIH with Expandable Sand Screen (ESS) patch on jointed pipe.", "Position patch across failed screen interval.", "Expand patch using mechanical expansion tool.", "POOH and slowly bring well back online, monitoring sand production."], risks: { operational: 4, geological: 3, equipment: 5, hse: 3, financial: 4 }, cost: 1500000, duration: 10, tfaModel: { pickUp: [[0,0], [10000, 50]], slackOff: [[0,0], [10000, -50]], alarmUpper: [[0,5], [10000, 55]], alarmLower: [[0,-5], [10000, -55]] } },
         obj4: { name: "Slickline/Wireline Water Shut-Off", personnel: ["Wireline Supervisor", "Slickline Supervisor"], steps: ["RIH on wireline and set Cast Iron Bridge Plug (CIBP) above lower perfs.", "Pressure test CIBP to confirm seal.", "Make multiple slickline runs with a dump bailer to place a 100ft cement cap on top of the CIBP.", "Wait on cement (WOC), then tag top of cement to verify.", "Return well to production from upper zone."], risks: { operational: 3, geological: 2, equipment: 3, hse: 2, financial: 1 }, cost: 450000, duration: 4, tfaModel: { pickUp: [[0, 100], [9500, 150]], slackOff: [[0, 100], [9500, 50]], alarmUpper: [[0, 110], [9500, 160]], alarmLower: [[0, 90], [9500, 40]] } },
-        obj5: { name: "Slickline Insert Safety Valve Installation", personnel: ["Slickline Supervisor"], steps: ["RIH with heavy-duty toolstring and mechanically lock open the failed TRSSV.", "POOH and confirm lock-open.", "RIH with new Wireline-Retrievable Safety Valve (WRSV) on a running tool.", "Set and lock the new WRSV in the old valve's nipple profile.", "Pressure up control line to hold new valve open, then retrieve running tool.", "Perform full inflow and function test of new valve to certify.", "Return well to production."], risks: { operational: 3, geological: 1, equipment: 4, hse: 3, financial: 2 }, cost: 350000, duration: 3, tfaModel: { pickUp: [[0, 100], [9800, 160]], slackOff: [[0, 100], [9800, 40]], alarmUpper: [[0, 110], [9800, 170]], alarmLower: [[0, 90], [9800, 30]] } }
+        obj5: { name: "Slickline Insert Safety Valve Installation", personnel: ["Slickline Supervisor"], steps: ["RIH with heavy-duty toolstring and mechanically lock open the failed TRSSV.", "POOH and confirm lock-open.", "RIH with new Wireline-Retrievable Safety Valve (WRSV) on a running tool.", "Set and lock the new WRSV in the old valve's nipple profile.", "Pressure up control line to hold new valve open, then retrieve running tool.", "Perform full inflow and function test of new valve to certify.", "Return well to production."], risks: { operational: 3, geological: 1, equipment: 4, hse: 3, financial: 2 }, cost: 350000, duration: 3, tfaModel: { pickUp: [[0, 100], [9800, 160]], slackOff: [[0, 100], [9800, 40]], alarmUpper: [[0, 110], [9800, 170]], alarmLower: [[0, 90], [9800, 30]] } },
+        obj6: { name: "Rigless ESP Replacement", personnel: ["Wellsite Engineer", "HWU Supervisor", "ESP Specialist"], steps: ["Rig up Hydraulic Workover Unit (HWU).", "Kill well with completion brine.", "POOH with production tubing and failed ESP.", "RIH with new ESP and production tubing.", "Space out and land completion.", "Rig down HWU and bring well online."], risks: { operational: 5, geological: 2, equipment: 5, hse: 4, financial: 5 }, cost: 2800000, duration: 14, tfaModel: { pickUp: [[0,0], [8000, 150]], slackOff: [[0,0], [8000, -150]], alarmUpper: [[0,10], [8000, 160]], alarmLower: [[0,-10], [8000, -160]] } },
+        obj7: { name: "CT Wax Removal", personnel: ["Coiled Tubing Supervisor", "Pump Operator"], steps: ["Rig up Coiled Tubing unit.", "Pump heated solvent to dissolve wax.", "RIH with CT and a mechanical scraper BHA to clear remaining deposits.", "Circulate well clean with hot fluid.", "POOH with CT.", "Return well to production."], risks: { operational: 4, geological: 2, equipment: 3, hse: 3, financial: 2 }, cost: 650000, duration: 4, tfaModel: { pickUp: [[0,0], [7500, 20]], slackOff: [[0,0], [7500, -20]], alarmUpper: [[0,2], [7500, 22]], alarmLower: [[0,-2], [7500, -22]] } }
     };
     const equipmentRequirements = {
         obj1: [ { name: "Hydraulic Workover Unit (HWU)", source: "Vendor", price: 300000 }, { name: "Expandable Steel Patch & Setting Tool", source: "Vendor", price: 500000 } ],
         obj2: [ { name: "Coiled Tubing Unit", source: "Vendor", price: 125000 }, { name: "Rotating Jetting Nozzle", source: "Vendor", price: 25000 }, { name: "DTPA Chemical", source: "Vendor", price: 80000 } ],
         obj3: [ { name: "Hydraulic Workover Unit (HWU)", source: "Vendor", price: 300000 }, { name: "Expandable Sand Screen & Expansion Tool", source: "Vendor", price: 600000 } ],
         obj4: [ { name: "Wireline Truck/Skid", source: "Vendor", price: 90000 }, { name: "Slickline Unit", source: "Vendor", price: 75000 }, { name: "Cast Iron Bridge Plug", source: "Vendor", price: 30000 } ],
-        obj5: [ { name: "Slickline Unit", source: "Vendor", price: 75000 }, { name: "Insert Safety Valve (WRSV)", source: "Vendor", price: 150000 }, { name: "Lock-Open Tool", source: "Vendor", price: 20000 } ]
+        obj5: [ { name: "Slickline Unit", source: "Vendor", price: 75000 }, { name: "Insert Safety Valve (WRSV)", source: "Vendor", price: 150000 }, { name: "Lock-Open Tool", source: "Vendor", price: 20000 } ],
+        obj6: [ { name: "Hydraulic Workover Unit (HWU)", source: "Vendor", price: 300000 }, { name: "New Electric Submersible Pump (ESP)", source: "Vendor", price: 1200000 } ],
+        obj7: [ { name: "Coiled Tubing Unit", source: "Vendor", price: 125000 }, { name: "Wax Dissolver Chemical", source: "Vendor", price: 50000 }, { name: "Mechanical Scraper BHA", source: "Vendor", price: 15000 } ]
     };
     const equipmentData = [ { id: 'CTU-01', type: 'Coiled Tubing Unit', location: 'Onboard - Deck A', testStatus: 'Passed', nextMaint: '2025-09-15', rate: 25000, status: 'On Job' }, { id: 'CTU-02', type: 'Coiled Tubing Unit', location: 'Onshore Base', testStatus: 'Pending', nextMaint: '2025-07-10', rate: 25000, status: 'Maintenance' }, { id: 'WL-01', type: 'Wireline Truck/Skid', location: 'Onshore Base', testStatus: 'Passed', nextMaint: '2025-08-22', rate: 18000, status: 'Available' }, { id: 'SL-01', type: 'Slickline Unit', location: 'In Transit', testStatus: 'Passed', nextMaint: '2025-07-20', rate: 15000, status: 'In Transit' }, { id: 'PUMP-01', type: 'High-Pressure Pumps', location: 'Onboard - Pump Room', testStatus: 'Pending', nextMaint: '2025-10-01', rate: 8000, status: 'On Job' }, { id: 'PUMP-02', type: 'High-Pressure Pumps', location: 'Onshore Base', testStatus: 'Passed', nextMaint: '2025-11-05', rate: 8000, status: 'Available' }, { id: 'RIG-01', type: 'Workover Rig', location: 'Onboard - Drill Floor', testStatus: 'Passed', nextMaint: '2025-08-01', rate: 85000, status: 'On Job' }, ];
-    const personnelData = [ { id: 'P001', name: 'Bob Raker', role: 'Wellsite Engineer', company: 'Operator', status: 'Onboard', certsValid: true, rate: 2200, muster: 'A', lifeboat: 1 }, { id: 'P002', name: 'Jane Smith', role: 'Coiled Tubing Supervisor', company: 'Service Co.', status: 'Onboard', certsValid: true, rate: 2500, muster: 'A', lifeboat: 1 }, { id: 'P003', name: 'Mike Johnson', role: 'Wireline Supervisor', company: 'Service Co.', status: 'On Job', certsValid: true, rate: 2300, muster: 'B', lifeboat: 2 }, { id: 'P004', name: 'Emily White', role: 'Slickline Supervisor', company: 'Service Co.', status: 'Available', certsValid: false, rate: 2300, muster: 'B', lifeboat: 2 }, { id: 'P005', name: 'Chris Green', role: 'Pump Operator', company: 'Service Co.', status: 'In Transit', certsValid: true, rate: 1800, muster: 'A', lifeboat: 1 }, { id: 'P006', name: 'Alex Brown', role: 'Rig Supervisor', company: 'Operator', status: 'Onboard', certsValid: true, rate: 3000, muster: 'B', lifeboat: 2 }, ];
+    const personnelData = [ { id: 'P001', name: 'Bob Raker', role: 'Wellsite Engineer', company: 'Operator', status: 'Onboard', certsValid: true, rate: 2200, muster: 'A', lifeboat: 1 }, { id: 'P002', name: 'Jane Smith', role: 'Coiled Tubing Supervisor', company: 'Service Co.', status: 'Onboard', certsValid: true, rate: 2500, muster: 'A', lifeboat: 1 }, { id: 'P003', name: 'Mike Johnson', role: 'Wireline Supervisor', company: 'Service Co.', status: 'On Job', certsValid: true, rate: 2300, muster: 'B', lifeboat: 2 }, { id: 'P004', name: 'Emily White', role: 'Slickline Supervisor', company: 'Service Co.', status: 'Available', certsValid: false, rate: 2300, muster: 'B', lifeboat: 2 }, { id: 'P005', name: 'Chris Green', role: 'Pump Operator', company: 'Service Co.', status: 'In Transit', certsValid: true, rate: 1800, muster: 'A', lifeboat: 1 }, { id: 'P006', name: 'Alex Brown', role: 'Rig Supervisor', company: 'Operator', status: 'Onboard', certsValid: true, rate: 3000, muster: 'B', lifeboat: 2 }, { id: 'P007', name: 'David Chen', role: 'ESP Specialist', company: 'Service Co.', status: 'Standby', certsValid: true, rate: 3500, muster: 'A', lifeboat: 2 } ];
     const musterStations = [ { id: 'A', name: 'Muster Station A', capacity: 50, current: 0 }, { id: 'B', name: 'Muster Station B', capacity: 50, current: 0 } ];
     
     // --- FAQ DATA ---
